@@ -24,28 +24,28 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import { httpRequest } from "@/utils/http";
-import { FOLLOW_THE_TALENT_LIST_QUERY, MY_CONCERN_QUERY } from "@/api/home";
-const list = ref([]);
+import { onMounted, ref } from "vue"
+import { httpRequest } from "@/utils/http"
+import { FOLLOW_THE_TALENT_LIST_QUERY, MY_CONCERN_QUERY } from "@/api/home"
+const list = ref([])
 
 const props = defineProps({
   typeList: {
     type: String,
-    default: "mylist",
-  }, // mylist||hotlist
-});
+    default: "mylist"
+  } // mylist||hotlist
+})
 onMounted(() => {
-  getList();
-});
+  getList()
+})
 async function getList() {
-  let res;
+  let res
   if (props.typeList === "mylist") {
-    res = await httpRequest(MY_CONCERN_QUERY, "POST");
+    res = await httpRequest(MY_CONCERN_QUERY, "POST")
   } else {
-    res = await httpRequest(FOLLOW_THE_TALENT_LIST_QUERY, "GET");
+    res = await httpRequest(FOLLOW_THE_TALENT_LIST_QUERY, "GET")
   }
-  list.value = res?.data || [];
+  list.value = res?.data || []
 }
 </script>
 

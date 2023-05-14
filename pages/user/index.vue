@@ -18,17 +18,9 @@
       </view>
     </view>
     <uni-list class="info-list">
-      <uni-list-item
-        :rightText="userInfoStore.age || '未知'"
-        title="宝贝年龄"
-      />
+      <uni-list-item :rightText="userInfoStore.age || '未知'" title="宝贝年龄" />
       <uni-list-item :rightText="userInfoStore.nickName" title="宝贝昵称" />
-      <uni-list-item
-        rightText="查看"
-        title="图库"
-        link="navigateTo"
-        to="/pages/user/photos"
-      />
+      <uni-list-item rightText="查看" title="图库" link="navigateTo" to="/pages/user/photos" />
       <uni-list-item
         rightText="查看详情"
         title="计费说明"
@@ -62,62 +54,62 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
-import { config, httpRequest, uploadOSSFile } from "@/utils/http";
-import { USER_TOKEN_DATA } from "@/utils/store";
-import { GET_USER_LOGOUT } from "@/api/login";
-import { onLoad } from "@dcloudio/uni-app";
-import { userInfoStates } from "@/stores/user";
-import { GET_OSS_POST_PARAMS } from "@/api/user";
+import { computed } from "vue"
+import { config, httpRequest, uploadOSSFile } from "@/utils/http"
+import { USER_TOKEN_DATA } from "@/utils/store"
+import { GET_USER_LOGOUT } from "@/api/login"
+import { onLoad } from "@dcloudio/uni-app"
+import { userInfoStates } from "@/stores/user"
+import { GET_OSS_POST_PARAMS } from "@/api/user"
 
 const imageStyles = {
   width: 100,
   height: 100,
   border: {
     width: "0px",
-    radius: "50%",
-  },
-};
-const isLogin = Boolean(config.header?.token);
-const userInfoStore = userInfoStates();
+    radius: "50%"
+  }
+}
+const isLogin = Boolean(config.header?.token)
+const userInfoStore = userInfoStates()
 const avatar = computed(() => ({
   url: userInfoStore.headerImageUrl,
   extname: "avatar",
-  name: "avatar",
-}));
+  name: "avatar"
+}))
 onLoad(() => {
-  isLogin && userInfoStore.getUserInfo();
-});
+  isLogin && userInfoStore.getUserInfo()
+})
 
 function avatarClick(e) {
-  console.log("选择文件：", e, avatar);
+  console.log("选择文件：", e, avatar)
 }
 async function select(e) {
-  console.log(e);
+  console.log(e)
   try {
-    const { extname } = e.tempFiles[0];
+    const { extname } = e.tempFiles[0]
     //  获取上传地址
     const { data } = await httpRequest(GET_OSS_POST_PARAMS, "GET", {
-      uploadFileTypeMenu: "HEADER_IMAGE",
-    });
-    const key = `${data.dir}head.${extname}`;
+      uploadFileTypeMenu: "HEADER_IMAGE"
+    })
+    const key = `${data.dir}head.${extname}`
     await uploadOSSFile(data.host, {
       formData: {
         key,
         policy: data.policy,
         OSSAccessKeyId: data.accessKeyId,
         signature: data.signature,
-        success_action_status: "200",
+        success_action_status: "200"
       },
-      tempFilePaths: e.tempFilePaths,
-    });
+      tempFilePaths: e.tempFilePaths
+    })
     await userInfoStore.updateUserInfo({
-      headerImageUrl: `${data.host}/${key}`,
-    });
-    uni.showToast({ title: "更新头像成功" });
+      headerImageUrl: `${data.host}/${key}`
+    })
+    uni.showToast({ title: "更新头像成功" })
   } catch (e) {
-    console.log(e);
-    uni.showToast({ title: "Error" });
+    console.log(e)
+    uni.showToast({ title: "Error" })
   }
 }
 
@@ -127,14 +119,14 @@ function loginOut() {
     content: "账号退出确认",
     async success({ confirm }) {
       if (confirm) {
-        await httpRequest(GET_USER_LOGOUT, "GET");
-        userInfoStore.$reset();
-        config.header.token = "";
-        uni.removeStorageSync(USER_TOKEN_DATA);
-        uni.reLaunch({ url: "/pages/login/login" });
+        await httpRequest(GET_USER_LOGOUT, "GET")
+        userInfoStore.$reset()
+        config.header.token = ""
+        uni.removeStorageSync(USER_TOKEN_DATA)
+        uni.reLaunch({ url: "/pages/login/login" })
       }
-    },
-  });
+    }
+  })
 }
 </script>
 

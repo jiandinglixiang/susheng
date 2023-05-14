@@ -1,6 +1,6 @@
-import { defineStore } from "pinia";
-import { httpRequest } from "@/utils/http";
-import { GET_USER_INFO, POST_UPDATE_LOGIN_USER_INFO } from "@/api/user";
+import { defineStore } from "pinia"
+import { httpRequest } from "@/utils/http"
+import { GET_USER_INFO, POST_UPDATE_LOGIN_USER_INFO } from "@/api/user"
 
 export const userInfoStates = defineStore("userInfoStates", {
   // 也可以这样定义
@@ -18,19 +18,19 @@ export const userInfoStates = defineStore("userInfoStates", {
     nickName: "",
     openId: "",
     phone: "",
-    realName: "",
+    realName: ""
   }),
   actions: {
     async getUserInfo() {
-      const res = await httpRequest(GET_USER_INFO, "GET");
-      this.$patch(res.data);
-      return res.data;
+      const res = await httpRequest(GET_USER_INFO, "GET")
+      this.$patch(res.data)
+      return res.data
     },
     async updateUserInfo(data = {}) {
-      const res = await httpRequest(POST_UPDATE_LOGIN_USER_INFO, "POST", data);
-      this.$patch(data);
-      return res.data;
-    },
+      const res = await httpRequest(POST_UPDATE_LOGIN_USER_INFO, "POST", data)
+      this.$patch(data)
+      return res.data
+    }
   },
-  unistorage: true, // 数据持久化
-});
+  unistorage: true // 数据持久化
+})

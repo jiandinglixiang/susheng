@@ -3,11 +3,7 @@
     :class="['card-container', !item.projectPublishName && 'display-mode1']"
     class="card-container"
   >
-    <view
-      v-if="item.projectPublishName"
-      class="title-box"
-      @click="emits('action', 'detail', item)"
-    >
+    <view v-if="item.projectPublishName" class="title-box" @click="emits('action', 'detail', item)">
       <text class="main-title">{{ item.projectPublishName }}</text>
       <text v-if="item.recommend" class="sub-title">{{ props.recommend }}</text>
     </view>
@@ -23,9 +19,7 @@
         class="avatar"
         @click="emits('action', 'user', item)"
       ></image>
-      <text class="username" @click="emits('action', 'user', item)">{{
-        item.authorNickName
-      }}</text>
+      <text class="username" @click="emits('action', 'user', item)">{{ item.authorNickName }}</text>
       <image
         :src="item.collectFlag ? collect2Icon : collectIcon"
         class="collect"
@@ -40,22 +34,22 @@
   </view>
 </template>
 <script setup>
-import likeIcon from "@/static/home/like.png";
-import like2Icon from "@/static/home/like2.png";
-import collectIcon from "@/static/home/collect.png";
-import collect2Icon from "@/static/home/collect2.png";
-import { computed } from "vue";
+import likeIcon from "@/static/home/like.png"
+import like2Icon from "@/static/home/like2.png"
+import collectIcon from "@/static/home/collect.png"
+import collect2Icon from "@/static/home/collect2.png"
+import { computed } from "vue"
 
 const props = defineProps({
   item: {
     type: Object,
     default() {
-      return {};
-    },
-  },
-});
-const item = computed(() => props.item);
-const emits = defineEmits(["action"]);
+      return {}
+    }
+  }
+})
+const item = computed(() => props.item)
+const emits = defineEmits(["action"])
 </script>
 <style lang="scss" scoped>
 .card-container {

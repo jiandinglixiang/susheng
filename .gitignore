@@ -14,7 +14,7 @@ buildReport.html
 dist-ssr
 *.local
 /components.d.ts
-
+package-lock.json
 # Editor directories and files
 .DS_Store
 *.suo

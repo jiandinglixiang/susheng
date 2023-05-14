@@ -43,7 +43,8 @@
             :key="name"
             :class="['item-type-btn', index === props.tabs[1] && 'item-active']"
             @click="onClick('tabClick1', index)"
-            >{{ name }}
+          >
+            {{ name }}
           </text>
         </view>
       </view>
@@ -51,40 +52,40 @@
   </view>
 </template>
 <script setup>
-import { ref, toRaw } from "vue";
-import { useDebounceFn } from "@vueuse/core";
+import { ref, toRaw } from "vue"
+import { useDebounceFn } from "@vueuse/core"
 const props = defineProps({
   tabs: {
     type: Array,
     default() {
-      return [];
-    },
-  },
-});
-const emits = defineEmits(["typeChange"]);
+      return []
+    }
+  }
+})
+const emits = defineEmits(["typeChange"])
 
-const tabList = ["社区", "关注", "收藏", "我的"];
-const types = ["全部", "故事", "画画", "百科"];
+const tabList = ["社区", "关注", "收藏", "我的"]
+const types = ["全部", "故事", "画画", "百科"]
 
-const showMore = ref(false);
+const showMore = ref(false)
 
 const onClick = (type, index) => {
   switch (type) {
     case "tabClick0":
-      showMore.value = false;
-      emits("typeChange", [index, 0]);
-      break;
+      showMore.value = false
+      emits("typeChange", [index, 0])
+      break
     case "tabClick1":
-      showMore.value = false;
-      emits("typeChange", [props.tabs[0], index]);
-      break;
+      showMore.value = false
+      emits("typeChange", [props.tabs[0], index])
+      break
     case "rightClick":
-      uni.navigateTo({ url: "/pages/user/index" });
-      break;
+      uni.navigateTo({ url: "/pages/user/index" })
+      break
     default:
-      showMore.value = !showMore.value;
+      showMore.value = !showMore.value
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .nav-title {

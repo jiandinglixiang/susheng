@@ -1,14 +1,8 @@
 <template>
-  <view
-    :class="['text-container', props.msgData.role !== 'system' && 'is-user']"
-  >
+  <view :class="['text-container', props.msgData.role !== 'system' && 'is-user']">
     <image class="user-avatar" src="/static/logo.png"></image>
     <view class="text-box" @="{...longPressListening}">
-      <view
-        v-if="props.msgData.id !== -1"
-        v-show="popupShow"
-        class="tooltip downward"
-      >
+      <view v-if="props.msgData.id !== -1" v-show="popupShow" class="tooltip downward">
         <view class="action-btn" @click.stop="handleActionBtn('delete')">
           <uni-icons color="white" size="30" type="trash" />
           <text>删除</text>
@@ -21,8 +15,8 @@
   </view>
 </template>
 <script setup>
-import { useLongPress } from "@/utils/useHooks";
-import { ref } from "vue";
+import { useLongPress } from "@/utils/useHooks"
+import { ref } from "vue"
 
 const props = defineProps({
   index: Number,
@@ -31,23 +25,23 @@ const props = defineProps({
     default() {
       return {
         // chatList.msgList[0]
-      };
-    },
-  },
-});
-const emits = defineEmits(["tooltipAction"]);
-const longPressListening = useLongPress(longPress, onClick);
-const popupShow = ref(false);
+      }
+    }
+  }
+})
+const emits = defineEmits(["tooltipAction"])
+const longPressListening = useLongPress(longPress, onClick)
+const popupShow = ref(false)
 
 function handleActionBtn(action) {
-  popupShow.value = false;
-  emits("tooltipAction", action, props.index, props.msgData);
+  popupShow.value = false
+  emits("tooltipAction", action, props.index, props.msgData)
 }
 function longPress() {
-  popupShow.value = true;
+  popupShow.value = true
 }
 function onClick() {
-  popupShow.value = false;
+  popupShow.value = false
 }
 </script>
 <style lang="scss" scoped>

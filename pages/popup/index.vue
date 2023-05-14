@@ -1,8 +1,8 @@
 <template>
   <view class="popup-container">
-    <create-story-popup
-      v-if="qy.popupKey === CREATE_STORY_POPUP"
-      :popup-data="qy.params"
+    <privacy-auth-popup
+      v-if="popupKey === PRIVACY_AUTH_POPUP"
+      :popup-data="params"
       @action="handleAction"
     />
   </view>
@@ -11,23 +11,22 @@
 <script setup>
 import { onLoad, onUnload } from "@dcloudio/uni-app"
 import { ref } from "vue"
-import { CREATE_STORY_POPUP } from "@/components/popup/popupKeyMap"
-import CreateStoryPopup from "@/components/popup/CreateStoryPopup.vue"
+import PrivacyAuthPopup from "../../components/popup/PrivacyAuthPopup.vue"
+import { PRIVACY_AUTH_POPUP } from "../../components/popup/popupKeyMap"
 
-const qy = ref({ popupKey: "", params: null })
+const popupKey = ref("")
+const params = ref(null)
 
 onLoad((query = { popupKey: "", params: null }) => {
-  qy.value = {
-    popupKey: query.popupKey,
-    params: query.params ? JSON.parse(decodeURIComponent(query.params)) : null
-  }
+  popupKey.value = query.popupKey
+  params.value = query.params ? JSON.parse(decodeURIComponent(query.params)) : null
 })
 
-function handleAction(...params) {
-  uni.$emit(qy.value.popupKey, ...params)
+function handleAction(...par) {
+  uni.$emit(popupKey.value, ...par)
 }
 onUnload(() => {
-  uni.$off(qy.value.popupKey)
+  uni.$off(popupKey.value)
 })
 </script>
 

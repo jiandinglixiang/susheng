@@ -2,46 +2,45 @@
   <view class="main-list oBorder">
     <!-- 文本框 -->
     <input
-        :focus="_focus"
-        :maxlength="maxlength"
-        :password="type==='password'&&!showPassword"
-        :placeholder="placeholder"
-        :type="_type"
-        :value="value"
-        class="main-input"
-
-        @blur="$emit('blur', $event)"
-        @click="$emit('click', $event)"
-        @confirm="$emit('confirm', $event)"
-        @focus="$emit('focus', $event)"
-        @input="$emit('update:modelValue', $event.detail.value)"
-        @longpress="$emit('longpress', $event)"
-        @longtap="$emit('longtap', $event)"
-        @touchcancel="$emit('touchcancel', $event)"
-        @touchend="$emit('touchend', $event)"
-        @touchmove="$emit('touchmove', $event)"
-        @touchstart="$emit('touchstart', $event)"
+      :focus="_focus"
+      :maxlength="maxlength"
+      :password="type === 'password' && !showPassword"
+      :placeholder="placeholder"
+      :type="_type"
+      :value="value"
+      class="main-input"
+      @blur="$emit('blur', $event)"
+      @click="$emit('click', $event)"
+      @confirm="$emit('confirm', $event)"
+      @focus="$emit('focus', $event)"
+      @input="$emit('update:modelValue', $event.detail.value)"
+      @longpress="$emit('longpress', $event)"
+      @longtap="$emit('longtap', $event)"
+      @touchcancel="$emit('touchcancel', $event)"
+      @touchend="$emit('touchend', $event)"
+      @touchmove="$emit('touchmove', $event)"
+      @touchstart="$emit('touchstart', $event)"
     />
     <!-- 是否可见密码 -->
     <image
-        v-if="_isShowPass&&type==='password'&&!_isShowCode"
-        :class="showPassword?'cuIcon-attention':'cuIcon-attentionforbid'"
-        class="img cuIcon"
-        @tap="showPass"
+      v-if="_isShowPass && type === 'password' && !_isShowCode"
+      :class="showPassword ? 'cuIcon-attention' : 'cuIcon-attentionforbid'"
+      class="img cuIcon"
+      @tap="showPass"
     ></image>
     <!-- 倒计时 -->
     <view
-        v-if="_isShowCode&&!_isShowPass"
-        :class="['vercode',{'vercode-run': second>0}]"
-        @click="setCode"
-    >{{ getVerCodeSecond }}
+      v-if="_isShowCode && !_isShowPass"
+      :class="['vercode', { 'vercode-run': second > 0 }]"
+      @click="setCode"
+    >
+      {{ getVerCodeSecond }}
     </view>
-
   </view>
 </template>
 
 <script setup>
-import {defineEmits, defineProps, computed, onMounted, ref} from 'vue'
+import { defineEmits, defineProps, computed, onMounted, ref } from "vue"
 
 let countDown = false
 const props = defineProps({
@@ -65,7 +64,7 @@ const props = defineProps({
   },
   codeText: {
     type: String,
-    default: '获取验证码'
+    default: "获取验证码"
   },
   setTime: {
     //倒计时时间设置
@@ -79,35 +78,34 @@ const props = defineProps({
   }
 })
 const emit = defineEmits([
-  'blur',
-  'click',
-  'confirm',
-  'focus',
-  'longpress',
-  'longtap',
-  'touchcancel',
-  'touchend',
-  'touchmove',
-  'touchstart',
-  'modelValue'
+  "blur",
+  "click",
+  "confirm",
+  "focus",
+  "longpress",
+  "longtap",
+  "touchcancel",
+  "touchend",
+  "touchmove",
+  "touchstart",
+  "modelValue"
 ])
 const showPassword = ref(false) //是否显示明文
 const second = ref(0) //倒计时
 const isRunCode = ref(false) //是否开始倒计时
 
-
 const _type = computed(() => {
   //处理值
   const type = props.type
-  return type == 'password' ? 'text' : type
+  return type == "password" ? "text" : type
 })
 const _isShowPass = computed(() => {
   //处理值
-  return String(props.isShowPass) !== 'false'
+  return String(props.isShowPass) !== "false"
 })
 const _isShowCode = computed(() => {
   //处理值
-  return String(props.isShowCode) !== 'false'
+  return String(props.isShowCode) !== "false"
 })
 const _setTime = computed(() => {
   //处理值
@@ -116,7 +114,7 @@ const _setTime = computed(() => {
 })
 const _focus = computed(() => {
   //处理值
-  return String(props.focus) !== 'false'
+  return String(props.focus) !== "false"
 })
 const getVerCodeSecond = computed(() => {
   //验证码倒计时计算
@@ -124,17 +122,15 @@ const getVerCodeSecond = computed(() => {
     return props.codeText
   } else {
     if (second.value < 10) {
-      return '0' + second.value
+      return "0" + second.value
     } else {
       return second.value
     }
   }
-
 })
 
-
 onMounted(() => {
-  clearInterval(countDown)//先清理一次循环，避免缓存
+  clearInterval(countDown) //先清理一次循环，避免缓存
 })
 
 function showPass() {
@@ -148,16 +144,15 @@ function setCode() {
     //判断是否开始倒计时，避免重复点击
     return false
   }
-  emit('setCode')
+  emit("setCode")
 }
 
 function runCode(val) {
   //开始倒计时
-  if (String(val) == '0') {
-
+  if (String(val) == "0") {
     //判断是否需要终止循环
     second.value = 0 //初始倒计时
-    clearInterval(countDown)//清理循环
+    clearInterval(countDown) //清理循环
     isRunCode.value = false //关闭循环状态
     return false
   }
@@ -168,7 +163,7 @@ function runCode(val) {
   isRunCode.value = true
   second.value = _setTime.value //倒数秒数
 
-  countDown = setInterval( ()=> {
+  countDown = setInterval(() => {
     second.value--
     if (second.value === 0) {
       isRunCode.value = false
@@ -176,7 +171,6 @@ function runCode(val) {
     }
   }, 1000)
 }
-
 </script>
 
 <style>
@@ -221,7 +215,7 @@ function runCode(val) {
 .oBorder {
   border: none;
   border-radius: 2.5rem;
-  -webkit-box-shadow: 0 0 60rpx 0 rgba(43, 86, 112, .1);
-  box-shadow: 0 0 60rpx 0 rgba(43, 86, 112, .1);
+  -webkit-box-shadow: 0 0 60rpx 0 rgba(43, 86, 112, 0.1);
+  box-shadow: 0 0 60rpx 0 rgba(43, 86, 112, 0.1);
 }
 </style>

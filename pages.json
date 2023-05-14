@@ -1,9 +1,51 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
+		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			"path": "pages/guide/index",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "引导页",
+				"navigationStyle": "custom",
+				"disableScroll": true,
+				"disableSwipeBack": true,
+				"app-plus": {
+					"animationType": "fade-in",
+					"bounce": "none",
+					"popGesture": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/home/index",
+			"style": {
+				"navigationBarTitleText": "注册会计师"
+			}
+		},
+		{
+			"path": "pages/question-bank/index",
+			"style": {
+				"navigationBarTitleText": "题库"
+			}
+		},
+		{
+			"path": "pages/user/index",
+			"style": {
+				"navigationStyle": "custom",
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationStyle": "custom",
+				"disableScroll": true,
+				"disableSwipeBack": true,
+				"navigationBarTitleText": "登录",
+				"app-plus": {
+					"animationType": "fade-in",
+					"bounce": "none",
+					"popGesture": "none"
+				}
 			}
 		},
 		{
@@ -24,36 +66,35 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarTitleText": "注册会计师",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#FFFFFF"
 	},
 	"uniIdRouter": {},
 	"tabBar": {
-		"borderStyle": "white",
+		"borderStyle": "#EEEEEE",
 		"backgroundColor": "#FFFFFF",
-		"color": "#646972",
-		"selectedColor": "#FF7F00",
-		"fontSize": "14px",
-		"height": "70px",
-		"list": [
-			{
-				"pagePath": "pages/home/index",
-				"iconPath": "static/img/tabbar/home.png",
-				"selectedIconPath": "static/img/tabbar/homeactive.png",
+		"color": "#666666",
+		"selectedColor": "#305DDA",
+		"fontSize": "12px",
+		"height": "50px",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tabbar/index.png",
+				"selectedIconPath": "static/tabbar/index@2x.png",
 				"text": "首页"
 			},
 			{
-				"pagePath": "pages/chat/index",
-				"iconPath": "static/img/tabbar/guanzhu.png",
-				"selectedIconPath": "static/img/tabbar/guanzhuactive.png",
-				"text": "画画"
+				"pagePath": "pages/question-bank/index",
+				"iconPath": "static/tabbar/question-bank.png",
+				"selectedIconPath": "static/tabbar/question-bank@2x.png",
+				"text": "题库"
 			},
 			{
-				"pagePath": "pages/wiki/index",
-				"iconPath": "static/img/tabbar/news.png",
-				"selectedIconPath": "static/img/tabbar/newsactive.png",
-				"text": "百科"
+				"pagePath": "pages/user/index",
+				"iconPath": "static/tabbar/user.png",
+				"selectedIconPath": "static/tabbar/user@2x.png",
+				"text": "我的"
 			}
 		]
 	}

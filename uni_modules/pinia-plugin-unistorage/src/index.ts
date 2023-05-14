@@ -1,26 +1,24 @@
-import { pick } from "./filter";
-import type { PiniaPlugin } from "pinia";
-import { normalizeOptions } from "./normalize";
-import { PersistedStateFactoryOptions } from "./types";
+import { pick } from "./filter"
+import type { PiniaPlugin } from "pinia"
+import { normalizeOptions } from "./normalize"
+import { PersistedStateFactoryOptions } from "./types"
 
 function passage(key: string) {
-  return key;
+  return key
 }
 
-export function createUnistorage(
-  globalOptions: PersistedStateFactoryOptions = {},
-): PiniaPlugin {
-  const { key: normalizeKey = passage } = globalOptions || {};
+export function createUnistorage(globalOptions: PersistedStateFactoryOptions = {}): PiniaPlugin {
+  const { key: normalizeKey = passage } = globalOptions || {}
   if (globalOptions?.key) {
-    delete globalOptions.key;
+    delete globalOptions.key
   }
   return function (ctx) {
     {
-      const { store, options } = ctx;
+      const { store, options } = ctx
       // @ts-ignore
-      let { unistorage } = options || {};
+      let { unistorage } = options || {}
 
-      if (!unistorage) return;
+      if (!unistorage) return
 
       const {
         paths = null,
@@ -28,38 +26,35 @@ export function createUnistorage(
         beforeRestore,
         serializer = {
           serialize: JSON.stringify,
-          deserialize: JSON.parse,
+          deserialize: JSON.parse
         },
-        key = store.$id,
-      } = normalizeOptions(unistorage, globalOptions);
+        key = store.$id
+      } = normalizeOptions(unistorage, globalOptions)
 
-      beforeRestore?.(ctx);
+      beforeRestore?.(ctx)
 
-      const normalizedKey = normalizeKey(key);
+      const normalizedKey = normalizeKey(key)
 
       try {
         // @ts-ignore
-        const fromStorage = uni.getStorageSync(normalizedKey);
+        const fromStorage = uni.getStorageSync(normalizedKey)
         if (fromStorage) {
-          store.$patch(serializer.deserialize(fromStorage));
+          store.$patch(serializer.deserialize(fromStorage))
         }
       } catch (_error) {}
 
-      afterRestore?.(ctx);
+      afterRestore?.(ctx)
 
       store.$subscribe(
         (_, state) => {
           try {
-            const toStore = Array.isArray(paths) ? pick(state, paths) : state;
+            const toStore = Array.isArray(paths) ? pick(state, paths) : state
             // @ts-ignore
-            uni.setStorageSync(
-              normalizedKey,
-              serializer.serialize(toStore),
-            );
+            uni.setStorageSync(normalizedKey, serializer.serialize(toStore))
           } catch (_error) {}
         },
-        { detached: true },
-      );
+        { detached: true }
+      )
     }
-  };
+  }
 }

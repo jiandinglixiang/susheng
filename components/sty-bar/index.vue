@@ -9,9 +9,7 @@
           :key="code"
           @click="emits('selected', code)"
         >
-          <image
-            src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
-          />
+          <image src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg" />
           <text>{{ name }}</text>
         </view>
       </view>
@@ -32,11 +30,11 @@ const props = defineProps({
   listStyles: {
     type: Array,
     default() {
-      return [];
-    },
-  },
-});
-const emits = defineEmits(["selected"]);
+      return []
+    }
+  }
+})
+const emits = defineEmits(["selected"])
 </script>
 <style lang="scss" scoped>
 .sty-bar {

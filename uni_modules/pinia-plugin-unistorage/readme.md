@@ -52,24 +52,24 @@ npm i pinia-plugin-unistorage -D
 
 ```js
 // main.js
-import { createSSRApp } from 'vue'
-import * as Pinia from 'pinia'
-import { createUnistorage } from 'pinia-plugin-unistorage'
+import { createSSRApp } from "vue"
+import * as Pinia from "pinia"
+import { createUnistorage } from "pinia-plugin-unistorage"
 
 export function createApp() {
-	const app = createSSRApp(App)
+  const app = createSSRApp(App)
 
-	const store = Pinia.createPinia()
+  const store = Pinia.createPinia()
 
-	// 关键代码 👇
-	store.use(createUnistorage())
+  // 关键代码 👇
+  store.use(createUnistorage())
 
-	app.use(store)
+  app.use(store)
 
-	return {
-		app,
-		Pinia // 此处必须将 Pinia 返回
-	}
+  return {
+    app,
+    Pinia // 此处必须将 Pinia 返回
+  }
 }
 ```
 
@@ -81,56 +81,56 @@ export function createApp() {
 
 ```js
 // main.js
-import { createSSRApp } from 'vue'
-import * as Pinia from 'pinia'
-import { createUnistorage } from './uni_modules/pinia-plugin-unistorage'
+import { createSSRApp } from "vue"
+import * as Pinia from "pinia"
+import { createUnistorage } from "./uni_modules/pinia-plugin-unistorage"
 
 export function createApp() {
-	const app = createSSRApp(App)
+  const app = createSSRApp(App)
 
-	const store = Pinia.createPinia()
+  const store = Pinia.createPinia()
 
-	// 关键代码 👇
-	store.use(createUnistorage())
+  // 关键代码 👇
+  store.use(createUnistorage())
 
-	app.use(store)
+  app.use(store)
 
-	return {
-		app,
-		Pinia // 此处必须将 Pinia 返回
-	}
+  return {
+    app,
+    Pinia // 此处必须将 Pinia 返回
+  }
 }
 ```
 
 ### 基础
 
 ```js
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia"
 
-export const useStore = defineStore('main', {
-	state() {
-		return {
-			someState: 'hello pinia'
-		}
-	},
-	unistorage: true // 开启后对 state 的数据读写都将持久化
+export const useStore = defineStore("main", {
+  state() {
+    return {
+      someState: "hello pinia"
+    }
+  },
+  unistorage: true // 开启后对 state 的数据读写都将持久化
 })
 ```
 
 或者 `setup` 语法也是支持的
 
 ```js
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia"
 
 export const useStore = defineStore(
-	'main',
-	() => {
-		const someState = ref('hello pinia')
-		return { someState }
-	},
-	{
-		unistorage: true // 开启后对 state 的数据读写都将持久化
-	}
+  "main",
+  () => {
+    const someState = ref("hello pinia")
+    return { someState }
+  },
+  {
+    unistorage: true // 开启后对 state 的数据读写都将持久化
+  }
 )
 ```
 
@@ -141,20 +141,20 @@ export const useStore = defineStore(
 #### 钩子
 
 ```js
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia"
 
-export const useStore = defineStore('main', {
-	state() {
-		return {
-			someState: 'hello pinia'
-		}
-	},
-	unistorage: {
-		// 初始化恢复前触发
-		beforeRestore(ctx) {},
-		// 初始化恢复后触发
-		afterRestore(ctx) {}
-	}
+export const useStore = defineStore("main", {
+  state() {
+    return {
+      someState: "hello pinia"
+    }
+  },
+  unistorage: {
+    // 初始化恢复前触发
+    beforeRestore(ctx) {},
+    // 初始化恢复后触发
+    afterRestore(ctx) {}
+  }
 })
 ```
 
@@ -165,26 +165,26 @@ export const useStore = defineStore('main', {
 大多数情况下你并不需要了解该选项
 
 ```js
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia"
 
-export const useStore = defineStore('main', {
-	state() {
-		return {
-			someState: 'hello pinia'
-		}
-	},
-	unistorage: {
-		serializer: {
-			// 序列化，默认为 JSON.stringify
-			serialize(v) {
-				return JSON.stringify(v)
-			},
-			// 反序列化，默认为 JSON.parse
-			deserialize(v) {
-				return JSON.parse(v)
-			}
-		}
-	}
+export const useStore = defineStore("main", {
+  state() {
+    return {
+      someState: "hello pinia"
+    }
+  },
+  unistorage: {
+    serializer: {
+      // 序列化，默认为 JSON.stringify
+      serialize(v) {
+        return JSON.stringify(v)
+      },
+      // 反序列化，默认为 JSON.parse
+      deserialize(v) {
+        return JSON.parse(v)
+      }
+    }
+  }
 })
 ```
 
@@ -193,22 +193,22 @@ export const useStore = defineStore('main', {
 #### 其他
 
 ```js
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia"
 
-export const useStore = defineStore('main', {
-	state() {
-		return {
-			foo: 'foo',
-			nested: {
-				data: 'nested pinia'
-			},
-			someState: 'hello pinia'
-		}
-	},
-	unistorage: {
-		key: 'foo', // 缓存的键，默认为该 store 的 id，这里是 main,
-		paths: ['foo', 'nested.data'] // 需要缓存的路径，这里设置 foo 和 nested 下的 data 会被缓存
-	}
+export const useStore = defineStore("main", {
+  state() {
+    return {
+      foo: "foo",
+      nested: {
+        data: "nested pinia"
+      },
+      someState: "hello pinia"
+    }
+  },
+  unistorage: {
+    key: "foo", // 缓存的键，默认为该 store 的 id，这里是 main,
+    paths: ["foo", "nested.data"] // 需要缓存的路径，这里设置 foo 和 nested 下的 data 会被缓存
+  }
 })
 ```
 

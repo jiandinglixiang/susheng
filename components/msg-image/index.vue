@@ -1,7 +1,5 @@
 <template>
-  <view
-    :class="['image-container', props.msgData.role !== 'system' && 'is-user']"
-  >
+  <view :class="['image-container', props.msgData.role !== 'system' && 'is-user']">
     <image class="user-avatar" src="/static/logo.png"></image>
     <view class="image-box">
       <view class="tooltip" v-show="popupShow">
@@ -19,9 +17,7 @@
         </view>
         <view class="action-btn" @click.stop="handleActionBtn('tryAgain')">
           <uni-icons type="font" size="30" color="white" />
-          <text>{{
-            props.msgData.role === "system" ? "再来一张" : "生成图片"
-          }}</text>
+          <text>{{ props.msgData.role === "system" ? "再来一张" : "生成图片" }}</text>
         </view>
       </view>
       <view @="{...longPressListening}">
@@ -31,8 +27,8 @@
   </view>
 </template>
 <script setup>
-import { useLongPress } from "@/utils/useHooks";
-import { ref } from "vue";
+import { useLongPress } from "@/utils/useHooks"
+import { ref } from "vue"
 
 const props = defineProps({
   index: Number,
@@ -41,29 +37,29 @@ const props = defineProps({
     default() {
       return {
         // chatList.msgList[0]
-      };
-    },
-  },
-});
-const emits = defineEmits(["tooltipAction"]);
-const longPressListening = useLongPress(longPress, onClick);
-const popupShow = ref(false);
+      }
+    }
+  }
+})
+const emits = defineEmits(["tooltipAction"])
+const longPressListening = useLongPress(longPress, onClick)
+const popupShow = ref(false)
 
 function handleActionBtn(action) {
-  popupShow.value = false;
-  emits("tooltipAction", action, props.index, props.msgData);
+  popupShow.value = false
+  emits("tooltipAction", action, props.index, props.msgData)
 }
 function longPress() {
-  popupShow.value = true;
+  popupShow.value = true
 }
 function onClick() {
   if (popupShow.value) {
-    popupShow.value = false;
-    return;
+    popupShow.value = false
+    return
   }
   uni.previewImage({
-    urls: [props.msgData.filePath],
-  });
+    urls: [props.msgData.filePath]
+  })
 }
 </script>
 <style lang="scss" scoped>

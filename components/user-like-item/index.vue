@@ -4,7 +4,7 @@
     <view class="user-mid-box">
       <text class="username-box">{{ props.item.nickName }}</text>
       <view class="describe-box">
-        <view class="left"> </view>
+        <view class="left"></view>
         <view class="right">
           <text>粉丝</text>
           <text class="number">{{ props.item.watchCount }}</text>
@@ -25,11 +25,11 @@ const props = defineProps({
   item: {
     type: Object,
     default() {
-      return {};
-    },
-  },
-});
-const emits = defineEmits(["unlike"]);
+      return {}
+    }
+  }
+})
+const emits = defineEmits(["unlike"])
 </script>
 <style lang="scss" scoped>
 .user-like-item {

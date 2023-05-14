@@ -1,7 +1,5 @@
 <template>
-  <view
-    :class="['audio-container', props.msgData.role !== 'system' && 'is-user']"
-  >
+  <view :class="['audio-container', props.msgData.role !== 'system' && 'is-user']">
     <image class="user-avatar" src="/static/logo.png"></image>
     <view class="box-container">
       <view class="tooltip" v-show="popupShow">
@@ -21,15 +19,13 @@
         <text class="time">{{ props.msgData.voiceTime }}'</text>
         <view class="progress"></view>
       </view>
-      <text v-if="props.msgData.content" class="audio-text">{{
-        props.msgData.content
-      }}</text>
+      <text v-if="props.msgData.content" class="audio-text">{{ props.msgData.content }}</text>
     </view>
   </view>
 </template>
 <script setup>
-import { useLongPress } from "@/utils/useHooks";
-import { ref } from "vue";
+import { useLongPress } from "@/utils/useHooks"
+import { ref } from "vue"
 
 const props = defineProps({
   index: Number,
@@ -38,27 +34,27 @@ const props = defineProps({
     default() {
       return {
         // chatList.msgList[0]
-      };
-    },
-  },
-});
-const emits = defineEmits(["tooltipAction"]);
-const longPressListening = useLongPress(longPress, onClick);
-const popupShow = ref(false);
+      }
+    }
+  }
+})
+const emits = defineEmits(["tooltipAction"])
+const longPressListening = useLongPress(longPress, onClick)
+const popupShow = ref(false)
 
 function handleActionBtn(action) {
-  popupShow.value = false;
-  emits("tooltipAction", action, props.index, props.msgData);
+  popupShow.value = false
+  emits("tooltipAction", action, props.index, props.msgData)
 }
 function longPress() {
-  popupShow.value = true;
+  popupShow.value = true
 }
-const innerAudioContext = uni.createInnerAudioContext();
+const innerAudioContext = uni.createInnerAudioContext()
 function onClick() {
   //  播放音频
-  innerAudioContext.src = props.msgData.filePath;
-  innerAudioContext.play();
-  popupShow.value = false;
+  innerAudioContext.src = props.msgData.filePath
+  innerAudioContext.play()
+  popupShow.value = false
 }
 </script>
 <style lang="scss" scoped>

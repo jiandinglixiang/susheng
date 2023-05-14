@@ -1,8 +1,8 @@
 <template>
   <!--#ifdef H5-->
   <uni-popup class="max-index" ref="popup" type="center">
-    <create-story-popup
-      v-if="props.popupKey === CREATE_STORY_POPUP"
+    <privacy-auth-popup
+      v-if="popupKey === PRIVACY_AUTH_POPUP"
       :popup-data="params"
       @action="handleAction"
     />
@@ -13,11 +13,11 @@
 <script setup>
 // 根据环境接收 并emits出事件
 // 接收popupKey
-import { CREATE_STORY_POPUP } from "@/components/popup/popupKeyMap"
 import { onUnmounted, ref } from "vue"
-import CreateStoryPopup from "@/components/popup/CreateStoryPopup.vue"
+import { PRIVACY_AUTH_POPUP } from "./popupKeyMap"
+import PrivacyAuthPopup from "./PrivacyAuthPopup.vue"
 
-const props = defineProps({
+const { popupKey } = defineProps({
   popupKey: String
 })
 const emits = defineEmits(["action"])
@@ -25,7 +25,7 @@ const popup = ref()
 const params = ref(null)
 
 onUnmounted(() => {
-  uni.$off(props.popupKey)
+  uni.$off(popupKey)
 })
 
 function handleAction(...params) {
@@ -36,10 +36,10 @@ function handleAction(...params) {
 }
 function open(par) {
   // #ifndef H5
-  uni.$on(props.popupKey, handleAction)
+  uni.$on(popupKey, handleAction)
   uni.navigateTo({
     url:
-      `/pages/popup/index?popupKey=${props.popupKey}&` +
+      `/pages/popup/index?popupKey=${popupKey}&` +
       (par ? encodeURIComponent(JSON.stringify(par)) : "")
   })
   // #endif
