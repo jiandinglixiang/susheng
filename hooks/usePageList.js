@@ -1,3 +1,6 @@
+import { onUnload } from "@dcloudio/uni-app"
+import { onUnmounted, ref } from "vue"
+
 export function usePageList({ pageSize = 20, requestFunc }) {
   const loading = ref("")
   const list = ref([])
@@ -40,5 +43,40 @@ async function getList({ loading, list, requestFunc, pageSize }) {
     loading.value = loading.value === "加载中..." ? "没有更多了" : "加载错误"
     console.error(err)
     throw err
+  }
+}
+
+export function useTimeCount(second) {
+  const time = ref(second || 60)
+  let endCallback
+  let t
+  const start = () => {
+    if (time.value === 0) {
+      endCallback?.()
+      reset()
+      return
+    }
+    t = setTimeout(() => {
+      time.value--
+      start()
+    }, 1000)
+  }
+  const reset = () => {
+    time.value = second
+    clearTimeout(t)
+  }
+  onUnmounted(() => {
+    clearTimeout(t)
+  })
+  onUnload(() => {
+    clearTimeout(t)
+  })
+  return {
+    time,
+    start,
+    reset,
+    endCallback(func) {
+      endCallback = func
+    }
   }
 }

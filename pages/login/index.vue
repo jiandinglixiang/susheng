@@ -1,18 +1,27 @@
 <script setup>
 import PopupIndex from "@/components/popup/index.vue"
 import { AGREE_AUTH_POPUP } from "@/components/popup/popupKeyMap"
-import { nextTick, ref, reactive } from "vue"
-import { onLoad, onUnload } from "@dcloudio/uni-app"
+import { useTimeCount } from "@/hooks/usePageList"
+import { AppAuditStatus } from "@/pinia/audit"
+import { ref } from "vue"
+import { onLoad } from "@dcloudio/uni-app"
 import univerify from "./univerify.js"
 import { config, httpRequest } from "@/utils/http"
 import { POST_PHONE_AND_SMS_LOGIN, POST_PHONE_SMS } from "@/api/user"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 
-const agreePopup = ref()
+const audit = AppAuditStatus()
+
+const agreePopup = ref() // 隐私弹窗
 const showPage = ref(false)
-// nextTick(() => {
-//   agreePopup.value.open()
-// })
+const agreeCheck = ref(false)
+const formData = ref({
+  loading: false,
+  phone: "",
+  code: "",
+  tk: ""
+})
+
 onLoad(async () => {
   //#ifdef APP-PLUS
   await univerify(
@@ -27,89 +36,43 @@ onLoad(async () => {
   showPage.value = true
 })
 
-const formRef = ref(null)
-const statusData = reactive({
-  loading: false,
-  countDown: 30
-})
-const formData = reactive({
-  phone: "",
-  code: ""
-})
-const rules = {
-  phone: {
-    rules: [
-      {
-        required: true,
-        errorMessage: "手机号不能为空"
-      },
-      {
-        pattern: "^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$",
-        errorMessage: "手机号格式错误"
-      }
-    ]
-  },
-  code: {
-    rules: [
-      {
-        required: true,
-        errorMessage: "验证码不能为空"
-      },
-      {
-        minLength: 6,
-        maxLength: 6,
-        errorMessage: "验证码长度不对"
-      }
-    ]
+const { time, start } = useTimeCount(60)
+
+async function countdownStart() {
+  if (time.value !== 60) {
+    return
   }
-}
-
-let time = null
-
-onUnload(() => {
-  clearTimeout(time)
-})
-
-function countDownFunc() {
-  if (statusData.countDown) {
-    statusData.countDown--
-    time = setTimeout(countDownFunc, 1000)
-  } else {
-    statusData.countDown = 30
+  if (!validate(true)) {
+    return
   }
-}
-function clearPhone() {
-  Object.assign(formData, {
-    phone: "",
-    code: ""
+  if (!agreeCheck.value) {
+    agreePopup.value.open()
+    return
+  }
+  start()
+  const res = await httpRequest(POST_PHONE_SMS, "POST", {
+    phoneSecret: formData.value.phone,
+    areacode: 86
   })
-  formRef.value.clearValidate() // 移除表单的校验结果
-}
-function getSmsCode() {
-  formRef.value.validateField(["phone"]).then(async () => {
-    // 成功返回，res 为对应表单数据
-    // 其他逻辑处理
-    const res = await httpRequest(POST_PHONE_SMS, "POST", {
-      phoneSecret: formData.phone,
-      areacode: 86
-    })
-    console.log(res)
-    // if (process.env.NODE_ENV === "development") {
-    formData.code = res.data.tk
-    // }
-    countDownFunc()
-  })
+  console.log(res)
+  formData.value.tk = res.data.tk
 }
 
 async function submitForm() {
   try {
-    statusData.loading = true
-    await formRef.value.validate()
+    if (!agreeCheck.value) {
+      agreePopup.value.open()
+      return
+    }
+    if (!validate()) {
+      return
+    }
+    formData.value.loading = true
     const res = await httpRequest(POST_PHONE_AND_SMS_LOGIN, "POST", {
       areacode: 86,
-      phoneSecret: formData.phone,
-      pcode: formData.code,
-      tk: ""
+      phoneSecret: formData.value.phone,
+      pcode: formData.value.code,
+      tk: formData.value.tk
     })
     config.header.token = res.data.token
     uni.setStorageSync(USER_TOKEN_DATA, res.data)
@@ -118,68 +81,72 @@ async function submitForm() {
   } catch (e) {
     uni.showToast({ title: e?.msg ?? "Error", icon: "none" })
   } finally {
-    statusData.loading = false
+    formData.value.loading = false
   }
+}
+
+function handleAction(action) {
+  console.log(action)
+  if (action === "agree") {
+    agreeCheck.value = true
+    agreePopup.value.close()
+  }
+}
+
+function clearPhone() {
+  formData.value.phone = ""
+}
+
+function validate(phone) {
+  const okPhone = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(
+    formData.value.phone
+  )
+  if (!okPhone) {
+    uni.showToast({ title: "手机号格式不正确", icon: "none" })
+    return false
+  }
+  if (phone) {
+    return okPhone
+  }
+  if (/^\d{6}$/.test(formData.value.code)) {
+    return true
+  }
+  uni.showToast({ title: "验证码格式不正确", icon: "none" })
+
+  return false
 }
 </script>
 <template>
   <view v-if="showPage" class="container">
-    <uni-forms
-      ref="formRef"
-      :modelValue="formData"
-      :rules="rules"
-      label-position="line"
-      class="form-box"
-    >
-      <uni-forms-item label="手机号" name="phone" required>
-        <uni-easyinput
-          v-model="formData.phone"
-          confirmType="next"
-          focus
-          inputBorder
-          maxlength="11"
-          placeholder="请输入手机号"
-          trim="all"
-          type="number"
-          @clear="clearPhone"
-        />
-      </uni-forms-item>
-      <uni-forms-item label="验证码" name="code" required>
-        <view class="code-box">
-          <uni-easyinput
-            class="code-input"
-            v-model="formData.code"
-            confirmType="done"
-            inputBorder
-            minlength="6"
-            maxlength="6"
-            placeholder="验证码"
-            trim="all"
-            type="number"
-            @confirm="submitForm"
-          />
-          <button
-            :disabled="statusData.countDown !== 30"
-            class="code-btn"
-            size="mini"
-            type="primary"
-            @click="getSmsCode"
-          >
-            {{ statusData.countDown !== 30 ? statusData.countDown : "获取验证码" }}
-          </button>
-        </view>
-      </uni-forms-item>
-      <button :disabled="statusData.loading" form-type="submit" @click="submitForm"></button>
-    </uni-forms>
-    <view class="phone-item">
+    <view class="input-item">
       <image src="/static/login/Icon_phone@2x.png"></image>
-      <input class="uni-input" placeholder="带清除按钮的输入框" />
-      <uni-icons class="icon" type="clear" size="16" color="#D8D8D8"></uni-icons>
+      <input type="number" class="uni-input" v-model="formData.phone" placeholder="请输入手机号" />
+      <uni-icons
+        v-show="formData.phone"
+        @click="clearPhone"
+        class="icon"
+        type="clear"
+        size="28"
+        color="#D8D8D8"
+      ></uni-icons>
+    </view>
+    <view class="input-item">
+      <image src="/static/login/Icon_verification@2x.png"></image>
+      <input type="number" class="uni-input" v-model="formData.code" placeholder="请输入验证码" />
+      <text class="code-sms" @click="countdownStart">{{ time === 60 ? "获取验证码" : time }}</text>
     </view>
 
-    <button class="submit-btn" hover-class="none">快速登录</button>
+    <button class="submit-btn" hover-class="none" @click="submitForm" :disabled="formData.loading">
+      快速登录
+    </button>
     <view class="auth-text">
-      <uni-icons class="check-icon" type="checkbox-filled" size="16" color="#36C26E"></uni-icons>
+      <uni-icons
+        class="check-icon"
+        type="checkbox-filled"
+        size="28"
+        :color="agreeCheck ? '#36C26E' : '#999'"
+        @click="agreeCheck = !agreeCheck"
+      ></uni-icons>
       <text>
         我已阅读并同意
         <text class="highlight">《用户服务协议》</text>
@@ -187,9 +154,16 @@ async function submitForm() {
         <text class="highlight">《隐私政策》</text>
       </text>
     </view>
-    <button class="btn-tourist" plain hover-class="none">游客模式</button>
+    <navigator
+      v-if="audit.auditStatus === 1"
+      url="/pages/home/index"
+      open-type="reLaunch"
+      hover-class="none"
+    >
+      <button class="btn-tourist" plain hover-class="none">游客模式</button>
+    </navigator>
   </view>
-  <popup-index ref="agreePopup" :popup-key="AGREE_AUTH_POPUP"></popup-index>
+  <popup-index ref="agreePopup" :popup-key="AGREE_AUTH_POPUP" @action="handleAction"></popup-index>
 </template>
 
 <style lang="scss" scoped>
@@ -207,7 +181,7 @@ async function submitForm() {
 }
 
 .auth-text {
-  padding-top: 72rpx;
+  margin-top: 36rpx;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
@@ -221,36 +195,46 @@ async function submitForm() {
   }
 }
 
-.phone-item {
+.input-item {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
   border-radius: 200rpx;
   border: 1rpx solid #cccccc;
   height: 100rpx;
-  width: 630rpx;
+  padding: 0 30rpx;
+  width: 570rpx;
+  margin-bottom: 16rpx;
   image {
-    padding-left: 30rpx;
     flex: 0 0 40rpx;
     width: 40rpx;
     height: 48rpx;
   }
   .uni-input {
-      height: 80rpx;
-      line-height: 80rpx;
+    height: 80rpx;
+    line-height: 80rpx;
     flex: 1 1 auto;
     font-size: 28rpx;
     font-weight: 500;
+    color: #333333;
+    margin: 0 24rpx;
+  }
+  .uni-input::placeholder {
     color: #999999;
-    margin-left: 24rpx;
   }
   .icon {
     flex: 0 0 auto;
-    margin-right: 30rpx;
+  }
+  .code-sms {
+    flex: 0 0 auto;
+    font-size: 28rpx;
+    font-weight: 500;
+    color: #305dda;
   }
 }
 
 .submit-btn {
+  margin-top: 40rpx;
   width: 520rpx;
   height: 88rpx;
   border-radius: 44rpx;
@@ -260,24 +244,6 @@ async function submitForm() {
   line-height: 88rpx;
   color: #ffffff;
   text-align: center;
-}
-
-.form-box {
-  width: 80vw;
-}
-.code-box {
-  align-items: center;
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-}
-.code-input {
-  flex: 1 1 auto;
-}
-.code-btn {
-  margin-left: 10px;
-  flex: 0 0 auto;
-  width: 100px;
 }
 
 .btn-tourist {

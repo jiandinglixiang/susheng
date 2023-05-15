@@ -1,4 +1,4 @@
-export const GET_USER_INFO = "/user/rest/v1/getUserInfo"
+export const GET_USER_INFO = "/client/user/details"
 
 // 更新信息
 export const POST_UPDATE_LOGIN_USER_INFO = "/user/rest/v1/updateLoginUserInfo"
