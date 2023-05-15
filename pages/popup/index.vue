@@ -5,17 +5,24 @@
       :popup-data="params"
       @action="handleAction"
     />
+    <agree-auth-popup
+      v-else-if="popupKey === AGREE_AUTH_POPUP"
+      :popup-data="params"
+      @action="handleAction"
+    />
   </view>
 </template>
 
 <script setup>
-import { onLoad, onUnload } from "@dcloudio/uni-app"
+import { onBackPress, onLoad, onUnload } from "@dcloudio/uni-app"
 import { ref } from "vue"
-import PrivacyAuthPopup from "../../components/popup/PrivacyAuthPopup.vue"
-import { PRIVACY_AUTH_POPUP } from "../../components/popup/popupKeyMap"
+import PrivacyAuthPopup from "@/components/popup/PrivacyAuthPopup.vue"
+import { AGREE_AUTH_POPUP, PRIVACY_AUTH_POPUP } from "@/components/popup/popupKeyMap"
+import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
 
 const popupKey = ref("")
 const params = ref(null)
+onBackPress(({ from }) => from !== "navigateBack")
 
 onLoad((query = { popupKey: "", params: null }) => {
   popupKey.value = query.popupKey

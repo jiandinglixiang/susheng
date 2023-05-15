@@ -37,20 +37,30 @@
 		{
 			"path": "pages/login/index",
 			"style": {
-				"navigationStyle": "custom",
-				"disableScroll": true,
+				"backgroundColor": "#ffffff",
 				"disableSwipeBack": true,
-				"navigationBarTitleText": "登录",
+				"navigationBarTitleText": "",
+				"pageOrientation": "landscape",
 				"app-plus": {
 					"animationType": "fade-in",
+					"titleNView": {
+						"type": "float",
+						"backgroundColor": "rgba(0, 0, 0,0)"
+					},
+					"popGesture": "none",
 					"bounce": "none",
-					"popGesture": "none"
+					"safearea": {
+						"bottom": {
+							"offset": "auto"
+						}
+					}
 				}
 			}
 		},
 		{
 			"path": "pages/popup/index",
 			"style": {
+				"navigationBarTitleText": "弹窗页",
 				"navigationStyle": "custom",
 				"disableScroll": true,
 				"disableSwipeBack": true,
@@ -79,7 +89,7 @@
 		"fontSize": "12px",
 		"height": "50px",
 		"list": [{
-				"pagePath": "pages/index/index",
+				"pagePath": "pages/home/index",
 				"iconPath": "static/tabbar/index.png",
 				"selectedIconPath": "static/tabbar/index@2x.png",
 				"text": "首页"

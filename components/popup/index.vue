@@ -1,24 +1,38 @@
 <template>
   <!--#ifdef H5-->
-  <uni-popup class="max-index" ref="popup" type="center">
+  <uni-popup class="max-index" ref="popup" type="center" :is-mask-click="false">
     <privacy-auth-popup
       v-if="popupKey === PRIVACY_AUTH_POPUP"
+      :popup-data="params"
+      @action="handleAction"
+    />
+    <agree-auth-popup
+      v-else-if="popupKey === AGREE_AUTH_POPUP"
       :popup-data="params"
       @action="handleAction"
     />
   </uni-popup>
   <!--#endif-->
 </template>
-
+<script>
+export default {
+  name: "PopupIndex"
+}
+</script>
 <script setup>
 // 根据环境接收 并emits出事件
 // 接收popupKey
 import { onUnmounted, ref } from "vue"
-import { PRIVACY_AUTH_POPUP } from "./popupKeyMap"
+import { AGREE_AUTH_POPUP, PRIVACY_AUTH_POPUP } from "./popupKeyMap"
 import PrivacyAuthPopup from "./PrivacyAuthPopup.vue"
+import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
 
-const { popupKey } = defineProps({
-  popupKey: String
+const { popupKey, autoClose } = defineProps({
+  popupKey: String,
+  autoClose: {
+    type: Boolean,
+    default: true
+  }
 })
 const emits = defineEmits(["action"])
 const popup = ref()
@@ -29,7 +43,7 @@ onUnmounted(() => {
 })
 
 function handleAction(...params) {
-  if (params[0] === "close") {
+  if (autoClose && params[0] === "close") {
     close()
   }
   emits("action", ...params)

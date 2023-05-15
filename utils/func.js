@@ -10,22 +10,43 @@ export function findFormEnd(arr, func) {
 }
 
 export function deepMergeObjects(obj1, obj2) {
-  let result = {}
-  for (let key in obj1) {
-    if (typeof obj1[key] === "object" && typeof obj2[key] === "object") {
-      result[key] = deepMergeObjects(obj1[key], obj2[key])
-    } else {
-      if (key in obj2) {
-        result[key] = obj2[key]
-      } else {
-        result[key] = obj1[key]
-      }
-    }
-  }
+  const merged = { ...obj1 } // 创建一个新的对象，初始值为 obj1 的拷贝
+
+  // 遍历 obj2 的属性
   for (let key in obj2) {
-    if (!(key in obj1)) {
-      result[key] = obj2[key]
+    // 检查 obj2 的属性是否为对象类型
+    if (typeof obj2[key] === "object" && obj2[key] !== null) {
+      // 如果 merged 中没有对应的属性，则直接将 obj2 的属性赋值给 merged
+      if (!merged.hasOwnProperty(key)) {
+        merged[key] = obj2[key]
+      } else {
+        // 递归调用 deepMerge 函数进行深度合并，并将结果赋值给 merged 的对应属性
+        merged[key] = deepMergeObjects(merged[key], obj2[key])
+      }
+    } else {
+      // 直接将 obj2 的属性赋值给 merged
+      merged[key] = obj2[key]
     }
   }
-  return result
+
+  return merged
+}
+
+export function getSystemInfoPromise() {
+  return new Promise((resolve, reject) => {
+    uni.getSystemInfo({
+      success: resolve,
+      fail: reject
+    })
+  })
+}
+
+export function funcToPromise(func, options = {}) {
+  return new Promise((resolve, reject) =>
+    func({
+      success: resolve,
+      fail: reject,
+      ...options
+    })
+  )
 }

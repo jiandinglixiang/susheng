@@ -3,11 +3,7 @@
     <image class="guide-image" src="/static/logo.png"></image>
     <text class="guide-text">注册会计师App</text>
   </view>
-  <popup-index
-    ref="privacyPopup"
-    @action="handleAction"
-    :popup-key="PRIVACY_AUTH_POPUP"
-  ></popup-index>
+  <popup-index ref="privacyPopup" @action="handleAction" :popup-key="PRIVACY_AUTH_POPUP" />
 </template>
 
 <script setup>
@@ -15,18 +11,39 @@ import { PRIVACY_AUTH_POPUP } from "@/components/popup/popupKeyMap"
 import PopupIndex from "@/components/popup/index.vue"
 import { onLoad, onUnload } from "@dcloudio/uni-app"
 import { nextTick, ref } from "vue"
+import { AppAuditStatus } from "@/pinia/audit"
 const privacyPopup = ref()
 
+onLoad(() => {
+  //#ifdef APP-PLUS
+  // plus.navigator.setFullscreen(true)
+  plus.navigator.closeSplashscreen() // 关闭启动页
+  //#endif
+})
+nextTick(() => {
+  privacyPopup.value.open()
+})
+//#ifdef APP-PLUS
+// onUnload(() => {
+// plus.navigator.setFullscreen(false)
+// })
+//#endif
+const auditStatus = AppAuditStatus().getAppAuditStatus()
+
 function goNext() {
-  if (0) {
-    uni.redirectTo({ url: "/pages/home/index" })
-  } else {
-    uni.redirectTo({ url: `/pages/login/index` })
-  }
+  auditStatus.then((auditStatus) => {
+    // if (auditStatus === 1) {
+    //   uni.reLaunch({ url: "/pages/home/index" })
+    // } else {
+      uni.reLaunch({ url: `/pages/login/index` })
+    // }
+  }).catch(err => {
+      console.log(err)
+      uni.reLaunch({ url: `/pages/login/index` })
+  })
 }
 
-function handleAction(action, params) {
-  console.log(action, params)
+function handleAction(action) {
   if (action === "agree") {
     goNext()
   } else {
@@ -39,27 +56,11 @@ function handleAction(action, params) {
       plus.ios.invoke(mainThread, "exit")
     }
     // #endif
+    // #ifdef H5
+    window.location.href = "/"
+    // #endif
   }
 }
-
-onLoad(() => {
-  //#ifdef APP-PLUS
-  plus.navigator.setFullscreen(true)
-  plus.navigator.closeSplashscreen() // 关闭启动页
-  nextTick(() => {
-    privacyPopup.value.open()
-  })
-  //#endif
-  //#ifndef APP-PLUS
-  goNext()
-  //#endif
-})
-
-//#ifdef APP-PLUS
-onUnload(() => {
-  plus.navigator.setFullscreen(false)
-})
-//#endif
 </script>
 
 <style scoped lang="scss">

@@ -16,5 +16,6 @@ export default {
 /*每个页面公共css */
 #app {
   font-family: PingFangSC-Regular, sans-serif;
+  touch-action: pan-y;
 }
 </style>
