@@ -25,8 +25,9 @@ const formData = ref({
 onLoad(async () => {
   //#ifdef APP-PLUS
   await univerify(
-    (e) => {
-      console.log(e)
+    (data) => {
+      loginSave(data)
+      console.log(data)
     },
     (e) => {
       console.log(e)
@@ -60,11 +61,11 @@ async function countdownStart() {
 
 async function submitForm() {
   try {
-    if (!agreeCheck.value) {
-      agreePopup.value.open()
+    if (!validate()) {
       return
     }
-    if (!validate()) {
+    if (!agreeCheck.value) {
+      agreePopup.value.open()
       return
     }
     formData.value.loading = true
@@ -74,15 +75,19 @@ async function submitForm() {
       pcode: formData.value.code,
       tk: formData.value.tk
     })
-    config.header.token = res.data.token
-    uni.setStorageSync(USER_TOKEN_DATA, res.data)
-    uni.reLaunch({ url: "/pages/home/index" })
+    loginSave(res.data)
     console.log(res, "res")
   } catch (e) {
     uni.showToast({ title: e?.msg ?? "Error", icon: "none" })
   } finally {
     formData.value.loading = false
   }
+}
+
+function loginSave(data) {
+  config.header.token = data.token
+  uni.setStorageSync(USER_TOKEN_DATA, data)
+  uni.reLaunch({ url: "/pages/home/index" })
 }
 
 function handleAction(action) {
