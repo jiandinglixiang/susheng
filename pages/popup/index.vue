@@ -10,6 +10,11 @@
       :popup-data="params"
       @action="handleAction"
     />
+    <login-tips-popup
+      v-else-if="popupKey === LOGIN_TIPS_POPUP"
+      :popup-data="params"
+      @action="handleAction"
+    />
   </view>
 </template>
 
@@ -17,8 +22,13 @@
 import { onBackPress, onLoad, onUnload } from "@dcloudio/uni-app"
 import { ref } from "vue"
 import PrivacyAuthPopup from "@/components/popup/PrivacyAuthPopup.vue"
-import { AGREE_AUTH_POPUP, PRIVACY_AUTH_POPUP } from "@/components/popup/popupKeyMap"
+import {
+  AGREE_AUTH_POPUP,
+  LOGIN_TIPS_POPUP,
+  PRIVACY_AUTH_POPUP
+} from "@/components/popup/popupKeyMap"
 import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
+import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
 
 const popupKey = ref("")
 const params = ref(null)

@@ -31,16 +31,18 @@ nextTick(() => {
 const auditStatus = AppAuditStatus().getAppAuditStatus()
 
 function goNext() {
-  auditStatus.then((auditStatus) => {
-    // if (auditStatus === 1) {
-    //   uni.reLaunch({ url: "/pages/home/index" })
-    // } else {
-      uni.reLaunch({ url: `/pages/login/index` })
-    // }
-  }).catch(err => {
+  auditStatus
+    .then(({ auditStatusBoolean }) => {
+      if (!import.meta.env.DEV && auditStatusBoolean) {
+        uni.reLaunch({ url: "/pages/home/index" })
+      } else {
+        uni.reLaunch({ url: `/pages/login/index` })
+      }
+    })
+    .catch((err) => {
       console.log(err)
       uni.reLaunch({ url: `/pages/login/index` })
-  })
+    })
 }
 
 function handleAction(action) {

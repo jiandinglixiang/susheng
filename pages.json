@@ -31,7 +31,9 @@
 			"path": "pages/user/index",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "我的"
+				"backgroundColor": "#ffffff",
+				"navigationBarTitleText": "我的",
+				"pageOrientation": "landscape"
 			}
 		},
 		{

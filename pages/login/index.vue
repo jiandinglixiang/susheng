@@ -13,7 +13,7 @@ import { USER_TOKEN_DATA } from "@/utils/consts"
 const audit = AppAuditStatus()
 
 const agreePopup = ref() // 隐私弹窗
-const showPage = ref(false)
+const showPage = ref(audit.auditStatusBoolean) // 非审核状态直接显示
 const agreeCheck = ref(false)
 const formData = ref({
   loading: false,
@@ -24,15 +24,18 @@ const formData = ref({
 
 onLoad(async () => {
   //#ifdef APP-PLUS
-  await univerify(
-    (data) => {
-      loginSave(data)
-      console.log(data)
-    },
-    (e) => {
-      console.log(e)
-    }
-  )
+  if (!audit.auditStatusBoolean) {
+    // 非审核状态 打开一键登录
+    await univerify(
+      (data) => {
+        loginSave(data)
+        console.log(data)
+      },
+      (e) => {
+        console.log(e)
+      }
+    )
+  }
   //#endif
   showPage.value = true
 })
@@ -160,7 +163,7 @@ function validate(phone) {
       </text>
     </view>
     <navigator
-      v-if="audit.auditStatus === 1"
+      v-if="audit.auditStatusBoolean"
       url="/pages/home/index"
       open-type="reLaunch"
       hover-class="none"
