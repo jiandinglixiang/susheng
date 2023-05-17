@@ -25,6 +25,8 @@ export default {
 }
 </script>
 <script setup>
+import { deepMergeObjects } from "@/utils/func"
+
 // 根据环境接收 并emits出事件
 // 接收popupKey
 import { onUnmounted, ref } from "vue"
@@ -33,7 +35,12 @@ import PrivacyAuthPopup from "./PrivacyAuthPopup.vue"
 import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
 import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
 
-const { popupKey, autoClose } = defineProps({
+const {
+  popupKey,
+  autoClose,
+  params: propsParams
+} = defineProps({
+  params: Object,
   popupKey: String,
   autoClose: {
     type: Boolean,
@@ -55,6 +62,10 @@ function handleAction(...params) {
   emits("action", ...params)
 }
 function open(par) {
+  if (propsParams && par) {
+    par = deepMergeObjects(par, propsParams)
+  }
+
   // #ifndef H5
   uni.$on(popupKey, handleAction)
   uni.navigateTo({
