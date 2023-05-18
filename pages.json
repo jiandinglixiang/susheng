@@ -76,6 +76,30 @@
 			}
 		}
 	],
+	"subPackages": [
+		{
+			"root": "pages/live/",
+			"pages": [
+				{
+					"path": "liveList",
+					"style": {
+						"navigationBarTitleText": "注册会计师"
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/course/",
+			"pages": [
+				{
+					"path": "courseList",
+					"style": {
+						"navigationBarTitleText": "注册会计师"
+					}
+				}
+			]
+		}
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "注册会计师",
