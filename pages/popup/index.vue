@@ -31,12 +31,12 @@ import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
 import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
 
 const popupKey = ref("")
-const params = ref(null)
+const params = ref(undefined)
 onBackPress(({ from }) => from !== "navigateBack")
 
 onLoad((query = { popupKey: "", params: null }) => {
   popupKey.value = query.popupKey
-  params.value = query.params ? JSON.parse(decodeURIComponent(query.params)) : null
+  params.value = query.params ? JSON.parse(decodeURIComponent(query.params)) : undefined
 })
 
 function handleAction(...par) {

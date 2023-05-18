@@ -8,7 +8,6 @@ const props = defineProps({
     }
   }
 })
-
 </script>
 <template>
   <view class="LoginTips-container">
@@ -16,7 +15,8 @@ const props = defineProps({
     <view v-if="!props.popupData.tips.includes('<text>')" class="tips">
       <text>{{ props.popupData.tips }}</text>
     </view>
-    <view v-else v-html="props.popupData.tips"  class="tips"></view>
+    <rich-text v-else class="tips" :nodes="props.popupData.tips"></rich-text>
+      {{props.popupData.tips}}
     <button class="agree" @click="emits('action', 'btn')">
       {{ props.popupData.buttonText }}
     </button>
