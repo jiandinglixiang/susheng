@@ -18,4 +18,7 @@ export default {
   font-family: PingFangSC-Regular, sans-serif;
   touch-action: pan-y;
 }
+body{
+  background-color: transparent;
+}
 </style>

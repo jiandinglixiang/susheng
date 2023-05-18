@@ -98,6 +98,38 @@
 					}
 				}
 			]
+		},
+		{
+			"root": "pages/setting/",
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "设置"
+					}
+				},
+
+				{
+					"path": "feedback",
+					"style": {
+						"navigationBarTitleText": "意见反馈",
+						"backgroundColor": "#F9F9F9"
+					}
+				},
+				{
+					"path": "cancelAccount",
+					"style": {
+						"navigationBarTitleText": "注销账号",
+						"backgroundColor": "#F9170C",
+						"app-plus": {
+							"background":  "#F9170C
+						},
+						"h5": {
+							"backgroundColor": "#F9170C"
+						}
+					}
+				}
+			]
 		}
 	],
 	"globalStyle": {

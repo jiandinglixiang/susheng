@@ -9,9 +9,11 @@
 <script setup>
 import { PRIVACY_AUTH_POPUP } from "@/components/popup/popupKeyMap"
 import PopupIndex from "@/components/popup/index.vue"
+import { userInfo } from "@/pinia/user"
 import { onLoad, onUnload } from "@dcloudio/uni-app"
 import { nextTick, ref } from "vue"
 import { AppAuditStatus } from "@/pinia/audit"
+const userInfoStore = userInfo()
 const privacyPopup = ref()
 
 onLoad(() => {
@@ -30,19 +32,21 @@ nextTick(() => {
 //#endif
 const auditStatus = AppAuditStatus().getAppAuditStatus()
 
-function goNext() {
-  auditStatus
-    .then(({ auditStatusBoolean }) => {
-      if (!import.meta.env.DEV && auditStatusBoolean) {
-        uni.reLaunch({ url: "/pages/home/index" })
-      } else {
-        uni.reLaunch({ url: `/pages/login/index` })
-      }
-    })
-    .catch((err) => {
-      console.log(err)
+async function goNext() {
+  try {
+    privacyPopup.value.close()
+    const { auditStatusBoolean } = await auditStatus
+    if (!import.meta.env.DEV && auditStatusBoolean) {
+      uni.reLaunch({ url: "/pages/home/index" })
+    } else if (await userInfoStore.getUserInfo()) {
+      uni.reLaunch({ url: `/pages/user/index` })
+    } else {
       uni.reLaunch({ url: `/pages/login/index` })
-    })
+    }
+  } catch (err) {
+    console.log(err)
+    uni.reLaunch({ url: `/pages/login/index` })
+  }
 }
 
 function handleAction(action) {
