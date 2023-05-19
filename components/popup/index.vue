@@ -16,6 +16,11 @@
       :popup-data="params"
       @action="handleAction"
     />
+    <home-ad-popup
+      v-else-if="popupKey === HOME_AD_POPUP"
+      :popup-data="params"
+      @action="handleAction"
+    />
   </uni-popup>
   <!--#endif-->
 </template>
@@ -30,10 +35,16 @@ import { deepMergeObjects } from "@/utils/func"
 // 根据环境接收 并emits出事件
 // 接收popupKey
 import { onUnmounted, ref } from "vue"
-import { AGREE_AUTH_POPUP, LOGIN_TIPS_POPUP, PRIVACY_AUTH_POPUP } from "./popupKeyMap"
+import {
+  AGREE_AUTH_POPUP,
+  HOME_AD_POPUP,
+  LOGIN_TIPS_POPUP,
+  PRIVACY_AUTH_POPUP
+} from "./popupKeyMap"
 import PrivacyAuthPopup from "./PrivacyAuthPopup.vue"
 import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
 import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
+import HomeAdPopup from "@/components/popup/HomeAdPopup.vue"
 
 const {
   popupKey,

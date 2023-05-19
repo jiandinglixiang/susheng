@@ -15,6 +15,11 @@
       :popup-data="params"
       @action="handleAction"
     />
+    <home-ad-popup
+      v-else-if="popupKey === HOME_AD_POPUP"
+      :popup-data="params"
+      @action="handleAction"
+    />
   </view>
 </template>
 
@@ -24,11 +29,13 @@ import { ref } from "vue"
 import PrivacyAuthPopup from "@/components/popup/PrivacyAuthPopup.vue"
 import {
   AGREE_AUTH_POPUP,
+  HOME_AD_POPUP,
   LOGIN_TIPS_POPUP,
   PRIVACY_AUTH_POPUP
 } from "@/components/popup/popupKeyMap"
 import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
 import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
+import HomeAdPopup from "@/components/popup/HomeAdPopup.vue"
 
 const popupKey = ref("")
 const params = ref(undefined)

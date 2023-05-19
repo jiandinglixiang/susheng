@@ -38,4 +38,20 @@ export function httpRequest(path = "", method = "GET", data = {}, newConfigs = {
       }
       return res
     })
+    .catch((err) => {
+      if (err.errMsg !== "request:fail") {
+        return Promise.reject(err)
+      }
+      return new Promise((resolve, reject) => {
+        uni.getNetworkType({
+          success({ networkType }) {
+            console.log(networkType)
+            reject(["unknown", "none"].includes(networkType) ? { ...err, noNetwork: true } : err)
+          },
+          fail() {
+            reject(err)
+          }
+        })
+      })
+    })
 }

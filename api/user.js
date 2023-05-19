@@ -15,3 +15,7 @@ export const GET_USER_CLIENT_VERSION = "/client/version"
 export const POST_PHONE_SMS = `/client/smssend`
 
 export const POST_PHONE_AND_SMS_LOGIN = `/client/smslogin`
+
+export const POST_CLIENT_USER_LOGOUT = `/client/user/logout`
+
+export const POST_CLIENT_USER_FEEDBACK = `/client/user/feedback`

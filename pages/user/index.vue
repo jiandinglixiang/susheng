@@ -4,10 +4,13 @@ import LoadTips from "@/components/tips/load-tips.vue"
 import PopupIndex from "@/components/popup/index.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import UniStatusBar from "@/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-status-bar.vue"
-import { nextTick, ref } from "vue"
+import { nextTick, onMounted, ref } from "vue"
 const popup = ref()
 const storeUserInfo = userInfo()
-storeUserInfo.getUserInfo()
+
+onMounted(() => {
+  storeUserInfo.getUserInfo()
+})
 // nextTick(() => {
 //   popup.value.open({
 //     title: "提示",
@@ -15,6 +18,9 @@ storeUserInfo.getUserInfo()
 //     tips: `<text>asfasfasfas<text style="color:red">asfasfasfas</text><text>asfasfasfas</text></text>`
 //   })
 // })
+function navigateTo(url) {
+  uni.navigateTo({ url })
+}
 </script>
 <template>
   <view class="top-container">
@@ -31,8 +37,8 @@ storeUserInfo.getUserInfo()
         class="head-portrait"
         :src="storeUserInfo.avatar || '/static/user/no-login@2x.png'"
       ></image>
-      <view v-if="0" class="user-info">
-        <view class="name">
+      <view v-if="storeUserInfo.id !== -1" class="user-info">
+        <view class="name" @click="navigateTo('/pages/setting/userInfo')">
           <text>{{ storeUserInfo.allotName || storeUserInfo.phone }}</text>
           <view class="leve">Lv7</view>
         </view>
@@ -51,26 +57,54 @@ storeUserInfo.getUserInfo()
         <image src="/static/user/arrows@2x.png"></image>
       </view>
       <view class="bottom-box">
-        <view v-for="i in 8" class="region-item">
-          <image src="/static/user/diamond-collect.png" mode="heightFix"></image>
+        <view class="region-item">
+          <image src="/static/user/collection-item@2x.png"></image>
+          <text>收藏夹</text>
+        </view>
+        <view class="region-item">
+          <image src="/static/user/error-question@2x.png"></image>
+          <text>错题集</text>
+        </view>
+        <view class="region-item">
+          <image src="/static/user/question-history@2x.png.png"></image>
+          <text>做题历史</text>
+        </view>
+        <view class="region-item">
+          <image src="/static/user/my-course@2x.png"></image>
+          <text>我的课程</text>
+        </view>
+        <view class="region-item">
+          <image src="/static/user/help-center@2x.png"></image>
+          <text>帮助中心</text>
+        </view>
+        <view class="region-item">
+          <image src="/static/user/data-get@2x.png"></image>
+          <text>资料领取</text>
+        </view>
+        <view class="region-item">
+          <image src="/static/user/exam-preparation-group@2x.png"></image>
+          <text>备考群</text>
+        </view>
+        <view class="region-item">
+          <image src="/static/user/recommend-to-friends@2x.png"></image>
           <text>推荐给好友</text>
         </view>
       </view>
     </view>
 
     <view class="list-item">
-      <image class="left-icon" src="/static/user/arrows@2x.png"></image>
+      <image class="left-icon" src="/static/user/goal-planning@2x.png"></image>
       <text class="name">备考规划</text>
       <image class="arrows" src="/static/user/arrows@2x.png"></image>
     </view>
     <view class="list-item">
-      <image class="left-icon" src="/static/user/arrows@2x.png"></image>
+      <image class="left-icon" src="/static/user/consultation-line@2x.png"></image>
       <text class="name">在线咨询</text>
       <text class="sub-name">24小时在线</text>
       <image class="arrows" src="/static/user/arrows@2x.png"></image>
     </view>
     <view class="list-item">
-      <image class="left-icon" src="/static/user/arrows@2x.png"></image>
+      <image class="left-icon" src="/static/user/give-us-a-good-review@2x.png"></image>
       <text class="name">给我们好评</text>
       <image class="arrows" src="/static/user/arrows@2x.png"></image>
     </view>
@@ -242,8 +276,8 @@ storeUserInfo.getUserInfo()
     line-height: 24rpx;
     color: rgba(102, 102, 102, 1);
     image {
-      width: auto;
-      height: 56rpx;
+      height: 64rpx;
+      width: 64rpx;
       margin-bottom: 24rpx;
     }
   }
@@ -255,7 +289,7 @@ storeUserInfo.getUserInfo()
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: inset 0rpx -2rpx 0rpx 0rpx rgba(241, 241, 241, 1);
   .name {
     flex: 1 1 auto;
@@ -269,7 +303,7 @@ storeUserInfo.getUserInfo()
     font-size: 28rpx;
     font-weight: 400;
     line-height: 32rpx;
-    color: rgba(51, 51, 51, 1);
+    color: rgba(48, 93, 218, 1);
   }
   .left-icon {
     flex: 0 0 auto;
