@@ -57,7 +57,7 @@ function navigateTo(url) {
         <image src="/static/user/arrows@2x.png"></image>
       </view>
       <view class="bottom-box">
-        <view class="region-item">
+        <view class="region-item" @click="navigateTo('/pages/setting/favorites')">
           <image src="/static/user/collection-item@2x.png"></image>
           <text>收藏夹</text>
         </view>
@@ -124,7 +124,7 @@ function navigateTo(url) {
 .signin {
   position: absolute;
   left: 32rpx;
-  top: 16rpx;
+  top: calc(16rpx + var(--status-bar-height));
   width: 128rpx;
   height: 56rpx;
   border-radius: 34rpx;
@@ -148,7 +148,7 @@ function navigateTo(url) {
 .setting-btn {
   position: absolute;
   right: 32rpx;
-  top: 16rpx;
+  top: calc(16rpx + var(--status-bar-height));
   width: 56rpx;
   height: 56rpx;
   background: url("/static/user/setting-btn.png") no-repeat center center;

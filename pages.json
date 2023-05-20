@@ -19,7 +19,10 @@
 			"path": "pages/home/index",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "注册会计师"
+				"navigationBarTitleText": "注册会计师",
+				"app-plus": {
+					"bounce": "none"
+				}
 			}
 		},
 		{
@@ -32,9 +35,11 @@
 			"path": "pages/user/index",
 			"style": {
 				"navigationStyle": "custom",
-				"backgroundColor": "#ffffff",
 				"navigationBarTitleText": "我的",
-				"pageOrientation": "landscape"
+				"pageOrientation": "landscape",
+				"app-plus": {
+					"bounce": "none"
+				}
 			}
 		},
 		{
@@ -84,7 +89,13 @@
 				{
 					"path": "liveList",
 					"style": {
-						"navigationBarTitleText": "注册会计师"
+						"navigationBarTitleText": "直播列表"
+					}
+				},
+				{
+					"path": "detail",
+					"style": {
+						"navigationBarTitleText": "直播课详情"
 					}
 				}
 			]
@@ -95,7 +106,24 @@
 				{
 					"path": "courseList",
 					"style": {
-						"navigationBarTitleText": "注册会计师"
+						"navigationBarTitleText": "精选课程"
+					}
+				},
+				{
+					"path": "detail",
+					"style": {
+						"navigationBarTitleText": "课程详情",
+						"app-plus": {
+							"titleNView": {
+								"buttons": [
+									{
+										"color": "",
+										"text": "",
+										"fontSrc": "/static/uni-icons/uniicons.ttf"
+									}
+								]
+							}
+						}
 					}
 				}
 			]
@@ -107,6 +135,12 @@
 					"path": "index",
 					"style": {
 						"navigationBarTitleText": "设置"
+					}
+				},
+				{
+					"path": "favorites",
+					"style": {
+						"navigationBarTitleText": "收藏夹"
 					}
 				},
 				{
@@ -132,6 +166,45 @@
 						},
 						"h5": {
 							"backgroundColor": "#F9170C"
+						}
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/information/",
+			"pages": [
+				{
+					"path": "informationList",
+					"style": {
+						"navigationStyle": "custom",
+						"navigationBarTitleText": "资讯列表",
+						"app-plus": {
+							"bounce": "none"
+						}
+					}
+				},
+				{
+					"path": "detail",
+					"style": {
+						"navigationBarTitleText": "资讯详情",
+						"app-plus": {
+							"bounce": "none"
+						}
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/pdf/",
+			"pages": [
+				{
+					"path": "pdfList",
+					"style": {
+						"navigationStyle": "custom",
+						"navigationBarTitleText": "资料列表",
+						"app-plus": {
+							"bounce": "none"
 						}
 					}
 				}

@@ -1,3 +1,6 @@
+import { clear } from "core-js/internals/task"
+import { nextTick } from "vue"
+
 export function findFormEnd(arr, func) {
   let target
   for (let i = arr.length - 1; i >= 0; i--) {
@@ -49,4 +52,44 @@ export function funcToPromise(func, options = {}) {
       ...options
     })
   )
+}
+
+export function formatNumber(number) {
+  if (number > 10000) {
+    const quotient = Math.floor(number / 10000) // 获取万位以上的整数部分
+    const remainder = Math.floor((number % 10000) / 1000) // 获取万位以下的余数部分，并将其向下取整
+    const formattedNumber = quotient + "." + remainder + "w" // 将余数部分转换为小数形式，并加上"w"
+    return formattedNumber
+  } else {
+    return number.toString() // 数字小于等于10000时直接返回原数字的字符串形式
+  }
+}
+
+export function setTitleNViewButtonStyle({ text, color }, onclick = undefined) {
+  // #ifdef APP-PLUS
+  const pages = getCurrentPages()
+  const page = pages[pages.length - 1]
+  const webView = page.$getAppWebview()
+  webView.setTitleNViewButtonStyle(0, {
+    fontSrc: "/static/uni-icons/uniicons.ttf",
+    ...(onclick && { onclick }),
+    ...(color && { color }),
+    ...(text && { text })
+  })
+  // #endif
+  // #ifdef H5
+
+  const ele = document.querySelector(
+    ".uni-page-head .uni-page-head-ft .uni-page-head-btn .uni-btn-icon"
+  )
+  color && (ele.style.color = color)
+  text && (ele.innerHTML = text)
+  onclick && ele.addEventListener("click", onclick)
+  return (
+    onclick &&
+    (() => {
+      ele.removeEventListener("click", onclick)
+    })
+  )
+  // #endif
 }

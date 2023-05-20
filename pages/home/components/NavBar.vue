@@ -1,6 +1,4 @@
-<script setup>
-import UniStatusBar from "@/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-status-bar.vue"
-</script>
+<script setup></script>
 
 <template>
   <view class="nav-bar nav-bar-fixed">
@@ -15,7 +13,10 @@ import UniStatusBar from "@/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-s
 <style scoped lang="scss">
 .nav-bar {
   padding-top: var(--status-bar-height);
+  margin-bottom: 12rpx;
   height: 88rpx;
+  background: #ffffff;
+  z-index: 100;
 }
 
 .nav-bar-fixed {
