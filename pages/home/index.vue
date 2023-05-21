@@ -1,4 +1,6 @@
 <script setup>
+import PopupIndex from "@/components/popup/index.vue"
+import { HOME_AD_POPUP } from "@/components/popup/popupKeyMap"
 import Carousel from "@/pages/home/components/Carousel.vue"
 import NavBar from "@/pages/home/components/NavBar.vue"
 import KongoDistrict from "@/pages/home/components/KongoDistrict.vue"
@@ -9,7 +11,12 @@ import LiveScrollX from "@/pages/home/components/LiveScrollX.vue"
 import CourseGroupLine from "@/pages/home/components/CourseGroupLine.vue"
 import CourseGroup from "@/pages/home/components/CourseGroup.vue"
 import { AppAuditStatus } from "@/pinia/audit"
+import { nextTick, ref } from "vue"
 const storeAppAuditStatus = { auditStatusBoolean: false } || AppAuditStatus()
+const refAdPopup = ref()
+nextTick(() => {
+  refAdPopup.value.open()
+})
 </script>
 
 <template>
@@ -28,32 +35,7 @@ const storeAppAuditStatus = { auditStatusBoolean: false } || AppAuditStatus()
     <section-bar left-text="系统课" />
     <course-group />
   </template>
+  <popup-index ref="refAdPopup" :popup-key="HOME_AD_POPUP" />
 </template>
 
-<style>
-.content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo {
-  height: 200rpx;
-  width: 200rpx;
-  margin-top: 200rpx;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 50rpx;
-}
-
-.text-area {
-  display: flex;
-  justify-content: center;
-}
-
-.title {
-  font-size: 36rpx;
-  color: #8f8f94;
-}
-</style>
+<style></style>

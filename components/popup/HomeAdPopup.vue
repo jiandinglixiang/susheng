@@ -4,28 +4,40 @@ const props = defineProps({
   popupData: {
     type: Object,
     default() {
-      return { title: "提示", tips: "", buttonText: "去登录" }
+      return { title: "提示", tips: "123", buttonText: "立即查看" }
     }
   }
 })
 </script>
 <template>
-  <view class="LoginTips-container">
-    <text class="title">{{ props.popupData.title }}</text>
-    <view v-if="!props.popupData.tips.includes('<text>')" class="tips">
-      <text>{{ props.popupData.tips }}</text>
+  <view class="home-ad-popup">
+    <text class="title">解锁学习资源礼包</text>
+    <view class="tips">
+      <text>真题模拟系统</text>
+      <uni-icons color="#10C278" type="checkmarkempty" size="25"></uni-icons>
     </view>
-    <rich-text v-else class="tips" :nodes="props.popupData.tips"></rich-text>
-      {{props.popupData.tips}}
+    <view class="tips">
+      <text>通关资料</text>
+      <uni-icons color="#10C278" type="checkmarkempty" size="25"></uni-icons>
+    </view>
+    <view class="tips">
+      <text>教辅教材图书</text>
+      <uni-icons color="#10C278" type="checkmarkempty" size="25"></uni-icons>
+    </view>
+    <view class="tips">
+      <text>考试报名</text>
+      <uni-icons color="#10C278" type="checkmarkempty" size="25"></uni-icons>
+    </view>
     <button class="agree" @click="emits('action', 'btn')">
       {{ props.popupData.buttonText }}
     </button>
     <image class="close" src="/static/close@2x.png" @click="emits('action', 'close')"></image>
+    <image class="head-bg" src="/static/information/information-spree.png"></image>
   </view>
 </template>
 
 <style scoped lang="scss">
-.LoginTips-container {
+.home-ad-popup {
   position: relative;
   width: 536rpx;
   border-radius: 32rpx;
@@ -33,7 +45,7 @@ const props = defineProps({
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
-  padding: 48rpx 56rpx;
+  padding: 134rpx 56rpx 48rpx;
 }
 .title {
   font-size: 36rpx;
@@ -43,14 +55,19 @@ const props = defineProps({
   margin-bottom: 32rpx;
 }
 .tips {
+  width: 50%;
+  margin-bottom: 24rpx;
   font-size: 32rpx;
   font-weight: 400;
+  letter-spacing: 0rpx;
   line-height: 44.8rpx;
   color: rgba(51, 51, 51, 1);
-  text-align: center;
-  margin-bottom: 48rpx;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
 }
 .agree {
+  margin-top: 64rpx;
   width: 536rpx;
   height: 88rpx;
   font-size: 32rpx;
@@ -66,5 +83,11 @@ const props = defineProps({
   height: 64rpx;
   position: absolute;
   bottom: -128rpx;
+}
+.head-bg {
+  position: absolute;
+  top: -53rpx;
+  width: 285rpx;
+  height: 210rpx;
 }
 </style>

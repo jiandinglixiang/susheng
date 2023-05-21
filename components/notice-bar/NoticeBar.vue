@@ -1,16 +1,34 @@
-<script setup></script>
+<script setup>
+const props = defineProps({
+  fixed: Boolean,
+  top: Number
+})
+</script>
 
 <template>
-  <view class="notice">
-    <image class="trumpet" src="/static/home/notice@2x.png"></image>
-    <view class="content">
-      <text>2023年注册会计师马上开始报名了，点击</text>
-      <text class="highlight">了解详情</text>
+  <view :class="props.fixed && 'notice-fixed'">
+    <view class="notice">
+      <image class="trumpet" src="/static/home/notice@2x.png"></image>
+      <view class="content">
+        <text>2023年注册会计师马上开始报名了，点击</text>
+        <text class="highlight">了解详情</text>
+      </view>
     </view>
   </view>
 </template>
 
 <style scoped lang="scss">
+.notice-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 1);
+  padding-top: calc(var(--status-bar-height) + 44px + 12rpx);
+  height: 72rpx;
+  z-index: 2;
+}
+
 .notice {
   height: 72rpx;
   border-radius: 36rpx;
