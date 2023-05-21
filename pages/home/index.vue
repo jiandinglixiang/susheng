@@ -15,7 +15,7 @@ import { nextTick, ref } from "vue"
 const storeAppAuditStatus = { auditStatusBoolean: false } || AppAuditStatus()
 const refAdPopup = ref()
 nextTick(() => {
-  refAdPopup.value.open()
+  // refAdPopup.value.open()
 })
 </script>
 

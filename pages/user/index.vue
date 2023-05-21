@@ -169,6 +169,8 @@ function navigateTo(url) {
     height: 156rpx;
     border-radius: 50%;
     overflow: hidden;
+    //background: url("/static/user/no-login@2x.png") no-repeat center center;
+    //background-size: 156rpx 156rpx;
   }
   .login-text {
     flex: 1 1 auto;
