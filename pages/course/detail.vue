@@ -1,6 +1,7 @@
 <script setup>
 import { setTitleNViewButtonStyle } from "@/utils/func"
 import { nextTick, onMounted, onUnmounted } from "vue"
+import FixedFab from '@/components/fab/FixedFab.vue'
 let stopRightButtonListener
 
 onMounted(() => {
@@ -26,6 +27,7 @@ function rightButton() {
 </script>
 
 <template>
+    <fixed-fab/>
   <image class="course-img" src="https://img.js.design/assets/img/62314251882e8c6600acde3c.png" />
   <view class="course-price">
     <text class="price">
@@ -42,12 +44,52 @@ function rightButton() {
       <text>点击添加学管领取课程资料</text>
     </view>
   </view>
+  <view class="detailed-catalog">
+    <text class="highlight">课程详情</text>
+    <text>课程目录</text>
+  </view>
+  <view class="sub-name">- 课程内容 -</view>
+  <uni-collapse>
+    <uni-collapse-item
+      :border="false"
+      class="collapse-item"
+      title="默认开启"
+      title-border="none"
+      v-for="i in 5"
+    >
+      <view class="collapse-content-item bottom-border" v-for="i in 4">
+        <view class="box-left">
+          <view class="name highlight">
+            <image class="playing" src="/static/course/playing@2x.png"></image>
+            执业医师考试复习规划
+          </view>
+          <view class="time-people">
+            <image class="time" src="/static/course/time-icon@2x.png"></image>
+            <text class="time-text">23:58</text>
+            <image class="people" src="/static/course/people-number@2x.png"></image>
+            <text class="people-text">666人</text>
+          </view>
+        </view>
+        <view class="box-right">
+          <!--待学习-->
+        </view>
+      </view>
+    </uni-collapse-item>
+  </uni-collapse>
 </template>
 
 <style scoped lang="scss">
 .course-img {
   width: 750rpx;
   height: 412rpx;
+}
+.sub-name {
+  font-size: 24rpx;
+  font-weight: 400;
+  line-height: 24rpx;
+  color: rgba(153, 153, 153, 1);
+  text-align: center;
+  margin-bottom: 20rpx;
 }
 .course-price {
   display: flex;
@@ -116,6 +158,148 @@ function rightButton() {
     color: rgba(48, 93, 218, 1);
     border-radius: 4rpx;
     background: rgba(48, 93, 218, 0.1);
+  }
+}
+.detailed-catalog {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-start;
+  margin: 0 32rpx 32rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  line-height: 28rpx;
+  color: rgba(153, 153, 153, 1);
+  text {
+    height: 42rpx;
+    position: relative;
+    margin-right: 32rpx;
+  }
+  .highlight {
+    color: rgba(51, 51, 51, 1);
+    &:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 32rpx;
+      height: 6rpx;
+      border-radius: 4rpx;
+      background: rgba(48, 93, 218, 1);
+    }
+  }
+}
+.collapse-item {
+  overflow: hidden;
+  margin: 0 32rpx 16rpx;
+  border-radius: 16rpx;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.07);
+  :deep(.uni-collapse-item__wrap-content) {
+    padding-bottom: 24rpx;
+  }
+  :deep(.uni-collapse-item__title-text) {
+    font-size: 32rpx;
+    font-weight: 700;
+    color: rgba(51, 51, 51, 1);
+  }
+  :deep(.uni-collapse-item__title-arrow) {
+    uni-text {
+      display: none;
+    }
+    background: url("/static/home/arrow@2x.png") no-repeat center center;
+    background-size: 14rpx 20rpx;
+    &.uni-collapse-item__title-arrow-active {
+      transform: rotate(90deg);
+    }
+  }
+}
+.collapse-content-item {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  box-sizing: border-box;
+  height: 120rpx;
+  margin: 0 32rpx;
+  padding: 24rpx 0;
+  &.bottom-border {
+    border-bottom: 4rpx solid rgba(238, 238, 238, 1);
+  }
+  .box-left {
+    flex: 1 1 auto;
+    display: flex;
+    flex-flow: row wrap;
+  }
+  .playing {
+    display: inline-block;
+    width: 20rpx;
+    height: 24rpx;
+    margin-right: 8rpx;
+  }
+  .name {
+    flex: 1 1 auto;
+    font-size: 28rpx;
+    font-weight: 400;
+    line-height: 28rpx;
+    color: rgba(51, 51, 51, 1);
+    margin-bottom: 16rpx;
+  }
+  .highlight {
+    color: rgba(48, 93, 218, 1);
+  }
+  .time-people {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+  }
+  .time {
+    flex: 0 0 auto;
+    width: 28rpx;
+    height: 28rpx;
+    margin-right: 8rpx;
+  }
+  .time-text,
+  people-text {
+    flex: 0 0 auto;
+    margin-right: 18rpx;
+    vertical-align: bottom;
+  }
+  .people {
+    flex: 0 0 auto;
+    width: 20rpx;
+    height: 24rpx;
+    margin-right: 8rpx;
+  }
+
+  .box-right {
+    flex: 0 0 auto;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    font-size: 24rpx;
+    font-weight: 400;
+    color: rgba(255, 139, 23, 1);
+    padding-left: 48rpx;
+    height: 40rpx;
+    background: url("/static/course/play-with-learning@2x.png") no-repeat left center;
+    background-size: 40rpx 40rpx;
+    &:after {
+      content: "待学习";
+    }
+    &.status-end {
+      color: rgba(204, 204, 204, 1);
+      background-image: url("/static/course/video-play3.png");
+      &:after {
+        content: "已学完";
+      }
+    }
+    &.status-ing {
+      color: rgba(48, 93, 218, 1);
+      background-image: url("/static/course/video-play@2x.png");
+      &:after {
+        content: "学习中";
+      }
+    }
   }
 }
 </style>

@@ -32,7 +32,7 @@ const props = defineProps({
       {{ props.popupData.buttonText }}
     </button>
     <image class="close" src="/static/close@2x.png" @click="emits('action', 'close')"></image>
-    <image class="head-bg" src="/static/information/information-spree.png"></image>
+    <image class="head-bg" src="@/static/home/popup-head.png"></image>
   </view>
 </template>
 
@@ -86,7 +86,7 @@ const props = defineProps({
 }
 .head-bg {
   position: absolute;
-  top: -53rpx;
+  top: -106rpx;
   width: 285rpx;
   height: 210rpx;
 }
