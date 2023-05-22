@@ -1,10 +1,20 @@
-<script setup></script>
+<script setup>
+const props = defineProps({
+  itemData: {
+    type: Object,
+    default() {
+      return {}
+    }
+  }
+})
+
+</script>
 
 <template>
   <view class="course-card-item">
-    <image class="course-img" src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg" />
+    <image class="course-img" :src="itemData.thumb" />
     <text class="name">
-      快题设计冲刺班快题设计冲刺班快题设计冲刺班冲刺班…快题设计冲刺班快题设计冲刺班快题设计冲刺班冲刺班…
+      {{ itemData.name }}
     </text>
     <view class="person-title">
       <text>名师直播</text>

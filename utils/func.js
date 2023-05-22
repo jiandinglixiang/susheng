@@ -1,6 +1,3 @@
-import { clear } from "core-js/internals/task"
-import { nextTick } from "vue"
-
 export function findFormEnd(arr, func) {
   let target
   for (let i = arr.length - 1; i >= 0; i--) {
@@ -63,6 +60,20 @@ export function formatNumber(number) {
   } else {
     return number.toString() // 数字小于等于10000时直接返回原数字的字符串形式
   }
+}
+
+export function objectToQueryString(obj) {
+  const keyValuePairs = []
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const encodedKey = encodeURIComponent(key)
+      const encodedValue = encodeURIComponent(obj[key])
+      keyValuePairs.push(`${encodedKey}=${encodedValue}`)
+    }
+  }
+
+  return keyValuePairs.join("&")
 }
 
 export function setTitleNViewButtonStyle({ text, color }, onclick = undefined) {

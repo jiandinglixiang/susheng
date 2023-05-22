@@ -1,14 +1,18 @@
 <script setup>
+import { GET_VCOURSE_LIST } from "@/api/home"
 import CourseCardItem from "@/components/course/CourseCardItem.vue"
+import { httpRequest } from "@/utils/http"
+import { onMounted, ref } from "vue"
+const list = ref([])
+onMounted(async () => {
+  const res = await httpRequest(GET_VCOURSE_LIST, "POST", { type: 0 })
+  list.value = res.data.result
+})
 </script>
 
 <template>
   <view class="course-group">
-    <course-card-item />
-    <course-card-item />
-    <course-card-item />
-    <course-card-item />
-    <course-card-item />
+    <course-card-item v-for="item in list" :key="item.id" :item-data="item" />
   </view>
 </template>
 

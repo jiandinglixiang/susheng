@@ -209,6 +209,20 @@
 					}
 				}
 			]
+		},
+		{
+			"root": "pages/webview/",
+			"pages": [
+				{
+					"path": "index",
+					"style": {
+						"navigationBarTitleText": "",
+						"app-plus": {
+							"bounce": "none"
+						}
+					}
+				}
+			]
 		}
 	],
 	"globalStyle": {

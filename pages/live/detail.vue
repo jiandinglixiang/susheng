@@ -32,7 +32,7 @@
   </view>
 
   <view class="line-title">老师简介</view>
-  <view class="teacher-profile">
+  <view class="teacher-profile" v-for="i in 5">
     先后毕业于哈工大和莫纳什大学，金融学、计算机学双硕士
     在海内外顶尖金融机构工作超15年，曾任高级投资总监、高级风控总监等职位
     曾参与《中国互联网投资基金》设立，并与阿里巴巴集团共同设立投资基金
@@ -42,10 +42,13 @@
   <view class="fixed-bottom">
     <view class="fixed-bottom-content">
       <view class="teacher">
-        <image class="/static/course/icon_banjiqun@2x.png"></image>
+        <image src="/static/course/icon_banjiqun@2x.png"></image>
         <text>学管老师</text>
       </view>
-      <view class="btn">立即预约</view>
+      <view class="btn btn-done">
+        <!--立即预约-->
+        已预约 领取直播讲义
+      </view>
     </view>
   </view>
 </template>
@@ -65,16 +68,40 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 24rpx;
-  .teacher{
+  background: #FFFFFF;
+  .teacher {
+    flex: 0 0 auto;
+    width: 326rpx;
     font-size: 28rpx;
     font-weight: 500;
-    line-height: 39.2rpx;
+    line-height: 44rpx;
     color: rgba(51, 51, 51, 1);
-    image{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    image {
       width: 44rpx;
       height: 44rpx;
       margin-right: 10rpx;
     }
+  }
+  .btn {
+    flex: 0 0 auto;
+    width: 368rpx;
+    height: 76rpx;
+    border-radius: 200rpx;
+    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+    text-align: center;
+    font-size: 28rpx;
+    font-weight: 700;
+    line-height: 76rpx;
+    color: rgba(255, 255, 255, 1);
+  }
+  .btn-done{
+    color: rgba(48, 93, 218, 1);
+    border: 2rpx solid rgba(48, 93, 218, 1);
+    background: #FFFFFF;
   }
 }
 .line-title {

@@ -1,40 +1,61 @@
 <script setup>
-import { ref } from "vue"
-
-const info = [
-  {
-    colorClass: "uni-bg-red",
-    url: "https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg",
-    content: "内容 A"
-  },
-  {
-    colorClass: "uni-bg-green",
-    url: "https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg",
-    content: "内容 B"
-  },
-  {
-    colorClass: "uni-bg-blue",
-    url: "https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg",
-    content: "内容 C"
-  }
-]
+import { GET_AD_CLIENT_BANNER } from "@/api/home"
+import NoticeBar from "@/components/notice-bar/NoticeBar.vue"
+import { objectToQueryString } from "@/utils/func"
+import { httpRequest } from "@/utils/http"
+import { onMounted, ref } from "vue"
 const dotsStyles = {
   border: "none",
   selectedBorder: "none",
   backgroundColor: "rgba(255, 255, 255, 0.5)",
   selectedBackgroundColor: "rgba(255, 255, 255, 1)"
 }
-const current = ref(1)
+const list = ref([])
+const current = ref(0)
+
 function change(event) {
   current.value = event.detail.current
 }
-function handleClick() {}
+function handleClick(item) {
+  console.log(item)
+  jumpCenter(item.targetid,{
+    title: item.title,
+    url: item.url
+  })
+}
+onMounted(async () => {
+  const res = await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 1 })
+  list.value = res.data
+  await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 2 })
+  await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 3 })
+  await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 4 })
+  await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 5 })
+  await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 6 })
+})
+
+function jumpCenter(targetid, { id, url: link, title }) {
+  link && (link = decodeURIComponent(link))
+  switch (targetid) {
+    case 2: //体验课
+    case 3: //正课
+    case 4: //干货
+    case 5: //教辅
+    case 6: //直播
+    case 7: //题库
+    case 8: //资料
+    case 1: //H5
+    default:
+      uni.navigateTo({
+        url: `/pages/webview/index?${objectToQueryString({ id, link, title })}`
+      })
+  }
+}
 </script>
 
 <template>
   <uni-swiper-dot
     class="uni-swiper-dot-box"
-    :info="info"
+    :info="list"
     mode="round"
     :dotsStyles="dotsStyles"
     :current="current"
@@ -48,13 +69,14 @@ function handleClick() {}
       @change="change"
       autoplay
     >
-      <swiper-item v-for="(item, index) in info" :key="index" @click="handleClick">
+      <swiper-item v-for="item in list" :key="item.id" @click="handleClick(item)">
         <view class="swiper-item">
-          <image class="swiper-img" :src="item.url"></image>
+          <image class="swiper-img" :src="item.pic"></image>
         </view>
       </swiper-item>
     </swiper>
   </uni-swiper-dot>
+  <notice-bar />
 </template>
 
 <style scoped lang="scss">

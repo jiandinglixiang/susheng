@@ -1,7 +1,11 @@
-<script setup></script>
+<script setup>
+function navigateTo() {
+  uni.navigateTo({ url: "/pages/information/detail" })
+}
+</script>
 
 <template>
-  <view class="information-item">
+  <view class="information-item" @click="navigateTo">
     <view class="left-content">
       <text class="title">高顿教育与上海财高顿教育与上海财高顿教育与上海财高顿教育与上海财</text>
       <text class="time">9月23日</text>

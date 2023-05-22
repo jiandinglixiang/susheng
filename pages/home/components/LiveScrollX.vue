@@ -1,5 +1,20 @@
 <script setup>
+import { GET_LIVE_LIST } from "@/api/home"
 import LiveCardItem from "@/components/live/LiveCardItem.vue"
+import { httpRequest } from "@/utils/http"
+import { onMounted, ref } from "vue"
+
+const list = ref([])
+onMounted(async () => {
+  const res = await httpRequest(GET_LIVE_LIST, "POST", { type: 1 })
+  list.value = res.data.result
+})
+
+function gotoDetails(id) {
+  uni.navigateTo({
+    url: `/pages/live/detail?id=${id}`
+  })
+}
 </script>
 
 <template>
@@ -10,8 +25,13 @@ import LiveCardItem from "@/components/live/LiveCardItem.vue"
     :show-scrollbar="false"
     :enable-flex="true"
   >
-    <view class="scroll-view-content">
-      <live-card-item v-for="i in 6" :id="i + 'id-scroll-home'" />
+    <view class="scroll-view-content" id="id-scroll-home">
+      <live-card-item
+        v-for="item in list"
+        :key="item.id"
+        :item-data="item"
+        @click="gotoDetails(item.id)"
+      />
     </view>
   </scroll-view>
 </template>

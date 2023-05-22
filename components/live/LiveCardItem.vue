@@ -1,23 +1,59 @@
 <script setup>
+import { POST_LIVE_SUBSCRIBE } from "@/api/home"
 import { formatNumber } from "@/utils/func"
+import { httpRequest } from "@/utils/http"
+import dayjs from "dayjs"
+import { computed, ref } from "vue"
 
 const props = defineProps({
-  id: String
+  itemData: {
+    type: Object,
+    default() {
+      return {}
+    }
+  }
 })
+const subscribe = ref(props.itemData.subscribe)
+
+const data = computed(() => {
+  const { starttime, endtime } = props.itemData
+  return `${dayjs(starttime).format("M月D日 HH:mm")}-${dayjs(endtime).format("HH:mm")}`
+})
+
+const people = computed(() => formatNumber(props.itemData.reservation))
+
+async function handleSubscribe() {
+  if (subscribe.value) {
+    return
+  }
+  await httpRequest(POST_LIVE_SUBSCRIBE, "POST", { liveid: props.itemData.id, type: 1 })
+  uni.showToast({ title: "预约成功", icon: "none" })
+  subscribe.value = 1
+}
 </script>
 
 <template>
-  <view :id="props.id" class="live-card-item">
-    <view class="live-status watch-replay">
-      <!--<text>去上课</text>-->
+  <view class="live-card-item">
+    <view
+      class="live-status"
+      :class="{
+        'watching-live': itemData.enable === 3,
+        'watch-replay': itemData.enable === 4
+      }"
+    >
+      <!--直播中-->
     </view>
-    <image class="live-img" src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg" alt="" />
-    <text class="name">学生心理学综合学生心理学综合学生心…合学生合学生合学生合学生</text>
-    <text class="time">12月3日 20:30-21:30</text>
+    <image class="live-img" :src="itemData.pic" />
+    <text class="name">{{ itemData.title }}</text>
+    <text class="time">{{ data }}</text>
     <view class="bottom-box">
-      <text class="people">{{ formatNumber(12323) }}</text>
-      <view class="btn reserved">
-        <!--去上课-->
+      <text class="people">{{ people }}</text>
+      <view
+        class="btn"
+        :class="subscribe ? 'reserved' : 'reservation-now'"
+        @click="handleSubscribe"
+      >
+        <!--预约-->
       </view>
     </view>
   </view>

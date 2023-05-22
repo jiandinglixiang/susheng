@@ -22,17 +22,16 @@ nextTick(() => {
 <template>
   <nav-bar />
   <carousel />
-  <notice-bar />
   <kongo-district />
   <countdown-bar />
   <template v-if="!storeAppAuditStatus.auditStatusBoolean">
-    <section-bar left-text="最近直播" nav-url="/" />
+    <section-bar left-text="最近直播" nav-url="/pages/live/liveList" />
     <live-scroll-x />
   </template>
-  <section-bar left-text="精选课程" />
+  <section-bar left-text="精选课程" nav-url="/pages/course/courseList" />
   <course-group-line />
   <template v-if="!storeAppAuditStatus.auditStatusBoolean">
-    <section-bar left-text="系统课" />
+    <section-bar left-text="系统课" nav-url="/pages/live/courseList" />
     <course-group />
   </template>
   <popup-index ref="refAdPopup" :popup-key="HOME_AD_POPUP" />
