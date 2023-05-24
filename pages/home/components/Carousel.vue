@@ -12,25 +12,29 @@ const dotsStyles = {
 }
 const list = ref([])
 const current = ref(0)
+const notice = ref([])
 
 function change(event) {
   current.value = event.detail.current
 }
 function handleClick(item) {
   console.log(item)
-  jumpCenter(item.targetid,{
+  jumpCenter(item.targetid, {
     title: item.title,
     url: item.url
   })
 }
 onMounted(async () => {
-  const res = await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 1 })
-  list.value = res.data
-  await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 2 })
-  await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 3 })
-  await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 4 })
-  await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 5 })
-  await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 6 })
+  const [res1, res2] = await Promise.allSettled([
+    httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 1 }),
+    httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 2 })
+  ])
+  list.value = res1.value.data
+  notice.value = res2.value.data
+  // await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 3 })
+  // await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 4 })
+  // await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 5 })
+  // await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 6 })
 })
 
 function jumpCenter(targetid, { id, url: link, title }) {
@@ -76,7 +80,7 @@ function jumpCenter(targetid, { id, url: link, title }) {
       </swiper-item>
     </swiper>
   </uni-swiper-dot>
-  <notice-bar />
+  <notice-bar :list="notice"  @noticeClick="handleClick"/>
 </template>
 
 <style scoped lang="scss">

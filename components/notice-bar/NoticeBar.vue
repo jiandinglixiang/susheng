@@ -1,18 +1,35 @@
 <script setup>
 const props = defineProps({
   fixed: Boolean,
-  top: Number
+  top: Number,
+  list: Array
 })
+const emits = defineEmits(["noticeClick"])
+
+function asd(i) {
+  console.log(i)
+}
 </script>
 
 <template>
   <view :class="props.fixed && 'notice-fixed'">
     <view class="notice">
       <image class="trumpet" src="/static/home/notice@2x.png"></image>
-      <view class="content">
-        <text>2023年注册会计师马上开始报名了，点击</text>
-        <text class="highlight">了解详情</text>
-      </view>
+      <swiper
+        class="swiper"
+        circular
+        :autoplay="!!list?.length"
+        :interval="2000"
+        vertical
+        disable-touch
+      >
+        <swiper-item v-for="item in list">
+          <view class="content">
+            <text>{{ item.title }}</text>
+            <text class="highlight" @click="emits('noticeClick', item)">了解详情</text>
+          </view>
+        </swiper-item>
+      </swiper>
     </view>
   </view>
 </template>
@@ -51,11 +68,17 @@ const props = defineProps({
 }
 
 .content {
-  flex: 1 1 auto;
+  height: 72rpx;
   font-size: 24rpx;
-  line-height: 24rpx;
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
   word-break: break-all;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+.swiper {
+  height: 72rpx;
+  flex: 1 1 auto;
 }
 </style>

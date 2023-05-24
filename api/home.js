@@ -5,3 +5,8 @@ export const GET_LIVE_LIST = "/client/live/list"
 export const GET_VCOURSE_LIST = "/client/vcourse/list"
 
 export const POST_LIVE_SUBSCRIBE = "/client/live/subscribe"
+
+// 获取通用数据(可不需token)
+export const POST_COMMON_DATA = "/client/configfields"
+
+export const POST_VIDEO_LIST = "/client/video/list"

@@ -4,6 +4,9 @@ const props = defineProps({
   mode: {
     type: String,
     default: "learn"
+  },
+  itemData: {
+    type: Object
   }
 })
 function navigateTo() {
@@ -20,7 +23,7 @@ function navigateTo() {
     />
     <view class="right-content">
       <text class="name">
-        快题设计冲刺班快题设计冲刺班快题设计冲刺班…快题设计冲刺班快题设计冲刺班快题设计冲刺班…
+        {{ itemData.title }}
       </text>
       <view class="bottom-box">
         <text class="people" v-if="props.mode !== 'learn'">{{ formatNumber(12323) }}</text>

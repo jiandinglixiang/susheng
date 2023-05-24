@@ -14,11 +14,11 @@ function navigateTo(url) {
       <image src="/static/home/live-lesson@2x.png"></image>
       <text>直播课</text>
     </view>
-    <view class="list-item"  @click="navigateTo('/pages/pdf/pdfList')">
+    <view class="list-item" @click="navigateTo('/pages/pdf/pdfList')">
       <image src="/static/home/informationCenter@2x.png"></image>
       <text>资料中心</text>
     </view>
-    <view class="list-item">
+    <view class="list-item disable">
       <image src="/static/home/onlineMockTest@2x.png"></image>
       <text>模考大赛</text>
     </view>
@@ -54,5 +54,8 @@ function navigateTo(url) {
     line-height: 24rpx;
     color: rgba(51, 51, 51, 1);
   }
+}
+.disable {
+  filter: grayscale(100%);
 }
 </style>

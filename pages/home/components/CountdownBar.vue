@@ -1,4 +1,13 @@
-<script setup></script>
+<script setup>
+import { onMounted, ref } from "vue"
+import { POST_COMMON_DATA } from "@/api/home"
+import { httpRequest } from "@/utils/http"
+const days = ref("88")
+
+onMounted(() => {
+  httpRequest(POST_COMMON_DATA, "POST", { position: 1 })
+})
+</script>
 
 <template>
   <view class="countdown-bar">
@@ -6,8 +15,7 @@
       <text>距离下次</text>
       <text class="highlight">CPA考试仅剩</text>
     </view>
-    <view class="number">2</view>
-    <view class="number">0</view>
+    <view class="number" v-for="i in days">{{ i }}</view>
     <text class="days">DAYS</text>
     <button class="btn">报考规划</button>
   </view>
