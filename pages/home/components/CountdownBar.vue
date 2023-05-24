@@ -1,11 +1,35 @@
 <script setup>
-import { onMounted, ref } from "vue"
+import dayjs from "dayjs"
+import { onMounted, onUnmounted, ref } from "vue"
 import { POST_COMMON_DATA } from "@/api/home"
 import { httpRequest } from "@/utils/http"
-const days = ref("88")
 
-onMounted(() => {
-  httpRequest(POST_COMMON_DATA, "POST", { position: 1 })
+const current = ref(0)
+let list = []
+let time = 0
+
+onMounted(async () => {
+  const res = await httpRequest(POST_COMMON_DATA, "POST", { position: 1 })
+  list = res.data.map((item) => {
+    return {
+      ...item,
+      value: (dayjs().diff(item.value * 1000, "day")).toString()
+    }
+  })
+  if (!list.length) {
+    return
+  }
+  time = setInterval(() => {
+    if (current.value >= list.length) {
+      current.value = 0
+    } else {
+      current.value++
+    }
+  }, 2000)
+})
+
+onUnmounted(() => {
+  clearInterval(time)
 })
 </script>
 
@@ -13,9 +37,9 @@ onMounted(() => {
   <view class="countdown-bar">
     <view class="left-g">
       <text>距离下次</text>
-      <text class="highlight">CPA考试仅剩</text>
+      <text class="highlight">{{ list[current]?.name }}</text>
     </view>
-    <view class="number" v-for="i in days">{{ i }}</view>
+    <view class="number" v-for="i in list[current]?.value">{{ i }}</view>
     <text class="days">DAYS</text>
     <button class="btn">报考规划</button>
   </view>
