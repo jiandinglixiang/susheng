@@ -38,6 +38,8 @@ async function handleSubmit() {
   })
   loading.value = false
   uni.showToast({ title: "提交成功", icon: "none" })
+  content.value = ""
+  selected.value = -1
 }
 </script>
 
@@ -49,9 +51,9 @@ async function handleSubmit() {
       <text class="name">{{ text }}</text>
     </view>
     <uni-easyinput v-model="content" type="textarea" placeholder="请输入15字以上描述" />
-    <view class="file-picker">
+    <!--    <view class="file-picker">
       <uni-file-picker limit="3" title="请提供问题相关截图或照片" />
-    </view>
+    </view>-->
     <button class="btn-submit" @click="handleSubmit" :loading="loading">提交</button>
   </view>
 </template>

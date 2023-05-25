@@ -4,12 +4,15 @@ import LoadTips from "@/components/tips/load-tips.vue"
 import PopupIndex from "@/components/popup/index.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import UniStatusBar from "@/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-status-bar.vue"
+import { USER_TOKEN_DATA } from "@/utils/consts"
+import { onLoad } from "@dcloudio/uni-app"
 import { nextTick, onMounted, ref } from "vue"
 const popup = ref()
+const isLogin = ref(!!uni.getStorageSync(USER_TOKEN_DATA)?.token)
 const storeUserInfo = userInfo()
 
-onMounted(() => {
-  storeUserInfo.getUserInfo()
+onLoad(async () => {
+  isLogin.value = !!(await storeUserInfo.getUserInfo())
 })
 // nextTick(() => {
 //   popup.value.open({
@@ -18,33 +21,41 @@ onMounted(() => {
 //     tips: `<text>asfasfasfas<text style="color:red">asfasfasfas</text><text>asfasfasfas</text></text>`
 //   })
 // })
-function navigateTo(url) {
-  uni.navigateTo({ url })
+
+function handleSign() {
+  isLogin.value && storeUserInfo.$patch({ signin: true })
+}
+function navigateTo(url, pass) {
+  if (isLogin.value || pass) {
+    uni.navigateTo({ url })
+  } else {
+    uni.reLaunch({ url: "/pages/login/index" })
+  }
 }
 </script>
 <template>
   <view class="top-container">
-    <view class="signin">
+    <view class="signin" :class="storeUserInfo.signin && 'signined'" @click="handleSign">
       <image src="/static/user/signin1.png"></image>
-      <text>签到</text>
+      <text>{{ storeUserInfo.signin ? "已签到" : "签到" }}</text>
     </view>
-    <navigator url="/pages/setting/index" hover-class="none">
-      <view class="setting-btn" />
-    </navigator>
+    <view class="setting-btn" @click="navigateTo('/pages/setting/index', true)" />
 
     <view class="user-card">
       <image
         class="head-portrait"
         :src="storeUserInfo.avatar || '/static/user/no-login@2x.png'"
       ></image>
-      <view v-if="storeUserInfo.id !== -1" class="user-info">
+      <view v-if="isLogin" class="user-info">
         <view class="name" @click="navigateTo('/pages/setting/userInfo')">
           <text>{{ storeUserInfo.allotName || storeUserInfo.phone }}</text>
           <view class="leve">Lv7</view>
         </view>
         <text class="user-work-title">注册会计师备考</text>
       </view>
-      <view v-else class="login-text" @click="navigateTo('/pages/login/index')">登录/注册</view>
+      <view v-else class="login-text" @click="navigateTo('/pages/login/index', true)">
+        登录/注册
+      </view>
       <view class="user-teacher">
         <image class="teacher-bg" src="/static/user/user-teacher.png"></image>
         <text>专属助教</text>
@@ -52,7 +63,7 @@ function navigateTo(url) {
     </view>
 
     <view class="diamond-region">
-      <view class="top-box">
+      <view class="top-box" @click="navigateTo('/pages/setting/userInfo')">
         <text>偷偷告诉你，完善资料后，方便与老师沟通哦~</text>
         <image src="/static/user/arrows@2x.png"></image>
       </view>
@@ -69,7 +80,7 @@ function navigateTo(url) {
           <image src="/static/user/question-history@2x.png.png"></image>
           <text>做题历史</text>
         </view>
-        <view class="region-item disable" >
+        <view class="region-item disable">
           <image src="/static/user/my-course@2x.png"></image>
           <text>我的课程</text>
         </view>
@@ -77,7 +88,7 @@ function navigateTo(url) {
           <image src="/static/user/help-center@2x.png"></image>
           <text>帮助中心</text>
         </view>
-        <view class="region-item"  @click="navigateTo('/pages/pdf/pdfList')">
+        <view class="region-item" @click="navigateTo('/pages/pdf/pdfList')">
           <image src="/static/user/data-get@2x.png"></image>
           <text>资料领取</text>
         </view>
@@ -128,7 +139,7 @@ function navigateTo(url) {
   position: absolute;
   left: 32rpx;
   top: calc(16rpx + var(--status-bar-height));
-  width: 128rpx;
+  width: 152rpx;
   height: 56rpx;
   border-radius: 34rpx;
   background: linear-gradient(130.38deg, #ffc75c 0%, #ff962f 100%);
@@ -146,6 +157,9 @@ function navigateTo(url) {
     width: 36rpx;
     height: 38rpx;
     margin-right: 8rpx;
+  }
+  &.signined {
+    background: rgba(207, 207, 207, 1);
   }
 }
 .setting-btn {

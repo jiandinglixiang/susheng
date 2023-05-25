@@ -15,7 +15,8 @@ export const userInfo = defineStore("userInfo", {
     integral: -1,
     originphone: "",
     phone: "",
-    secretphone: ""
+    secretphone: "",
+    signin: false
   }),
   actions: {
     async getUserInfo() {

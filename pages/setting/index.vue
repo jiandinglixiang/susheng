@@ -2,7 +2,14 @@
 import { userInfo } from "@/pinia/user"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 import { config } from "@/utils/http"
+import { onLoad } from "@dcloudio/uni-app"
+import { ref } from "vue"
+const isLogin = ref(!!uni.getStorageSync(USER_TOKEN_DATA)?.token)
+const storeUserInfo = userInfo()
 
+onLoad(async () => {
+  isLogin.value = !!(await storeUserInfo.getUserInfo())
+})
 function loginOut() {
   userInfo().$reset()
   config.header.token = ""
@@ -26,7 +33,7 @@ function loginOut() {
   </view>
 
   <view class="mt16"></view>
-  <navigator url="/pages/setting/cancelAccount" hover-class="none">
+  <navigator v-if="isLogin" url="/pages/setting/cancelAccount" hover-class="none">
     <view class="list-item line-bottom">
       <text class="name">注销账户</text>
       <image class="arrows" src="/static/user/arrows@2x.png"></image>
@@ -43,7 +50,7 @@ function loginOut() {
       与
       <text class="highlight">《隐私政策》</text>
     </view>
-    <button @click="loginOut">退出登录</button>
+    <button v-if="isLogin" @click="loginOut">退出登录</button>
   </view>
 </template>
 
