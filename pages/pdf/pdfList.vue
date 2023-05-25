@@ -1,6 +1,30 @@
 <script setup>
 import FixedFab from "@/components/fab/FixedFab.vue"
 import NoticeBar from "@/components/notice-bar/NoticeBar.vue"
+import { usePageList } from "@/hooks/usePageList"
+import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
+import { httpRequest } from "@/utils/http"
+import { GET_VCOURSE_LIST } from "@/api/home"
+import { POST_LIST_OF_MATERIALS } from "@/api/pdf"
+
+const { list, getList, loading, loadMore, refresh } = usePageList({ requestFunc })
+
+onLoad((options) => {
+  getList()
+})
+onPullDownRefresh(async () => {
+  await refresh()
+  setTimeout(() => {
+    uni.stopPullDownRefresh()
+  }, 500)
+})
+onReachBottom(() => {
+  loadMore()
+})
+
+function requestFunc({ page, rows }) {
+  return httpRequest(POST_LIST_OF_MATERIALS, "POST", { page, rows, status: 1, typeid: 1 })
+}
 
 function navigateBack() {
   uni.navigateBack()
@@ -47,7 +71,7 @@ function navigateBack() {
       <text class="info">2023-01-30</text>
     </view>
   </view>
- <fixed-fab type="information"/>
+  <fixed-fab type="information" />
 </template>
 
 <style scoped lang="scss">

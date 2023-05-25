@@ -6,7 +6,7 @@ function navigateTo(url) {
 
 <template>
   <view class="kongo-district">
-    <view class="list-item" @click="navigateTo('/pages/course/courseList')">
+    <view class="list-item" @click="navigateTo('/pages/video/videoList')">
       <image src="/static/home/video-lesson@2x.png"></image>
       <text>视频课</text>
     </view>

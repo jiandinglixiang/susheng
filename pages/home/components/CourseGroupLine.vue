@@ -7,12 +7,29 @@ const list = ref([])
 
 onMounted(async () => {
   const res = await httpRequest(POST_VIDEO_LIST, "POST")
-  list.value = res.data
+  list.value = res.data.map((item) => {
+    return {
+      ...item,
+      src: item.file,
+      title: item.title,
+      number: item.star
+    }
+  })
 })
+function handleClick(item) {
+  uni.navigateTo({
+    url: "/pages/course/detail?id=" + item.id
+  })
+}
 </script>
 
 <template>
-  <course-line-card-item v-for="item in list" :key="item.id" :item-data="item" />
+  <course-line-card-item
+    v-for="item in list"
+    :key="item.id"
+    :item-data="item"
+    @click="handleClick(item)"
+  />
   <view style="height: 32rpx"></view>
 </template>
 

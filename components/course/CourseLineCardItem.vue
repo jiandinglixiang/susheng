@@ -1,32 +1,37 @@
 <script setup>
 import { formatNumber } from "@/utils/func"
 const props = defineProps({
-  mode: {
+  displayMode: {
     type: String,
-    default: "learn"
+    default: "home" // video / course
   },
   itemData: {
-    type: Object
+    type: Object,
+    default() {
+      return {
+        src: "",
+        title: "",
+        number: ""
+      }
+    }
   }
 })
 function navigateTo() {
-  uni.navigateTo({ url: "/pages/course/detail" })
+  uni.navigateTo({ url: "/pages/course/courseList" })
 }
 </script>
 
 <template>
   <view class="course-line-card-item">
-    <image
-      @click="navigateTo"
-      class="course-img"
-      src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
-    />
+    <image class="course-img" :src="itemData.src" />
     <view class="right-content">
       <text class="name">
         {{ itemData.title }}
       </text>
       <view class="bottom-box">
-        <text class="people" v-if="props.mode !== 'learn'">{{ formatNumber(12323) }}</text>
+        <text class="people" v-if="displayMode !== 'home'">
+          {{ formatNumber(itemData.number) }}已学习
+        </text>
         <view class="learn-now" v-else>立即学习</view>
       </view>
     </view>

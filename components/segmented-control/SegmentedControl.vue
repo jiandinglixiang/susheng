@@ -1,13 +1,14 @@
 <script setup>
 import { ref } from "vue"
 const props = defineProps({
-  values: {
+  list: {
     type: Array,
     default() {
       return ["AAAAAsa", "AAA", "AAAAA"]
     }
   },
-  current: Number
+  current: Number,
+  fixed: Boolean
 })
 const emits = defineEmits(["change"])
 const current = ref(props.current || 0)
@@ -19,19 +20,35 @@ function onChange(index) {
 </script>
 
 <template>
-  <view class="segmented-control-list">
-    <view
-      v-for="(item, index) in props.values"
-      class="segmented-control-item"
-      :class="current === index && 'active'"
-      @click="onChange(index)"
-    >
-      <text>{{ item }}</text>
+  <view :class="fixed && 'fixed-top'">
+    <view class="segmented-control-list">
+      <view
+        v-for="(item, index) in list"
+        class="segmented-control-item"
+        :class="current === index && 'active'"
+        @click="onChange(index)"
+      >
+        <text>{{ item }}</text>
+      </view>
     </view>
   </view>
 </template>
 
 <style scoped lang="scss">
+.fixed-top {
+  flex: 1;
+  height: 120rpx;
+  .segmented-control-list {
+    z-index: 2;
+    position: fixed;
+    top: 0;
+    // #ifdef H5
+    top: 44px;
+    // #endif
+    left: 0;
+    right: 0;
+  }
+}
 .segmented-control-list {
   flex: 1;
   margin-bottom: 32rpx;
@@ -40,6 +57,7 @@ function onChange(index) {
   align-items: center;
   justify-content: center;
   height: 88rpx;
+  background-color: #fff;
 }
 .segmented-control-item {
   flex: 1 0 auto;

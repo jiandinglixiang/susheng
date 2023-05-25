@@ -31,10 +31,6 @@ onMounted(async () => {
   ])
   list.value = res1.value.data
   notice.value = res2.value.data
-  // await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 3 })
-  // await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 4 })
-  // await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 5 })
-  // await httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 6 })
 })
 
 function jumpCenter(targetid, { id, url: link, title }) {

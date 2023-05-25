@@ -44,7 +44,7 @@ function navigateTo(url) {
         </view>
         <text class="user-work-title">注册会计师备考</text>
       </view>
-      <view v-else class="login-text">登录/注册</view>
+      <view v-else class="login-text" @click="navigateTo('/pages/login/index')">登录/注册</view>
       <view class="user-teacher">
         <image class="teacher-bg" src="/static/user/user-teacher.png"></image>
         <text>专属助教</text>
@@ -61,15 +61,15 @@ function navigateTo(url) {
           <image src="/static/user/collection-item@2x.png"></image>
           <text>收藏夹</text>
         </view>
-        <view class="region-item">
+        <view class="region-item disable">
           <image src="/static/user/error-question@2x.png"></image>
           <text>错题集</text>
         </view>
-        <view class="region-item">
+        <view class="region-item disable">
           <image src="/static/user/question-history@2x.png.png"></image>
           <text>做题历史</text>
         </view>
-        <view class="region-item">
+        <view class="region-item disable" >
           <image src="/static/user/my-course@2x.png"></image>
           <text>我的课程</text>
         </view>
@@ -77,7 +77,7 @@ function navigateTo(url) {
           <image src="/static/user/help-center@2x.png"></image>
           <text>帮助中心</text>
         </view>
-        <view class="region-item">
+        <view class="region-item"  @click="navigateTo('/pages/pdf/pdfList')">
           <image src="/static/user/data-get@2x.png"></image>
           <text>资料领取</text>
         </view>
@@ -113,6 +113,9 @@ function navigateTo(url) {
 </template>
 
 <style lang="scss" scoped>
+.disable {
+  filter: grayscale(100%);
+}
 .top-container {
   position: relative;
   background: url("/static/user/bg@2x.png") no-repeat left top;

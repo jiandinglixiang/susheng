@@ -8,11 +8,21 @@ onMounted(async () => {
   const res = await httpRequest(GET_VCOURSE_LIST, "POST", { type: 0 })
   list.value = res.data.result
 })
+function handleClick(item) {
+  uni.navigateTo({
+    url: "/pages/course/detail?id=" + item.id
+  })
+}
 </script>
 
 <template>
   <view class="course-group">
-    <course-card-item v-for="item in list" :key="item.id" :item-data="item" />
+    <course-card-item
+      v-for="item in list"
+      :key="item.id"
+      :item-data="item"
+      @click="handleClick(item)"
+    />
   </view>
 </template>
 

@@ -58,7 +58,7 @@ export function formatNumber(number) {
     const formattedNumber = quotient + "." + remainder + "w" // 将余数部分转换为小数形式，并加上"w"
     return formattedNumber
   } else {
-    return number.toString() // 数字小于等于10000时直接返回原数字的字符串形式
+    return number?.toString() // 数字小于等于10000时直接返回原数字的字符串形式
   }
 }
 

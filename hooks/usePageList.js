@@ -1,7 +1,7 @@
 import { onUnload } from "@dcloudio/uni-app"
 import { onUnmounted, ref } from "vue"
 
-export function usePageList({ pageSize = 20, requestFunc }) {
+export function usePageList({ rows = 20, requestFunc }) {
   const loading = ref("")
   const list = ref([])
 
@@ -10,37 +10,41 @@ export function usePageList({ pageSize = 20, requestFunc }) {
     loading,
     list,
     getList() {
-      return getList({ loading, list, requestFunc, pageSize })
+      return getList({ loading, list, requestFunc, rows })
     },
     loadMore() {
       if (loading.value !== "more") {
         return
       }
-      return getList({ loading, list, requestFunc, pageSize })
+      return getList({ loading, list, requestFunc, rows })
     },
     refresh() {
       list.value = []
       loading.value = ""
-      return getList({ loading, list, requestFunc, pageSize })
+      return getList({ loading, list, requestFunc, rows })
     }
   }
 }
-async function getList({ loading, list, requestFunc, pageSize }) {
-  loading.value = "加载中..."
+async function getList({ loading, list, requestFunc, rows }) {
+  loading.value = "loading"
   try {
-    const currentPage = list.value.length / pageSize + 1
-    const res = await requestFunc({ currentPage, pageSize, loading, list })
+    const page = list.value.length / rows + 1
+    const res = await requestFunc({ page, rows, loading, list })
     const { data } = res
-    const nList = list.value.concat(data.list)
+    const nList = list.value.concat(data.result)
     list.value = nList
-    const len = data.list.length
+    const len = data.result.length
     if (!nList.length) {
-      loading.value = "没有更多了"
+      loading.value = "nodata"
     } else {
-      loading.value = len && Number.isInteger(len / pageSize) ? "more" : "没有更多了"
+      loading.value = len && Number.isInteger(len / rows) ? "more" : "nomore"
     }
   } catch (err) {
-    loading.value = loading.value === "加载中..." ? "没有更多了" : "加载错误"
+    if (list.length) {
+      loading.value = "loaderror"
+    } else {
+      loading.value = err?.noNetwork ? "networkerror" : "error"
+    }
     console.error(err)
     throw err
   }

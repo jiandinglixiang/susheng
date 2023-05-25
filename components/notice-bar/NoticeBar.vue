@@ -18,7 +18,7 @@ function asd(i) {
       <swiper
         class="swiper"
         circular
-        :autoplay="!!list?.length"
+        autoplay
         :interval="2000"
         vertical
         disable-touch

@@ -20,13 +20,11 @@ const refAdPopup = ref()
 
 onLoad(() => {
   const AdPopUpHistory = uni.getStorageSync(AD_POP_UP_IMPRESSION_HISTORY)
-  if (!AdPopUpHistory || !dayjs().isSame(AdPopUpHistory.time, "day")) {
+  if (!AdPopUpHistory || !dayjs().isSame(AdPopUpHistory, "day")) {
     showAdPopup.value = true
     nextTick(() => {
       refAdPopup.value.open()
-      uni.setStorageSync(AD_POP_UP_IMPRESSION_HISTORY, {
-        time: Date.now()
-      })
+      uni.setStorageSync(AD_POP_UP_IMPRESSION_HISTORY, Date.now())
     })
   }
 })
@@ -41,10 +39,10 @@ onLoad(() => {
     <section-bar left-text="最近直播" nav-url="/pages/live/liveList" />
     <live-scroll-x />
   </template>
-  <section-bar left-text="精选课程" nav-url="/pages/course/courseList?type=video" />
+  <section-bar left-text="精选课程" nav-url="/pages/video/videoList" />
   <course-group-line />
   <template v-if="!storeAppAuditStatus.auditStatusBoolean">
-    <section-bar left-text="系统课" nav-url="/pages/course/courseList?type=course" />
+    <section-bar left-text="系统课" nav-url="/pages/course/courseList" />
     <course-group />
   </template>
   <popup-index v-if="showAdPopup" ref="refAdPopup" :popup-key="HOME_AD_POPUP" />

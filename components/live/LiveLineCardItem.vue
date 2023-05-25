@@ -1,33 +1,104 @@
 <script setup>
-import { formatNumber } from "@/utils/func"
+import { computed, ref } from "vue"
+import dayjs from "dayjs"
+import { httpRequest } from "@/utils/http"
+import { POST_LIVE_SUBSCRIBE } from "@/api/home"
+
 const props = defineProps({
-  mode: {
-    type: String,
-    default: "learn"
+  itemData: {
+    type: Object,
+    default() {
+      return {
+        enable: 1,
+        endtime: 0,
+        id: 1,
+        pic: "",
+        playback_url: "",
+        reservation: 0,
+        starttime: 0,
+        subscribe: 0,
+        teacher_introduction: "",
+        teacher_pic: "",
+        teachername: "",
+        title: "",
+        watch: 0
+      }
+    }
+  }
+})
+const enable = ref(props.itemData.enable)
+
+const date = computed(() => {
+  const { starttime, endtime } = props.itemData
+  return `${dayjs(starttime).format("M月D日 HH:mm")}-${dayjs(endtime).format("HH:mm")}`
+})
+
+const status = computed(() => {
+  switch (enable.value) {
+    case 3:
+      return {
+        btn: "看直播",
+        style2: "living",
+        style: "watching-live",
+        handleClick() {
+          //   跳转微信助教
+        }
+      }
+    case 4:
+      return {
+        btn: "回放资料",
+        style: "watch-replay",
+        style2: "",
+        handleClick() {
+          //   跳转微信助教
+        }
+      }
+    case 2:
+      return {
+        btn: "领取讲义",
+        style: "reserved",
+        style2: "",
+        handleClick() {
+          //
+        }
+      }
+    default:
+      // 1
+      return {
+        btn: "预约",
+        style: "",
+        style2: "",
+        async handleClick() {
+          if (enable.value) {
+            return
+          }
+          await httpRequest(POST_LIVE_SUBSCRIBE, "POST", { liveid: props.itemData.id, type: 1 })
+          uni.showToast({ title: "预约成功", icon: "none" })
+          enable.value = 1
+        }
+      }
   }
 })
 function navigateTo() {
-  uni.navigateTo({ url: "/pages/live/detail" })
+  uni.navigateTo({ url: "/pages/live/detail?id=" + props.itemData.id })
 }
 </script>
 
 <template>
   <view class="live-line-card-item">
-    <image
-      @click="navigateTo"
-      class="live-img"
-      src="https://web-assets.dcloud.net.cn/unidoc/zh/shuijiao.jpg"
-    />
+    <image @click="navigateTo" class="live-img" :src="itemData.pic" />
     <view class="right-content">
       <text class="name">
-        快题设计冲刺班快题设计冲刺班快题设计冲刺班…快题设计冲刺班快题设计冲刺班快题设计冲刺班…
+        {{ itemData.title }}
       </text>
-      <view class="bottom-time">7月28日 19:00-20:30</view>
+      <view class="bottom-time">{{ date }}</view>
     </view>
-    <view class="live-status watching-live watch-replay">
+    <view class="live-status" :class="status.style">
       <!--已预约-->
     </view>
-    <view class="receive-handouts">领取讲义</view>
+    <view class="receive-handouts" :class="status.style2" @click="status.handleClick">
+      {{ status.btn }}
+    </view>
   </view>
 </template>
 
@@ -96,6 +167,15 @@ function navigateTo() {
   line-height: 60rpx;
   color: rgba(255, 255, 255, 1);
   text-align: center;
+  &.living:before {
+    content: "";
+    display: inline-block;
+    width: 20rpx;
+    height: 20rpx;
+    background: url("/static/live/btniconliving.png") no-repeat left center;
+    background-size: 100% auto;
+    margin-right: 4rpx;
+  }
 }
 .live-status {
   position: absolute;

@@ -106,7 +106,43 @@
 				{
 					"path": "courseList",
 					"style": {
-						"navigationBarTitleText": "精选课程"
+						"navigationBarTitleText": "系统课",
+						"navigationStyle": "custom",
+						"app-plus": {
+							"bounce": "none"
+						}
+					}
+				},
+				{
+					"path": "detail",
+					"style": {
+						"navigationBarTitleText": "课程详情",
+						"app-plus": {
+							"titleNView": {
+								"buttons": [
+									{
+										"color": "",
+										"text": "",
+										"fontSrc": "/static/uni-icons/uniicons.ttf"
+									}
+								]
+							}
+						}
+					}
+				}
+			]
+		},
+		{
+			"root": "pages/video/",
+			"pages": [
+				{
+					"path": "videoList",
+					"style": {
+						"navigationBarTitleText": "精选课程",
+						"navigationStyle": "custom",
+						"app-plus": {
+							"bounce": "none"
+						}
 					}
 				},
 				{

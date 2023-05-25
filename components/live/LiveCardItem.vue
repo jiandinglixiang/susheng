@@ -13,46 +13,77 @@ const props = defineProps({
     }
   }
 })
-const subscribe = ref(props.itemData.subscribe)
+const enable = ref(props.itemData.enable)
 
-const data = computed(() => {
+const date = computed(() => {
   const { starttime, endtime } = props.itemData
   return `${dayjs(starttime).format("M月D日 HH:mm")}-${dayjs(endtime).format("HH:mm")}`
 })
 
 const people = computed(() => formatNumber(props.itemData.reservation))
 
-async function handleSubscribe() {
-  if (subscribe.value) {
-    return
+const status = computed(() => {
+  switch (enable.value) {
+    case 3:
+      return {
+        btn: "去上课",
+        style: "watching-live",
+        style2: "",
+        handleClick() {
+          //   跳转微信助教
+        }
+      }
+    case 4:
+      return {
+        btn: "回放资料",
+        style: "watch-replay",
+        style2: "reserved",
+        handleClick() {
+          //   跳转微信助教
+        }
+      }
+    case 2:
+      return {
+        btn: "领取讲义",
+        style: "",
+        style2: "reserved",
+        handleClick() {
+          //
+        }
+      }
+    default:
+      // 1
+      return {
+        btn: "预约",
+        style: "",
+        style2: "reservation-now",
+        async handleClick() {
+          if (enable.value) {
+            return
+          }
+          await httpRequest(POST_LIVE_SUBSCRIBE, "POST", { liveid: props.itemData.id, type: 1 })
+          uni.showToast({ title: "预约成功", icon: "none" })
+          enable.value = 1
+        }
+      }
   }
-  await httpRequest(POST_LIVE_SUBSCRIBE, "POST", { liveid: props.itemData.id, type: 1 })
-  uni.showToast({ title: "预约成功", icon: "none" })
-  subscribe.value = 1
+})
+function navigateTo() {
+  uni.navigateTo({ url: "/pages/live/detail?id=" + props.itemData.id })
 }
 </script>
 
 <template>
   <view class="live-card-item">
-    <view
-      class="live-status"
-      :class="{
-        'watching-live': itemData.enable === 3,
-        'watch-replay': itemData.enable === 4
-      }"
-    >
+    <view class="live-status" :class="status.style">
       <!--直播中-->
     </view>
-    <image class="live-img" :src="itemData.pic" />
+    <image class="live-img" :src="itemData.pic" @click="navigateTo" />
     <text class="name">{{ itemData.title }}</text>
-    <text class="time">{{ data }}</text>
+    <text class="time">{{ date }}</text>
     <view class="bottom-box">
       <text class="people">{{ people }}</text>
-      <view
-        class="btn"
-        :class="subscribe ? 'reserved' : 'reservation-now'"
-        @click="handleSubscribe"
-      >
+      <view class="btn" :class="status.style2" @click="status.handleClick">
         <!--预约-->
       </view>
     </view>

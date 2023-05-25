@@ -4,30 +4,43 @@ import { onMounted, onUnmounted, ref } from "vue"
 import { POST_COMMON_DATA } from "@/api/home"
 import { httpRequest } from "@/utils/http"
 
-const current = ref(0)
+const current = ref({
+  index: 0,
+  name: "考试",
+  value: "00"
+})
 let list = []
 let time = 0
 
 onMounted(async () => {
+  httpRequest(POST_COMMON_DATA, "POST", { position: 2 })
   const res = await httpRequest(POST_COMMON_DATA, "POST", { position: 1 })
-  list = res.data.map((item) => {
+  list = res.data.map((item, index) => {
     return {
       ...item,
-      value: (dayjs().diff(item.value * 1000, "day")).toString()
+      index,
+      value: dayjs(item.value * 1000)
+        .diff(Date.now(), "day")
+        .toString()
     }
   })
   if (!list.length) {
     return
   }
-  time = setInterval(() => {
-    if (current.value >= list.length) {
-      current.value = 0
-    } else {
-      current.value++
-    }
-  }, 2000)
+  interval()
+  if (list.length === 1) {
+    return
+  }
+  time = setInterval(interval, 2000)
 })
 
+function interval() {
+  let index = current.value.index + 1
+  if (index >= list.length) {
+    index = 0
+  }
+  current.value = list[index]
+}
 onUnmounted(() => {
   clearInterval(time)
 })
@@ -37,9 +50,9 @@ onUnmounted(() => {
   <view class="countdown-bar">
     <view class="left-g">
       <text>距离下次</text>
-      <text class="highlight">{{ list[current]?.name }}</text>
+      <text class="highlight">{{ current.name }}</text>
     </view>
-    <view class="number" v-for="i in list[current]?.value">{{ i }}</view>
+    <view class="number" v-for="i in current.value">{{ i }}</view>
     <text class="days">DAYS</text>
     <button class="btn">报考规划</button>
   </view>
