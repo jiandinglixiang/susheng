@@ -1,7 +1,7 @@
 <script setup>
 import CourseLineCardItem from "@/components/course/CourseLineCardItem.vue"
 import { httpRequest } from "@/utils/http"
-import { POST_VIDEO_LIST } from "@/api/home"
+import { POST_VIDEO_LIST } from "@/api/index"
 import { onLoad } from "@dcloudio/uni-app"
 import { ref } from "vue"
 import LoadTips from "@/components/tips/load-tips.vue"

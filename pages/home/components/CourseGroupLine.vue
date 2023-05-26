@@ -2,7 +2,7 @@
 import CourseLineCardItem from "@/components/course/CourseLineCardItem.vue"
 import { onMounted, ref } from "vue"
 import { httpRequest } from "@/utils/http"
-import { POST_VIDEO_LIST } from "@/api/home"
+import { POST_VIDEO_LIST } from "@/api/index"
 const list = ref([])
 
 onMounted(async () => {
@@ -18,7 +18,7 @@ onMounted(async () => {
 })
 function handleClick(item) {
   uni.navigateTo({
-    url: "/pages/course/detail?id=" + item.id
+    url: "/pages/video/detail?id=" + item.id
   })
 }
 </script>

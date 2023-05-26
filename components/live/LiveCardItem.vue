@@ -1,5 +1,5 @@
 <script setup>
-import { POST_LIVE_SUBSCRIBE } from "@/api/home"
+import { POST_LIVE_SUBSCRIBE } from "@/api/index"
 import { formatNumber } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import dayjs from "dayjs"

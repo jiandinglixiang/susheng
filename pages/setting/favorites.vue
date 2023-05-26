@@ -10,10 +10,9 @@ import SegmentedControl from "@/components/segmented-control/SegmentedControl.vu
     <course-line-card-item />
     <course-line-card-item />
     <course-line-card-item />
-    <information-item/>
-    <information-item/>
-    <information-item/>
-
+    <information-item />
+    <information-item />
+    <information-item />
   </view>
 </template>
 

@@ -2,7 +2,7 @@
 import InformationItem from "@/components/information/InformationItem.vue"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
-import { GET_ARTICLE_LIST, POST_ARTICLE_TYPE } from "@/api/article"
+import { GET_ARTICLE_LIST, POST_ARTICLE_TYPE } from "@/api/index"
 import { usePageList } from "@/hooks/usePageList"
 import LoadTips from "@/components/tips/load-tips.vue"
 let targetType
@@ -47,7 +47,7 @@ function navigateBack() {
   uni.navigateBack()
 }
 function gotoDetail(item) {
-  uni.navigateTo({ url: "/pages/information/detail?id=" + item.id })
+  uni.navigateTo({ url: `/pages/information/detail?id=${item.id}&domain=${targetType.domain}` })
 }
 </script>
 
@@ -67,7 +67,12 @@ function gotoDetail(item) {
     </template>
   </uni-nav-bar>
   <view style="height: 16rpx" />
-  <information-item v-for="item in list" :item-data="item" :key="item.id" @click="gotoDetail" />
+  <information-item
+    v-for="item in list"
+    :item-data="item"
+    :key="item.id"
+    @click="gotoDetail(item)"
+  />
   <load-tips :loading="loading" />
 </template>
 

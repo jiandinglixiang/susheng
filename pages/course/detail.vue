@@ -2,9 +2,13 @@
 import { setTitleNViewButtonStyle } from "@/utils/func"
 import { nextTick, onMounted, onUnmounted } from "vue"
 import FixedFab from "@/components/fab/FixedFab.vue"
+import { onLoad } from "@dcloudio/uni-app"
+import { httpRequest } from "@/utils/http"
+import { POST_VCOURSE_DETATILS } from "@/api/index"
 let stopRightButtonListener
 
-onMounted(() => {
+onLoad((options) => {
+  httpRequest(POST_VCOURSE_DETATILS, "POST", { id: options.id })
   stopRightButtonListener = setTitleNViewButtonStyle(
     { text: "\ue688", color: "#333333" },
     rightButton

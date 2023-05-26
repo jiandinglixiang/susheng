@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue"
-import { POST_CLIENT_USER_FEEDBACK } from "@/api/user"
+import { POST_CLIENT_USER_FEEDBACK } from "@/api/index"
 import { httpRequest } from "@/utils/http"
 
 const checkData = [

@@ -1,5 +1,5 @@
 <script setup>
-import { GET_AD_CLIENT_BANNER } from "@/api/home"
+import { GET_AD_CLIENT_BANNER } from "@/api/index"
 import NoticeBar from "@/components/notice-bar/NoticeBar.vue"
 import { objectToQueryString } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
@@ -76,7 +76,7 @@ function jumpCenter(targetid, { id, url: link, title }) {
       </swiper-item>
     </swiper>
   </uni-swiper-dot>
-  <notice-bar :list="notice" show-detail  @noticeClick="handleClick"/>
+  <notice-bar :list="notice" show-detail @noticeClick="handleClick" />
 </template>
 
 <style scoped lang="scss">

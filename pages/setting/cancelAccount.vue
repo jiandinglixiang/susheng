@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue"
-import { POST_CLIENT_USER_LOGOUT } from "@/api/user"
+import { POST_CLIENT_USER_LOGOUT } from "@/api/index"
 import { config, httpRequest } from "@/utils/http"
 import { userInfo } from "@/pinia/user"
 import { USER_TOKEN_DATA } from "@/utils/consts"

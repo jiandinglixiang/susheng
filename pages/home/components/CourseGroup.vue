@@ -1,5 +1,5 @@
 <script setup>
-import { GET_VCOURSE_LIST } from "@/api/home"
+import { GET_VCOURSE_LIST } from "@/api/index"
 import CourseCardItem from "@/components/course/CourseCardItem.vue"
 import { httpRequest } from "@/utils/http"
 import { onMounted, ref } from "vue"

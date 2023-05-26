@@ -1,5 +1,5 @@
 <script setup>
-import { GET_LIVE_LIST } from "@/api/home"
+import { GET_LIVE_LIST } from "@/api/index"
 import LiveCardItem from "@/components/live/LiveCardItem.vue"
 import { httpRequest } from "@/utils/http"
 import { onMounted, ref } from "vue"

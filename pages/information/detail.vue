@@ -1,4 +1,22 @@
-<script setup></script>
+<script setup>
+import { onLoad } from "@dcloudio/uni-app"
+import { httpRequest } from "@/utils/http"
+import { GET_ARTICLE_DETAIL } from "@/api/index"
+
+onLoad((option) => {
+  httpRequest(
+    GET_ARTICLE_DETAIL.replace("{id}", option.id),
+    "GET",
+    {},
+    {
+      baseUrl: "https://apigateway.pxo.cn",
+      header: {
+        g: option.domain
+      }
+    }
+  )
+})
+</script>
 
 <template>
   <view class="information-title">2023年注会《税法》成史上争议最大一科！难度两重天。</view>

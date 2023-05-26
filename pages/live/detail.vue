@@ -1,4 +1,32 @@
-<script setup></script>
+<script setup>
+import { onLoad } from "@dcloudio/uni-app"
+import { httpRequest } from "@/utils/http"
+import { POST_LIVE_DETATILS } from "@/api/index"
+import { setTitleNViewButtonStyle } from "@/utils/func"
+import { onUnmounted } from "vue"
+
+let stopRightButtonListener
+
+onLoad((options) => {
+  httpRequest(POST_LIVE_DETATILS, "POST", { id: options.id })
+  stopRightButtonListener = setTitleNViewButtonStyle(
+    { text: "\ue688", color: "#333333" },
+    rightButton
+  )
+})
+onUnmounted(() => {
+  stopRightButtonListener?.()
+})
+
+function rightButton() {
+  s++
+  console.log(s)
+  setTitleNViewButtonStyle({
+    text: s % 2 ? "\ue688" : "\ue68f",
+    color: s % 2 ? "#333333" : "#305DDA"
+  })
+}
+</script>
 
 <template>
   <view class="live-top">
@@ -68,7 +96,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 24rpx;
-  background: #FFFFFF;
+  background: #ffffff;
   .teacher {
     flex: 0 0 auto;
     width: 326rpx;
@@ -98,10 +126,10 @@
     line-height: 76rpx;
     color: rgba(255, 255, 255, 1);
   }
-  .btn-done{
+  .btn-done {
     color: rgba(48, 93, 218, 1);
     border: 2rpx solid rgba(48, 93, 218, 1);
-    background: #FFFFFF;
+    background: #ffffff;
   }
 }
 .line-title {

@@ -2,7 +2,7 @@
 import { computed, ref } from "vue"
 import dayjs from "dayjs"
 import { httpRequest } from "@/utils/http"
-import { POST_LIVE_SUBSCRIBE } from "@/api/home"
+import { POST_LIVE_SUBSCRIBE } from "@/api/index"
 
 const props = defineProps({
   itemData: {

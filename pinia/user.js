@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { httpRequest } from "@/utils/http"
-import { GET_USER_INFO, POST_UPDATE_LOGIN_USER_INFO } from "@/api/user"
+import { GET_USER_INFO, POST_UPDATE_LOGIN_USER_INFO } from "@/api/index"
 
 export const userInfo = defineStore("userInfo", {
   // 也可以这样定义

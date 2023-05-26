@@ -2,7 +2,7 @@
 import { userInfo } from "@/pinia/user"
 import { ref } from "vue"
 import { httpRequest } from "@/utils/http"
-import { GET_USER_INFO } from "@/api/user"
+import { GET_USER_INFO } from "@/api/index"
 const refPopup = ref()
 const storeUserInfo = userInfo()
 const userName = ref("")
