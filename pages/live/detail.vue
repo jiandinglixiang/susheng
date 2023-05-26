@@ -1,7 +1,7 @@
 <script setup>
 import { onLoad } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
-import { POST_LIVE_DETATILS } from "@/api/index"
+import { POST_LIVE_DETATILS } from "@/api"
 import { setTitleNViewButtonStyle } from "@/utils/func"
 import { onUnmounted } from "vue"
 

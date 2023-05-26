@@ -3,7 +3,7 @@ import CourseLineCardItem from "@/components/course/CourseLineCardItem.vue"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
 import { usePageList } from "@/hooks/usePageList"
-import { GET_VCOURSE_LIST } from "@/api/index"
+import { GET_VCOURSE_LIST } from "@/api"
 import LoadTips from "@/components/tips/load-tips.vue"
 
 const { list, getList, loading, loadMore, refresh } = usePageList({ requestFunc })

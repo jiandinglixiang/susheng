@@ -1,14 +1,17 @@
 <script setup>
 import { setTitleNViewButtonStyle } from "@/utils/func"
-import { nextTick, onMounted, onUnmounted } from "vue"
+import { nextTick, onUnmounted } from "vue"
 import FixedFab from "@/components/fab/FixedFab.vue"
 import { httpRequest } from "@/utils/http"
-import { POST_VCOURSE_DETATILS, POST_VIDEO_LIST_CLASSHOUR } from "@/api/course"
+import { POST_VIDEO_LIST_CLASSHOUR } from "@/api"
 import { onLoad } from "@dcloudio/uni-app"
 let stopRightButtonListener
 
 onLoad((options) => {
   httpRequest(POST_VIDEO_LIST_CLASSHOUR, "POST", { id: options.id })
+  nextTick(() => {
+    uni.setNavigationBarTitle({ title: "" })
+  })
   stopRightButtonListener = setTitleNViewButtonStyle(
     { text: "\ue688", color: "#333333" },
     rightButton
@@ -31,55 +34,57 @@ function rightButton() {
 </script>
 
 <template>
-  <fixed-fab />
-  <image class="course-img" src="https://img.js.design/assets/img/62314251882e8c6600acde3c.png" />
-  <view class="course-price">
-    <text class="price">
-      <text class="rmb">¥</text>
-      <text>1888</text>
-    </text>
-    <text class="date-text">购课之日起至</text>
-    <text class="date">2026-10-31</text>
-  </view>
-  <view class="receive-information-card">
-    <text class="name">2023面试快速提交高班快来报名2023面试</text>
-    <view class="box-below">
-      <text class="highlight">领取资料</text>
-      <text>点击添加学管领取课程资料</text>
+  <view>
+    <fixed-fab />
+    <image class="course-img" src="https://img.js.design/assets/img/62314251882e8c6600acde3c.png" />
+    <view class="course-price">
+      <text class="price">
+        <text class="rmb">¥</text>
+        <text>1888</text>
+      </text>
+      <text class="date-text">购课之日起至</text>
+      <text class="date">2026-10-31</text>
     </view>
-  </view>
-  <view class="detailed-catalog">
-    <text class="highlight">课程详情</text>
-    <text>课程目录</text>
-  </view>
-  <view class="sub-name">- 课程内容 -</view>
-  <uni-collapse>
-    <uni-collapse-item
-      :border="false"
-      class="collapse-item"
-      title="默认开启"
-      title-border="none"
-      v-for="i in 5"
-    >
-      <view class="collapse-content-item bottom-border" v-for="i in 4">
-        <view class="box-left">
-          <view class="name highlight">
-            <image class="playing" src="/static/course/playing@2x.png"></image>
-            执业医师考试复习规划
-          </view>
-          <view class="time-people">
-            <image class="time" src="/static/course/time-icon@2x.png"></image>
-            <text class="time-text">23:58</text>
-            <image class="people" src="/static/course/people-number@2x.png"></image>
-            <text class="people-text">666人</text>
-          </view>
-        </view>
-        <view class="box-right">
-          <!--待学习-->
-        </view>
+    <view class="receive-information-card">
+      <text class="name">2023面试快速提交高班快来报名2023面试</text>
+      <view class="box-below">
+        <text class="highlight">领取资料</text>
+        <text>点击添加学管领取课程资料</text>
       </view>
-    </uni-collapse-item>
-  </uni-collapse>
+    </view>
+    <view class="detailed-catalog">
+      <text class="highlight">课程详情</text>
+      <text>课程目录</text>
+    </view>
+    <view class="sub-name">- 课程内容 -</view>
+    <uni-collapse>
+      <uni-collapse-item
+        :border="false"
+        class="collapse-item"
+        title="默认开启"
+        title-border="none"
+        v-for="i in 5"
+      >
+        <view class="collapse-content-item bottom-border" v-for="i in 4">
+          <view class="box-left">
+            <view class="name highlight">
+              <image class="playing" src="/static/course/playing@2x.png"></image>
+              执业医师考试复习规划
+            </view>
+            <view class="time-people">
+              <image class="time" src="/static/course/time-icon@2x.png"></image>
+              <text class="time-text">23:58</text>
+              <image class="people" src="/static/course/people-number@2x.png"></image>
+              <text class="people-text">666人</text>
+            </view>
+          </view>
+          <view class="box-right">
+            <!--待学习-->
+          </view>
+        </view>
+      </uni-collapse-item>
+    </uni-collapse>
+  </view>
 </template>
 
 <style scoped lang="scss">

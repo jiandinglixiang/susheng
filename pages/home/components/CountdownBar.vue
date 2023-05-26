@@ -1,7 +1,7 @@
 <script setup>
 import dayjs from "dayjs"
 import { onMounted, onUnmounted, ref } from "vue"
-import { POST_COMMON_DATA } from "@/api/index"
+import { POST_COMMON_DATA } from "@/api"
 import { httpRequest } from "@/utils/http"
 
 const current = ref({

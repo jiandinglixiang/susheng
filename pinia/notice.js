@@ -1,6 +1,6 @@
 import { defineStore } from "pinia"
 import { httpRequest } from "@/utils/http"
-import { GET_USER_CLIENT_VERSION, GET_USER_INFO, POST_UPDATE_LOGIN_USER_INFO } from "@/api/index"
+import { GET_USER_CLIENT_VERSION, GET_USER_INFO, POST_UPDATE_LOGIN_USER_INFO } from "@/api"
 import { getSystemInfoPromise } from "@/utils/func"
 
 export const AppAuditStatus = defineStore("AppAuditStatus", {

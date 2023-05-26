@@ -2,7 +2,7 @@
 import CourseLineCardItem from "@/components/course/CourseLineCardItem.vue"
 import { onMounted, ref } from "vue"
 import { httpRequest } from "@/utils/http"
-import { POST_VIDEO_LIST } from "@/api/index"
+import { POST_VIDEO_LIST } from "@/api"
 const list = ref([])
 
 onMounted(async () => {

@@ -7,7 +7,7 @@ import { ref } from "vue"
 import { onLoad } from "@dcloudio/uni-app"
 import univerify from "./univerify.js"
 import { config, httpRequest } from "@/utils/http"
-import { POST_PHONE_AND_SMS_LOGIN, POST_PHONE_SMS } from "@/api/index"
+import { POST_PHONE_AND_SMS_LOGIN, POST_PHONE_SMS } from "@/api"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 
 const audit = AppAuditStatus()

@@ -1,5 +1,5 @@
 <script setup>
-import { GET_AD_CLIENT_BANNER } from "@/api/index"
+import { GET_AD_CLIENT_BANNER } from "@/api"
 import NoticeBar from "@/components/notice-bar/NoticeBar.vue"
 import { objectToQueryString } from "@/utils/func"
 import { httpRequest } from "@/utils/http"

@@ -5,7 +5,7 @@ import { computed, ref } from "vue"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { findFormEnd } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
-import { GET_LIVE_LIST } from "@/api/index"
+import { GET_LIVE_LIST } from "@/api"
 import { usePageList } from "@/hooks/usePageList"
 import LoadTips from "@/components/tips/load-tips.vue"
 const controlList = ["全部", "近期直播", "直播回放"]
