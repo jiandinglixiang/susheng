@@ -1,7 +1,7 @@
 import { onUnload } from "@dcloudio/uni-app"
 import { onUnmounted, ref } from "vue"
 
-export function usePageList({ rows = 20, requestFunc }) {
+export function usePageList({ rows = 10, requestFunc }) {
   const loading = ref("")
   const list = ref([])
 

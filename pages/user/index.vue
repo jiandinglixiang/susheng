@@ -49,7 +49,7 @@ function navigateTo(url, pass) {
       <view v-if="isLogin" class="user-info">
         <view class="name" @click="navigateTo('/pages/setting/userInfo')">
           <text>{{ storeUserInfo.allotName || storeUserInfo.phone }}</text>
-          <view class="leve">Lv7</view>
+          <!--<view class="leve">Lv7</view>-->
         </view>
         <text class="user-work-title">注册会计师备考</text>
       </view>
@@ -72,23 +72,23 @@ function navigateTo(url, pass) {
           <image src="/static/user/collection-item@2x.png"></image>
           <text>收藏夹</text>
         </view>
-        <view class="region-item disable">
-          <image src="/static/user/error-question@2x.png"></image>
-          <text>错题集</text>
-        </view>
-        <view class="region-item disable">
-          <image src="/static/user/question-history@2x.png.png"></image>
-          <text>做题历史</text>
-        </view>
-        <view class="region-item disable">
-          <image src="/static/user/my-course@2x.png"></image>
-          <text>我的课程</text>
-        </view>
+        <!--        <view class="region-item disable">-->
+        <!--          <image src="/static/user/error-question@2x.png"></image>-->
+        <!--          <text>错题集</text>-->
+        <!--        </view>-->
+        <!--        <view class="region-item disable">-->
+        <!--          <image src="/static/user/question-history@2x.png.png"></image>-->
+        <!--          <text>做题历史</text>-->
+        <!--        </view>-->
+        <!--        <view class="region-item disable">-->
+        <!--          <image src="/static/user/my-course@2x.png"></image>-->
+        <!--          <text>我的课程</text>-->
+        <!--        </view>-->
         <view class="region-item">
           <image src="/static/user/help-center@2x.png"></image>
           <text>帮助中心</text>
         </view>
-        <view class="region-item" @click="navigateTo('/pages/pdf/pdfList')">
+        <view class="region-item" @click="navigateTo('/pages/pdf/pdfList', true)">
           <image src="/static/user/data-get@2x.png"></image>
           <text>资料领取</text>
         </view>
@@ -96,10 +96,10 @@ function navigateTo(url, pass) {
           <image src="/static/user/exam-preparation-group@2x.png"></image>
           <text>备考群</text>
         </view>
-        <view class="region-item">
-          <image src="/static/user/recommend-to-friends@2x.png"></image>
-          <text>推荐给好友</text>
-        </view>
+        <!--        <view class="region-item">-->
+        <!--          <image src="/static/user/recommend-to-friends@2x.png"></image>-->
+        <!--          <text>推荐给好友</text>-->
+        <!--        </view>-->
       </view>
     </view>
 

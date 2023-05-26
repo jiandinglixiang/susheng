@@ -4,13 +4,27 @@ import NoticeBar from "@/components/notice-bar/NoticeBar.vue"
 import { usePageList } from "@/hooks/usePageList"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
-import { GET_VCOURSE_LIST } from "@/api/home"
-import { POST_LIST_OF_MATERIALS } from "@/api/pdf"
+import { POST_LIST_NOTICE, POST_LIST_OF_MATERIALS } from "@/api/pdf"
+import LoadTips from "@/components/tips/load-tips.vue"
+import { formatNumber } from "@/utils/func"
+import { computed, ref } from "vue"
 
 const { list, getList, loading, loadMore, refresh } = usePageList({ requestFunc })
+const noticeData = ref([])
+const noticeList = computed(() => {
+  const pdf = list.value
+  return noticeData.value.map(({ nickname }, index) => {
+    return {
+      title: `用户 ${nickname} 下载了 ${pdf[index]?.name || "CPA《考试必背概念》"}`
+    }
+  })
+})
 
-onLoad((options) => {
+onLoad(() => {
   getList()
+  httpRequest(POST_LIST_NOTICE, "POST").then((res) => {
+    noticeData.value = res.data
+  })
 })
 onPullDownRefresh(async () => {
   await refresh()
@@ -23,9 +37,18 @@ onReachBottom(() => {
 })
 
 function requestFunc({ page, rows }) {
-  return httpRequest(POST_LIST_OF_MATERIALS, "POST", { page, rows, status: 1, typeid: 1 })
+  return httpRequest(POST_LIST_OF_MATERIALS, "POST", { page, rows })
 }
-
+function star(star, num) {
+  star = +star
+  return star >= num ? "star-filled" : star === num - 0.5 ? "starhalf" : "star"
+}
+function iconUrl(url) {
+  return `/static/pdf/${url.toUpperCase().slice(-3)}@2x.png`
+}
+function tagList(tag) {
+  return tag?.split?.(",") ?? []
+}
 function navigateBack() {
   uni.navigateBack()
 }
@@ -33,7 +56,7 @@ function navigateBack() {
 
 <template>
   <uni-nav-bar
-    title="考试资讯"
+    title="资料列表"
     :fixed="true"
     left-icon="back"
     :border="false"
@@ -45,32 +68,39 @@ function navigateBack() {
       <image class="right-btn" src="/static/pdf/customer-service@2x.png" />
     </template>
   </uni-nav-bar>
-  <notice-bar fixed />
-  <view class="fixed-box"></view>
-  <view class="pdf-list-item" v-for="i in 10">
+  <view class="fixed-box">
+    <notice-bar fixed :list="noticeList" />
+  </view>
+  <view class="pdf-list-item" v-for="item in list" :key="item.id">
     <view class="box-top">
-      <image class="file-icon" src="/static/pdf/PDF@2x.png" />
+      <image class="file-icon" :src="iconUrl(item.uploadResource)" />
       <view class="middle-box">
-        <text class="file-name">考试必背概念.pdf</text>
-        <text class="keyword">薪酬</text>
-        <text class="keyword">升职</text>
+        <text class="file-name">{{ item.name }}</text>
+        <text class="keyword" v-for="item2 in tagList(item.tag)">{{ item2 }}</text>
       </view>
-      <view class="download">下载</view>
+      <view class="download" @click="navigateBack">下载</view>
     </view>
     <view class="box-below">
       <view class="star">
-        <uni-icons class="staff" color="#FFC800" type="star-filled" size="12"></uni-icons>
-        <uni-icons class="staff" color="#FFC800" type="star-filled" size="12"></uni-icons>
-        <uni-icons class="staff" color="#FFC800" type="starhalf" size="12"></uni-icons>
-        <uni-icons class="staff" color="#FFC800" type="star" size="12"></uni-icons>
-        <uni-icons class="staff" color="#FFC800" type="star" size="12"></uni-icons>
-        <text class="staff">4.6</text>
+        <uni-icons
+          v-for="num in 5"
+          class="staff"
+          color="#FFC800"
+          :type="star(item.star, num)"
+          size="12"
+        ></uni-icons>
+        <!--        <uni-icons class="staff" color="#FFC800" type="star-filled" size="12"></uni-icons>-->
+        <!--        <uni-icons class="staff" color="#FFC800" type="starhalf" size="12"></uni-icons>-->
+        <!--        <uni-icons class="staff" color="#FFC800" type="star" size="12"></uni-icons>-->
+        <!--        <uni-icons class="staff" color="#FFC800" type="star" size="12"></uni-icons>-->
+        <text class="staff">{{ item.star }}</text>
       </view>
-      <text class="info">点击量:89</text>
-      <text class="info">下载量:56</text>
-      <text class="info">2023-01-30</text>
+      <text class="info">点击量:{{ formatNumber(item.receiveNum) }}</text>
+      <text class="info">下载量:{{ formatNumber(item.viewsNum) }}</text>
+      <text class="info">{{ item.updateDate }}</text>
     </view>
   </view>
+  <load-tips :loading="loading" />
   <fixed-fab type="information" />
 </template>
 
@@ -79,7 +109,7 @@ function navigateBack() {
   height: 116rpx;
 }
 .pdf-list-item {
-  margin: 0 32rpx;
+  margin: 0 32rpx 16rpx;
   border-radius: 16rpx;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.08);
@@ -113,7 +143,7 @@ function navigateBack() {
     color: rgba(51, 51, 51, 1);
   }
   .keyword {
-    margin-right: 8rpx;
+    margin: 0 8rpx 8rpx 0;
     flex: 0 0 auto;
     border-radius: 8rpx;
     background: rgba(48, 93, 218, 0.1);

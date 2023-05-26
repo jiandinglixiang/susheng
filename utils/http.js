@@ -19,9 +19,11 @@ export function httpRequest(path = "", method = "GET", data = {}, newConfigs = {
   }
   // #endif
   return new Promise((resolve, reject) => {
+    const config2 = deepMergeObjects(config, newConfigs)
+    // 以newConfigs为优先合并config
     uni.request({
-      ...deepMergeObjects(config, newConfigs),
-      url: `${config.baseUrl}${path}`,
+      ...config2,
+      url: `${config2.baseUrl}${path}`,
       method,
       data,
       success: resolve,

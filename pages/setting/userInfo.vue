@@ -27,7 +27,8 @@ async function submit() {
   <view class="user-avatar">
     <image :src="storeUserInfo.avatar"></image>
   </view>
-  <view class="list-item line-bottom" @click="refPopup.open()">
+  <view class="list-item line-bottom">
+    <!--    <view class="list-item line-bottom" @click="refPopup.open()">-->
     <text class="name">昵称</text>
     <text class="sub-name">{{ storeUserInfo.phone }}</text>
     <image class="arrows" src="/static/user/arrows@2x.png"></image>

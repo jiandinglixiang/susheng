@@ -2,34 +2,32 @@
 const props = defineProps({
   fixed: Boolean,
   top: Number,
-  list: Array
+  list: Array,
+  showDetail: Boolean
 })
 const emits = defineEmits(["noticeClick"])
-
-function asd(i) {
-  console.log(i)
-}
 </script>
 
 <template>
   <view :class="props.fixed && 'notice-fixed'">
     <view class="notice">
       <image class="trumpet" src="/static/home/notice@2x.png"></image>
-      <swiper
-        class="swiper"
-        circular
-        autoplay
-        :interval="2000"
-        vertical
-        disable-touch
-      >
-        <swiper-item v-for="item in list">
-          <view class="content">
-            <text>{{ item.title }}</text>
-            <text class="highlight" @click="emits('noticeClick', item)">了解详情</text>
+      <view class="right-box">
+        <view
+          class="list"
+          :style="
+            list.length > 1 && [
+              `animation-duration: ${list.length * 2 * 3}s`,
+              'animation-play-state:running'
+            ]
+          "
+        >
+          <view class="item" v-for="item in [...list, ...list]" @click="emits('noticeClick', item)">
+            {{ item.title }}
+            <text v-if="showDetail" class="highlight">了解详情</text>
           </view>
-        </swiper-item>
-      </swiper>
+        </view>
+      </view>
     </view>
   </view>
 </template>
@@ -67,18 +65,43 @@ function asd(i) {
   margin-right: 20rpx;
 }
 
-.content {
-  height: 72rpx;
+.right-box {
   font-size: 24rpx;
   font-weight: 400;
   color: rgba(51, 51, 51, 1);
-  word-break: break-all;
+  flex: 1 1 auto;
+  height: 72rpx;
+  position: relative;
+  overflow: hidden;
+}
+.list {
+  height: 72rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
+  animation-name: rolling;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: 100s;
+  animation-play-state: paused;
 }
-.swiper {
-  height: 72rpx;
-  flex: 1 1 auto;
+.item {
+  min-width: 594rpx;
+  flex: 0 0 auto;
+  padding-right: 20rpx;
+  white-space: nowrap;
+}
+
+@keyframes rolling {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }
 </style>

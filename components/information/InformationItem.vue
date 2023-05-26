@@ -1,21 +1,26 @@
 <script setup>
-function navigateTo() {
-  uni.navigateTo({ url: "/pages/information/detail" })
-}
+import dayjs from "dayjs"
+import { computed } from "vue"
+
+const props = defineProps({
+  itemData: {
+    type: Object,
+    default() {
+      return {}
+    }
+  }
+})
+const pubdate = computed(() => dayjs(props.itemData.pubdate).format("M月DD日"))
 </script>
 
 <template>
-  <view class="information-item" @click="navigateTo">
+  <view class="information-item">
     <view class="left-content">
-      <text class="title">高顿教育与上海财高顿教育与上海财高顿教育与上海财高顿教育与上海财</text>
-      <text class="time">9月23日</text>
-      <text class="read">阅读7.5万</text>
+      <text class="title">{{ itemData.title }}</text>
+      <text class="time">{{ pubdate }}</text>
+      <!--<text class="read">阅读7.5万</text>-->
     </view>
-    <image
-      v-if="Date.now() % 2"
-      class="right-img"
-      src="https://img.js.design/assets/img/6231425565c2ad7efe9bd6b6.png"
-    />
+    <image v-if="itemData.litpic" class="right-img" :src="itemData.litpic" />
   </view>
 </template>
 

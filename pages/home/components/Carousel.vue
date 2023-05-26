@@ -76,7 +76,7 @@ function jumpCenter(targetid, { id, url: link, title }) {
       </swiper-item>
     </swiper>
   </uni-swiper-dot>
-  <notice-bar :list="notice"  @noticeClick="handleClick"/>
+  <notice-bar :list="notice" show-detail  @noticeClick="handleClick"/>
 </template>
 
 <style scoped lang="scss">
