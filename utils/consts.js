@@ -5,6 +5,7 @@ export const AD_POP_UP_IMPRESSION_HISTORY = "AD_POP_UP_IMPRESSION_HISTORY"
 
 export const PRIVACY_URL = `//www`
 export const USER_AGREEMENT_URL = `//www`
+export const PAGES_VIDEO_DETAIL = "/pages/video/detail"
 
 export const LOADING_TEXT = {
   more: "- 上拉加载更多 -",

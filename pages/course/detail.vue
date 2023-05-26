@@ -1,5 +1,6 @@
 <script setup>
-import { nextTick, ref } from "vue"
+import parseHtml from "@/static/js/html-parser"
+import { computed, nextTick, ref } from "vue"
 import FixedFab from "@/components/fab/FixedFab.vue"
 import { onLoad } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
@@ -25,7 +26,7 @@ onLoad(async (options) => {
     uni.setNavigationBarTitle({ title: detail.value.name })
   })
 })
-function date() {}
+const content = computed(() => parseHtml(detail.value.content))
 
 function rightButton() {}
 </script>
@@ -53,7 +54,7 @@ function rightButton() {}
       <text class="highlight">课程详情</text>
     </view>
     <view class="rich-text-box">
-      <rich-text :nodes="detail.content"></rich-text>
+      <rich-text :nodes="content"></rich-text>
     </view>
   </view>
 </template>

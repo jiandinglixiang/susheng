@@ -1,4 +1,7 @@
 <script setup>
+import parseHtml from "@/static/js/html-parser"
+import { computed } from "vue"
+
 const emits = defineEmits(["action"])
 const props = defineProps({
   popupData: {
@@ -8,17 +11,18 @@ const props = defineProps({
     }
   }
 })
+const content = computed(() => parseHtml(props.popupData.tips))
 </script>
 <template>
   <view class="LoginTips-container">
-    <text class="title">{{ props.popupData.title }}</text>
-    <view v-if="!props.popupData.tips.includes('<text>')" class="tips">
-      <text>{{ props.popupData.tips }}</text>
+    <text class="title">{{ popupData.title }}</text>
+    <view v-if="!popupData.tips.includes('<text>')" class="tips">
+      <text>{{ popupData.tips }}</text>
     </view>
-    <rich-text v-else class="tips" :nodes="props.popupData.tips"></rich-text>
-      {{props.popupData.tips}}
+    <rich-text v-else class="tips" :nodes="content"></rich-text>
+    {{ popupData.tips }}
     <button class="agree" @click="emits('action', 'btn')">
-      {{ props.popupData.buttonText }}
+      {{ popupData.buttonText }}
     </button>
     <image class="close" src="/static/close@2x.png" @click="emits('action', 'close')"></image>
   </view>

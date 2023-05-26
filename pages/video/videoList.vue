@@ -1,5 +1,6 @@
 <script setup>
 import CourseLineCardItem from "@/components/course/CourseLineCardItem.vue"
+import { PAGES_VIDEO_DETAIL } from "@/utils/consts"
 import { httpRequest } from "@/utils/http"
 import { POST_VIDEO_LIST } from "@/api"
 import { onLoad } from "@dcloudio/uni-app"
@@ -27,9 +28,8 @@ onLoad(async () => {
   }
 })
 function handleClick(item) {
-  uni.navigateTo({
-    url: "./detail?id=" + item.id
-  })
+  uni.setStorageSync(PAGES_VIDEO_DETAIL, item)
+  uni.navigateTo({ url: "./detail" })
 }
 function navigateBack() {
   uni.navigateBack()
@@ -39,7 +39,8 @@ function navigateBack() {
 <template>
   <uni-nav-bar
     title="精选课程"
-    :fixed="true"
+    fixed
+    statusBar
     left-icon="back"
     :border="false"
     @clickLeft="navigateBack"

@@ -56,7 +56,8 @@ function gotoDetail(item) {
 <template>
   <uni-nav-bar
     title="考试资讯"
-    :fixed="true"
+    fixed
+    statusBar
     left-icon="back"
     :border="false"
     right-width="164rpx"

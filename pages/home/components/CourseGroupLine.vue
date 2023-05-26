@@ -1,5 +1,6 @@
 <script setup>
 import CourseLineCardItem from "@/components/course/CourseLineCardItem.vue"
+import { PAGES_VIDEO_DETAIL } from "@/utils/consts"
 import { onMounted, ref } from "vue"
 import { httpRequest } from "@/utils/http"
 import { POST_VIDEO_LIST } from "@/api"
@@ -17,8 +18,9 @@ onMounted(async () => {
   })
 })
 function handleClick(item) {
+  uni.setStorageSync(PAGES_VIDEO_DETAIL, item)
   uni.navigateTo({
-    url: "/pages/video/detail?id=" + item.id
+    url: "/pages/video/detail"
   })
 }
 </script>

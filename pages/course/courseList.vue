@@ -47,7 +47,8 @@ function navigateBack() {
 <template>
   <uni-nav-bar
     title="系统课"
-    :fixed="true"
+    fixed
+    statusBar
     left-icon="back"
     :border="false"
     @clickLeft="navigateBack"

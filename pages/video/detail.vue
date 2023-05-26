@@ -1,23 +1,39 @@
 <script setup>
+import { PAGES_VIDEO_DETAIL } from "@/utils/consts"
 import { setTitleNViewButtonStyle } from "@/utils/func"
-import { nextTick, onUnmounted } from "vue"
 import FixedFab from "@/components/fab/FixedFab.vue"
 import { httpRequest } from "@/utils/http"
 import { POST_VIDEO_LIST_CLASSHOUR } from "@/api"
-import { onLoad } from "@dcloudio/uni-app"
+import { onLoad, onUnload } from "@dcloudio/uni-app"
+import { nextTick, ref } from "vue"
+const options = uni.getStorageSync(PAGES_VIDEO_DETAIL)
+const directory = ref([])
+const displayTab = ref(false)
+const videoSrc = ref("")
+
 let stopRightButtonListener
 
-onLoad((options) => {
-  httpRequest(POST_VIDEO_LIST_CLASSHOUR, "POST", { id: options.id })
-  nextTick(() => {
-    uni.setNavigationBarTitle({ title: "" })
+onLoad(async () => {
+  const res = await httpRequest(POST_VIDEO_LIST_CLASSHOUR, "POST", { id: options.id })
+  res.data[0].children.push({
+    id: 4507,
+    pid: 4506,
+    title: "CPA职业发展规划",
+    url: "https://v-emkt.gaodun.com/video/22805c7-179c1f7558b-0000-0000-013-921e0.mp4",
+    try_see: 1,
+    children: []
   })
+  directory.value = res.data
+})
+nextTick(() => {
+  uni.setNavigationBarTitle({ title: options.title })
   stopRightButtonListener = setTitleNViewButtonStyle(
     { text: "\ue688", color: "#333333" },
     rightButton
   )
+  uni.pageScrollTo(0)
 })
-onUnmounted(() => {
+onUnload(() => {
   stopRightButtonListener?.()
 })
 
@@ -27,7 +43,7 @@ function rightButton() {
   s++
   console.log(s)
   setTitleNViewButtonStyle({
-    text: s % 2 ? "\ue688" : "\ue68f",
+    text: s % 2 ? "\ue68f" : "\ue688",
     color: s % 2 ? "#333333" : "#305DDA"
   })
 }
@@ -36,40 +52,55 @@ function rightButton() {
 <template>
   <view>
     <fixed-fab />
-    <image class="course-img" src="https://img.js.design/assets/img/62314251882e8c6600acde3c.png" />
-    <view class="course-price">
-      <text class="price">
-        <text class="rmb">¥</text>
-        <text>1888</text>
-      </text>
-      <text class="date-text">购课之日起至</text>
-      <text class="date">2026-10-31</text>
+    <view class="header-container">
+      <video
+        v-if="videoSrc"
+        class="full-box"
+        :autoplay="true"
+        :loop="true"
+        :src="videoSrc"
+        :enable-progress-gesture="false"
+        :show-mute-btn="true"
+        :initial-time="0"
+      ></video>
+      <image v-else class="full-box" :src="options.file" />
     </view>
     <view class="receive-information-card">
-      <text class="name">2023面试快速提交高班快来报名2023面试</text>
+      <text class="name">{{ options.title }}</text>
       <view class="box-below">
         <text class="highlight">领取资料</text>
         <text>点击添加学管领取课程资料</text>
       </view>
     </view>
     <view class="detailed-catalog">
-      <text class="highlight">课程详情</text>
-      <text>课程目录</text>
+      <text :class="!displayTab && 'highlight'" @click="displayTab = !displayTab">课程详情</text>
+      <text :class="displayTab && 'highlight'" @click="displayTab = !displayTab">课程目录</text>
     </view>
-    <view class="sub-name">- 课程内容 -</view>
-    <uni-collapse>
+    <view class="sub-box" v-show="!displayTab">
+      <view class="sub-name">- 课程内容 -</view>
+      <image class="sub-img" :src="options.detail_img" mode="widthFix"></image>
+      <view class="sub-name">- 配套材料 -</view>
+      <image class="sub-img" :src="options.src" mode="widthFix"></image>
+    </view>
+    <uni-collapse v-show="displayTab">
       <uni-collapse-item
         :border="false"
         class="collapse-item"
-        title="默认开启"
+        :title="item.title"
         title-border="none"
-        v-for="i in 5"
+        v-for="item in directory"
+        :key="item.id"
       >
-        <view class="collapse-content-item bottom-border" v-for="i in 4">
+        <view
+          class="collapse-content-item"
+          :class="item.children.length !== index2 + 1 && 'bottom-border'"
+          v-for="(item2, index2) in item.children"
+          :key="item2.id"
+        >
           <view class="box-left">
             <view class="name highlight">
               <image class="playing" src="/static/course/playing@2x.png"></image>
-              执业医师考试复习规划
+              {{ item2.title }}
             </view>
             <view class="time-people">
               <image class="time" src="/static/course/time-icon@2x.png"></image>
@@ -78,7 +109,7 @@ function rightButton() {
               <text class="people-text">666人</text>
             </view>
           </view>
-          <view class="box-right">
+          <view class="box-right" @click="videoSrc = item2.url">
             <!--待学习-->
           </view>
         </view>
@@ -88,9 +119,28 @@ function rightButton() {
 </template>
 
 <style scoped lang="scss">
-.course-img {
+.header-container {
+  position: relative;
   width: 750rpx;
   height: 412rpx;
+}
+
+.full-box {
+  width: 100%;
+  height: 100%;
+}
+
+.videoHide {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+}
+
+.sub-box {
+  margin: 0 32rpx;
+}
+.sub-img {
+  width: 100%;
 }
 .sub-name {
   font-size: 24rpx;
@@ -246,6 +296,7 @@ function rightButton() {
     margin-right: 8rpx;
   }
   .name {
+    min-width: 500rpx;
     flex: 1 1 auto;
     font-size: 28rpx;
     font-weight: 400;

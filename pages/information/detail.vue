@@ -1,8 +1,9 @@
 <script setup>
+import parseHtml from "@/static/js/html-parser"
 import { onLoad } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
 import { GET_ARTICLE_DETAIL } from "@/api"
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import dayjs from "dayjs"
 const detail = ref({
   keywords: "",
@@ -36,6 +37,7 @@ onLoad(({ id, domain }) => {
     detail.value = res.data
   })
 })
+const content = computed(() => parseHtml(detail.value.body))
 
 function pubdate(pubdate) {
   return dayjs(pubdate * 1000).format("YYYY-MM-DD")
@@ -50,8 +52,8 @@ function pubdate(pubdate) {
       <text class="dec-info">小编：CPA</text>
       <text class="dec-info">{{ pubdate(detail.pubdate) }}</text>
     </view>
-    <view class="rich-text-box">
-      <rich-text :nodes="detail.body"></rich-text>
+    <view class="rich-text-box" v-html="content">
+<!--      <rich-text :nodes="content"></rich-text>-->
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">
