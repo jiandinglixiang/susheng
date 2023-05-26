@@ -18,7 +18,12 @@ export default {
   font-family: PingFangSC-Regular, sans-serif;
   touch-action: pan-y;
 }
-body{
+body {
   background-color: transparent;
+}
+page {
+  box-sizing: border-box;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 </style>

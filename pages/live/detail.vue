@@ -1,81 +1,137 @@
 <script setup>
+import parseHtml from "@/static/js/html-parser"
 import { onLoad } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
 import { POST_LIVE_DETATILS } from "@/api"
-import { setTitleNViewButtonStyle } from "@/utils/func"
-import { onUnmounted } from "vue"
-
-let stopRightButtonListener
-
-onLoad((options) => {
-  httpRequest(POST_LIVE_DETATILS, "POST", { id: options.id })
-  stopRightButtonListener = setTitleNViewButtonStyle(
-    { text: "\ue688", color: "#333333" },
-    rightButton
-  )
+import dayjs from "dayjs"
+import { computed, ref } from "vue"
+const detail = ref({
+  id: -1,
+  title: "",
+  teachername: "",
+  teacher_pic: "",
+  teacher_introduction: "",
+  pic: "",
+  starttime: -1,
+  endtime: -1,
+  playback_url: "",
+  classurl: "",
+  reservation: -1,
+  enable: -1,
+  subscribe: -1,
+  watch: -1
 })
-onUnmounted(() => {
-  stopRightButtonListener?.()
+
+onLoad(async (options) => {
+  const res = await httpRequest(POST_LIVE_DETATILS, "POST", { id: options.id })
+  detail.value = res.data
 })
 
-function rightButton() {
-  s++
-  console.log(s)
-  setTitleNViewButtonStyle({
-    text: s % 2 ? "\ue688" : "\ue68f",
-    color: s % 2 ? "#333333" : "#305DDA"
-  })
+const date = computed(() => {
+  const { starttime, endtime } = detail.value
+  return `${dayjs(starttime).format("M月D日 HH:mm")}-${dayjs(endtime).format("HH:mm")}`
+})
+const content = computed(() => parseHtml(detail.value.classurl))
+
+function transformDate(diff) {
+  diff = dayjs(diff).diff(Date.now())
+  console.log(diff)
+  if (diff > 0) {
+    // 计算剩余的天数、小时、分钟、秒数
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000)
+    return [days, hours, minutes, seconds]
+  }
+  return []
 }
+const status = computed(() => {
+  const { enable, starttime } = detail.value
+
+  switch (enable) {
+    case 3:
+      return {
+        topText: "正在直播中",
+        countdown: [],
+        btnText: "看直播",
+        btnStyle: "btn-done"
+      }
+    case 4:
+      return {
+        topText: "直播已结束！",
+        countdown: [],
+        btnText: "领取回放资料",
+        btnStyle: "btn-done"
+      }
+    case 2:
+      return {
+        topText: "距直播开始还有",
+        countdown: transformDate(starttime * 1000),
+        btnText: "已预约 领取直播讲义",
+        btnStyle: "btn-done"
+      }
+    default:
+      // 1
+      return {
+        topText: "距直播开始还有",
+        countdown: transformDate(starttime * 1000),
+        btnText: "立即预约"
+      }
+  }
+})
 </script>
 
 <template>
-  <view class="live-top">
-    <image class="ad-img" src="https://img.js.design/assets/img/62314251882e8c6600acde3c.png" />
-    <view class="content">
-      <text class="distance">距直播开始还有</text>
-      <view v-if="0" class="time">
-        <text class="card">88</text>
-        <text>天</text>
-        <text class="card">88</text>
-        <text>秒</text>
-        <text class="card">88</text>
-        <text>分</text>
-      </view>
-      <view v-else class="receive-btn">领取回放资料</view>
-    </view>
-  </view>
-  <view class="person-info">
-    <text class="live-name">这些单词让职场英语纯正又流利</text>
-    <image
-      class="avatar"
-      src="https://img.js.design/assets/smartFill/img341164da748e08.jpg"
-    ></image>
-    <view class="box-info">
-      <text class="name">Jesse</text>
-      <view class="line-box">
-        <text class="date">7月28日 19:00-20:30</text>
-        <text class="booking">666人已预约</text>
+  <view>
+    <view class="live-top">
+      <image class="ad-img" :src="detail.pic" />
+      <view class="content">
+        <text class="distance">{{ status.topText }}</text>
+        <uni-countdown
+          class="countdown-time"
+          v-if="status.countdown.length"
+          :day="status.countdown[0]"
+          :hour="status.countdown[1]"
+          :minute="status.countdown[2]"
+          :second="status.countdown[3]"
+          :show-colon="false"
+          color="#305DDA"
+          splitor-color="#ffffff"
+          background-color="#ffffff"
+        />
+        <view v-else-if="status.btnText === '领取回放资料'" class="receive-btn">领取回放资料</view>
       </view>
     </view>
-  </view>
-
-  <view class="line-title">老师简介</view>
-  <view class="teacher-profile" v-for="i in 5">
-    先后毕业于哈工大和莫纳什大学，金融学、计算机学双硕士
-    在海内外顶尖金融机构工作超15年，曾任高级投资总监、高级风控总监等职位
-    曾参与《中国互联网投资基金》设立，并与阿里巴巴集团共同设立投资基金
-  </view>
-  <view class="line-title">课程详情</view>
-
-  <view class="fixed-bottom">
-    <view class="fixed-bottom-content">
-      <view class="teacher">
-        <image src="/static/course/icon_banjiqun@2x.png"></image>
-        <text>学管老师</text>
+    <view class="person-info">
+      <text class="live-name">{{ detail.title }}</text>
+      <image class="avatar" :src="detail.teacher_pic"></image>
+      <view class="box-info">
+        <text class="name">{{ detail.teachername }}</text>
+        <view class="line-box">
+          <text class="date">{{ date }}</text>
+          <text class="booking">{{ detail.reservation }}人已预约</text>
+        </view>
       </view>
-      <view class="btn btn-done">
-        <!--立即预约-->
-        已预约 领取直播讲义
+    </view>
+    <view class="line-title">老师简介</view>
+    <view class="teacher-profile">
+      {{ detail.teacher_introduction }}
+    </view>
+    <view class="line-title">课程详情</view>
+    <view class="rich-text-box">
+      <rich-text :nodes="content"></rich-text>
+    </view>
+    <view class="fixed-bottom">
+      <view class="fixed-bottom-content">
+        <view class="teacher">
+          <image src="/static/course/icon_banjiqun@2x.png"></image>
+          <text>学管老师</text>
+        </view>
+        <view class="btn" :class="status.btnStyle">
+          <!--立即预约-->
+          {{ status.btnText }}
+        </view>
       </view>
     </view>
   </view>
@@ -84,6 +140,15 @@ function rightButton() {
 <style scoped lang="scss">
 .fixed-bottom {
   height: 98rpx;
+}
+.rich-text-box {
+  width: 686rpx;
+  display: flex;
+  margin: 0 32rpx 48rpx;
+  * {
+    max-width: 100%;
+    max-height: 100%;
+  }
 }
 .fixed-bottom-content {
   position: fixed;
@@ -231,27 +296,7 @@ function rightButton() {
       color: rgba(255, 255, 255, 1);
       margin-bottom: 14rpx;
     }
-    .time {
-      display: flex;
-      flex-flow: row nowrap;
-      align-items: center;
-      font-size: 28rpx;
-      font-weight: 700;
-      line-height: 39.2rpx;
-      color: rgba(255, 255, 255, 1);
-      text {
-        flex: 0 0 auto;
-        margin-right: 8rpx;
-      }
-    }
-    .card {
-      width: 44rpx;
-      line-height: 56rpx;
-      border-radius: 8rpx;
-      background: rgba(255, 255, 255, 1);
-      color: rgba(48, 93, 218, 1);
-      text-align: center;
-    }
+
     .receive-btn {
       margin-top: 18rpx;
       width: 232rpx;
@@ -265,5 +310,25 @@ function rightButton() {
       text-align: center;
     }
   }
+}
+.countdown-time {
+  :deep(.uni-countdown__number) {
+    font-size: 28rpx !important;
+    font-weight: 700;
+    height: 56rpx;
+    line-height: 56rpx !important;
+  }
+  :deep(.uni-countdown__splitor) {
+    font-size: 28rpx !important;
+    font-weight: 700;
+  }
+}
+.card {
+  width: 44rpx;
+  line-height: 56rpx;
+  border-radius: 8rpx;
+  background: rgba(255, 255, 255, 1);
+  color: rgba(48, 93, 218, 1);
+  text-align: center;
 }
 </style>

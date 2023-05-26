@@ -52,8 +52,8 @@ function pubdate(pubdate) {
       <text class="dec-info">小编：CPA</text>
       <text class="dec-info">{{ pubdate(detail.pubdate) }}</text>
     </view>
-    <view class="rich-text-box" v-html="content">
-<!--      <rich-text :nodes="content"></rich-text>-->
+    <view class="rich-text-box" >
+      <rich-text :nodes="content"></rich-text>
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">
@@ -64,14 +64,14 @@ function pubdate(pubdate) {
     </view>
   </view>
 </template>
-
 <style scoped lang="scss">
 .rich-text-box {
   width: 686rpx;
   display: flex;
-  margin: 0 32rpx 32rpx;
+  margin: 0 32rpx 48rpx;
   * {
-    max-width: 686rpx;
+    max-width: 100%;
+    max-height: 100%;
   }
 }
 .information-title {

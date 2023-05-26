@@ -6,7 +6,7 @@ const props = defineProps({
 
 <template>
   <movable-area class="movable-area">
-    <movable-view direction="vertical" class="movable-view">
+    <movable-view direction="vertical" class="movable-view" y="350">
       <image
         v-if="props.type === 'teaching'"
         class="fixed-fab"

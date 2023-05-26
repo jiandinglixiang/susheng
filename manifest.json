@@ -103,6 +103,19 @@
         "androidStyle": "common",
         "iosStyle": "common"
       }
+    },
+    "safearea": {                              //可选，JSON对象，安全区域配置
+      "background": "transparent",                                //可选，字符串类型，#RRGGBB格式，安全区域背景颜色
+      "backgroundDark": "transparent",                            //可选，字符串类型，#RRGGBB格式，暗黑模式安全区域背景颜色
+      "bottom": {                                             //可选，JSON对象，底部安全区域配置
+        "offset": "none"                                            //可选，字符串类型，安全区域偏移值，可取值auto、none
+      },
+      "left": {                                               //可选，JSON对象，左侧安全区域配置
+        "offset": "none"                                            //可选，字符串类型，安全区域偏移值，可取值auto、none
+      },
+      "right": {                                              //可选，JSON对象，左侧安全区域配置
+        "offset": "none"                                            //可选，字符串类型，安全区域偏移值，可取值auto、none
+      }
     }
   },
   /* 快应用特有相关 */
