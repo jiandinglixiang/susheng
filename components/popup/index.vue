@@ -66,13 +66,13 @@ onUnmounted(() => {
   uni.$off(popupKey)
 })
 
-function handleAction(...params) {
-  if (autoClose && params[0] === "close") {
+function handleAction(...actionParams) {
+  if (autoClose && actionParams[0] === "close") {
     close()
   }
-  emits("action", ...params)
+  params.value?.handleClick?.(...actionParams) || emits("action", ...actionParams)
 }
-function open(par) {
+function open({ handleClick, ...par }) {
   if (propsParams && par) {
     par = deepMergeObjects(par, propsParams)
   }
@@ -86,9 +86,9 @@ function open(par) {
   })
   // #endif
   // #ifdef H5
-  params.value = par
   popup.value.open()
   // #endif
+  params.value = { handleClick, ...par }
 }
 function close() {
   // #ifndef H5

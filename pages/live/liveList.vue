@@ -1,6 +1,10 @@
 <script setup>
+import PopupIndex from "@/components/popup/index.vue"
 import LiveLineCardItem from "@/components/live/LiveLineCardItem.vue"
+import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import SegmentedControl from "@/components/segmented-control/SegmentedControl.vue"
+import { PopupStatus } from "@/pinia/popup"
+import { USER_TOKEN_DATA } from "@/utils/consts"
 import { computed, ref } from "vue"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { findFormEnd } from "@/utils/func"
@@ -8,6 +12,9 @@ import { httpRequest } from "@/utils/http"
 import { GET_LIVE_LIST } from "@/api"
 import { usePageList } from "@/hooks/usePageList"
 import LoadTips from "@/components/tips/load-tips.vue"
+
+const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
+
 const controlList = ["全部", "近期直播", "直播回放"]
 const currentTab = ref(0)
 const listData = ref([])
@@ -62,6 +69,11 @@ function tabChange(tab) {
 </script>
 
 <template>
+  <popup-index
+    v-if="noLogin"
+    :ref="(r) => PopupStatus().setPopupRef(LOGIN_TIPS_POPUP, r)"
+    :popup-key="LOGIN_TIPS_POPUP"
+  />
   <segmented-control fixed :list="controlList" @change="tabChange" />
   <view v-for="page in listData" :key="page.key" v-show="currentTab === page.key">
     <live-line-card-item v-for="item in page.list" :item-data="item" :key="item.id" />

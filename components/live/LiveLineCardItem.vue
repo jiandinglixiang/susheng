@@ -1,8 +1,12 @@
 <script setup>
+import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
+import { PopupStatus } from "@/pinia/popup"
 import { computed, ref } from "vue"
 import dayjs from "dayjs"
 import { httpRequest } from "@/utils/http"
 import { POST_LIVE_SUBSCRIBE } from "@/api"
+
+const storePopup = PopupStatus()
 
 const props = defineProps({
   itemData: {
@@ -40,8 +44,9 @@ const status = computed(() => {
         btn: "看直播",
         style2: "living",
         style: "watching-live",
-        handleClick() {
+        async handleClick() {
           //   跳转微信助教
+          storePopup[LOGIN_TIPS_POPUP]?.open()
         }
       }
     case 4:
@@ -51,6 +56,7 @@ const status = computed(() => {
         style2: "",
         handleClick() {
           //   跳转微信助教
+          gotoLogin()
         }
       }
     case 2:
@@ -59,6 +65,7 @@ const status = computed(() => {
         style: "reserved",
         style2: "",
         handleClick() {
+          storePopup[LOGIN_TIPS_POPUP]?.open()
           //
         }
       }
@@ -79,6 +86,19 @@ const status = computed(() => {
       }
   }
 })
+
+function gotoLogin() {
+  storePopup[LOGIN_TIPS_POPUP]?.open({
+    title: "提示",
+    tips: "直播预约功能需要您登录后，我们才可通知您开课信息",
+    buttonText: "去登录",
+    handleClick(action) {
+      if (action === "btn") {
+        uni.navigateTo({ url: "/pages/login/index" })
+      }
+    }
+  })
+}
 function navigateTo() {
   uni.navigateTo({ url: "/pages/live/detail?id=" + props.itemData.id })
 }

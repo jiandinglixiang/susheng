@@ -20,7 +20,6 @@ const content = computed(() => parseHtml(props.popupData.tips))
       <text>{{ popupData.tips }}</text>
     </view>
     <rich-text v-else class="tips" :nodes="content"></rich-text>
-    {{ popupData.tips }}
     <button class="agree" @click="emits('action', 'btn')">
       {{ popupData.buttonText }}
     </button>

@@ -4,6 +4,7 @@ import LiveCardItem from "@/components/live/LiveCardItem.vue"
 import { httpRequest } from "@/utils/http"
 import { onMounted, ref } from "vue"
 import { onShow } from "@dcloudio/uni-app"
+
 const scrollId = ref("")
 const list = ref([])
 onMounted(async () => {
