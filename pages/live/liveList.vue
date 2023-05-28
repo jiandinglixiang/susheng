@@ -1,5 +1,5 @@
 <script setup>
-import PopupIndex from "@/components/popup/index.vue"
+import PopupIndex from "@/components/popup/PopupIndex.vue"
 import LiveLineCardItem from "@/components/live/LiveLineCardItem.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import SegmentedControl from "@/components/segmented-control/SegmentedControl.vue"

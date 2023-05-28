@@ -24,14 +24,8 @@
   </uni-popup>
   <!--#endif-->
 </template>
-<script>
-export default {
-  name: "PopupIndex"
-}
-</script>
 <script setup>
 import { deepMergeObjects } from "@/utils/func"
-
 // 根据环境接收 并emits出事件
 // 接收popupKey
 import { onUnmounted, ref } from "vue"
@@ -46,11 +40,7 @@ import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
 import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
 import HomeAdPopup from "@/components/popup/HomeAdPopup.vue"
 
-const {
-  popupKey,
-  autoClose,
-  params: propsParams
-} = defineProps({
+const props = defineProps({
   params: Object,
   popupKey: String,
   autoClose: {
@@ -60,35 +50,34 @@ const {
 })
 const emits = defineEmits(["action"])
 const popup = ref()
-const params = ref(null)
+const openParams = ref({ ...props.params })
 
 onUnmounted(() => {
-  uni.$off(popupKey)
+  uni.$off(props.popupKey)
 })
 
 function handleAction(...actionParams) {
-  if (autoClose && actionParams[0] === "close") {
+  if (props.autoClose && actionParams[0] === "close") {
     close()
   }
-  params.value?.handleClick?.(...actionParams) || emits("action", ...actionParams)
+  openParams.value?.handleClick?.(...actionParams) || emits("action", ...actionParams)
 }
-function open({ handleClick, ...par }) {
-  if (propsParams && par) {
-    par = deepMergeObjects(par, propsParams)
+function open({ handleClick, ...args }) {
+  if (args) {
+    args = deepMergeObjects(args, openParams.value)
+    openParams.value = { ...args, handleClick }
   }
-
   // #ifndef H5
-  uni.$on(popupKey, handleAction)
+  uni.$on(props.popupKey, handleAction)
   uni.navigateTo({
     url:
-      `/pages/popup/index?popupKey=${popupKey}&` +
-      (par ? encodeURIComponent(JSON.stringify(par)) : "")
+      `/pages/popup/index?popupKey=${props.popupKey}&` +
+      (args ? encodeURIComponent(JSON.stringify(args)) : "")
   })
   // #endif
   // #ifdef H5
   popup.value.open()
   // #endif
-  params.value = { handleClick, ...par }
 }
 function close() {
   // #ifndef H5

@@ -1,5 +1,5 @@
 <script setup>
-import PopupIndex from "@/components/popup/index.vue"
+import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { HOME_AD_POPUP, LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import ImageCarousel from "@/pages/home/components/ImageCarousel.vue"
 import NavBar from "@/pages/home/components/NavBar.vue"

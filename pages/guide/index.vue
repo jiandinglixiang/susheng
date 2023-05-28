@@ -8,7 +8,7 @@
 
 <script setup>
 import { PRIVACY_AUTH_POPUP } from "@/components/popup/popupKeyMap"
-import PopupIndex from "@/components/popup/index.vue"
+import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { userInfo } from "@/pinia/user"
 import { onLoad, onUnload } from "@dcloudio/uni-app"
 import { nextTick, ref } from "vue"

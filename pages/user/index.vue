@@ -1,32 +1,21 @@
 <script setup>
 import { userInfo } from "@/pinia/user"
-import LoadTips from "@/components/tips/load-tips.vue"
-import PopupIndex from "@/components/popup/index.vue"
-import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
-import UniStatusBar from "@/uni_modules/uni-nav-bar/components/uni-nav-bar/uni-status-bar.vue"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 import { onLoad } from "@dcloudio/uni-app"
-import { nextTick, onMounted, ref } from "vue"
-const popup = ref()
-const isLogin = ref(!!uni.getStorageSync(USER_TOKEN_DATA)?.token)
+import { ref } from "vue"
+const noLogin = ref(!uni.getStorageSync(USER_TOKEN_DATA)?.token)
+
 const storeUserInfo = userInfo()
 
 onLoad(async () => {
-  isLogin.value = !!(await storeUserInfo.getUserInfo())
+  noLogin.value = !(await storeUserInfo.getUserInfo())
 })
-// nextTick(() => {
-//   popup.value.open({
-//     title: "提示",
-//     buttonText: "去登录",
-//     tips: `<text>asfasfasfas<text style="color:red">asfasfasfas</text><text>asfasfasfas</text></text>`
-//   })
-// })
 
 function handleSign() {
-  isLogin.value && storeUserInfo.$patch({ signin: true })
+  !noLogin.value && storeUserInfo.$patch({ signin: true })
 }
 function navigateTo(url, pass) {
-  if (isLogin.value || pass) {
+  if (!noLogin.value || pass) {
     uni.navigateTo({ url })
   } else {
     uni.reLaunch({ url: "/pages/login/index" })
@@ -46,7 +35,7 @@ function navigateTo(url, pass) {
         class="head-portrait"
         :src="storeUserInfo.avatar || '/static/user/no-login@2x.png'"
       ></image>
-      <view v-if="isLogin" class="user-info">
+      <view v-if="!noLogin" class="user-info">
         <view class="name" @click="navigateTo('/pages/setting/userInfo')">
           <text>{{ storeUserInfo.allotName || storeUserInfo.phone }}</text>
           <!--<view class="leve">Lv7</view>-->
@@ -120,7 +109,6 @@ function navigateTo(url, pass) {
       <image class="arrows" src="/static/user/arrows@2x.png"></image>
     </view>
   </view>
-  <popup-index ref="popup" :popup-key="LOGIN_TIPS_POPUP" />
 </template>
 
 <style lang="scss" scoped>

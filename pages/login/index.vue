@@ -1,5 +1,5 @@
 <script setup>
-import PopupIndex from "@/components/popup/index.vue"
+import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { AGREE_AUTH_POPUP } from "@/components/popup/popupKeyMap"
 import { useTimeCount } from "@/hooks/usePageList"
 import { AppAuditStatus } from "@/pinia/audit"
