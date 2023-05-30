@@ -24,7 +24,6 @@ export function createApp() {
 	const store = Pinia.createPinia()
 	store.use(createUnistorage()) // 数据持久化
 	app.use(store)
-	console.log(app);
 	return {
 		app,
 		Pinia

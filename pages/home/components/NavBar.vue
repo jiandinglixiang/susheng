@@ -1,11 +1,23 @@
-<script setup></script>
+<script setup>
+import { openURL } from "@/utils/func"
+import { NoticeStatus } from "@/pinia/notice"
+const storeNotice = NoticeStatus()
+</script>
 
 <template>
   <view class="nav-bar nav-bar-fixed">
     <image class="handoff" src="/static/home/handoff@2x.png"></image>
     <text>注册会计师</text>
-    <image class="weixin" src="/static/home/weixin@2x.png"></image>
-    <image class="weixin" src="/static/home/customer@2x.png"></image>
+    <image
+      class="weixin"
+      src="/static/home/weixin@2x.png"
+      @click="openURL(storeNotice.miniApp.find((i) => i.id === 4))"
+    ></image>
+    <image
+      class="weixin"
+      src="/static/home/customer@2x.png"
+      @click="openURL(storeNotice.onlineConsultation[0])"
+    ></image>
   </view>
   <view class="nav-bar" />
 </template>

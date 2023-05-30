@@ -104,3 +104,12 @@ export function setTitleNViewButtonStyle({ text, color }, onclick = undefined) {
   )
   // #endif
 }
+
+export function openURL({ value: href }) {
+  // #ifdef APP-PLUS
+  plus.runtime.openURL(href)
+  // #endif
+  // #ifdef H5
+  window.open(href)
+  // #endif
+}

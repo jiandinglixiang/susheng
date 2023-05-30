@@ -1,9 +1,9 @@
 <script setup>
 import dayjs from "dayjs"
-import { onMounted, onUnmounted, ref } from "vue"
-import { POST_COMMON_DATA } from "@/api"
-import { httpRequest } from "@/utils/http"
-
+import { onMounted, onUnmounted, ref, watch } from "vue"
+import { NoticeStatus } from "@/pinia/notice"
+import { openURL } from "@/utils/func"
+const storeNotice = NoticeStatus()
 const current = ref({
   index: 0,
   name: "考试",
@@ -11,11 +11,9 @@ const current = ref({
 })
 let list = []
 let time = 0
-
 onMounted(async () => {
-  httpRequest(POST_COMMON_DATA, "POST", { position: 2 })
-  const res = await httpRequest(POST_COMMON_DATA, "POST", { position: 1 })
-  list = res.data.map((item, index) => {
+  await storeNotice.getCommonData()
+  list = storeNotice.countDown.map((item, index) => {
     return {
       ...item,
       index,
@@ -31,6 +29,7 @@ onMounted(async () => {
   if (list.length === 1) {
     return
   }
+  clearInterval(time)
   time = setInterval(interval, 2000)
 })
 
@@ -54,7 +53,7 @@ onUnmounted(() => {
     </view>
     <view class="number" v-for="i in current.value">{{ i }}</view>
     <text class="days">DAYS</text>
-    <button class="btn">报考规划</button>
+    <button class="btn" @click="openURL(storeNotice.onlineConsultation[0])">报考规划</button>
   </view>
 </template>
 
