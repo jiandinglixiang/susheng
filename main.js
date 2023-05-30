@@ -1,3 +1,5 @@
+import { NoticeStatus } from "@/pinia/notice"
+import { onLoad } from "@dcloudio/uni-app"
 import App from "./App"
 
 // #ifndef VUE3
@@ -6,27 +8,24 @@ import "./uni.promisify.adaptor"
 Vue.config.productionTip = false
 App.mpType = "app"
 const app = new Vue({
-	...App
+  ...App
 })
 app.$mount()
 // #endif
 
 // #ifdef VUE3
-import {
-	createSSRApp
-} from "vue"
+import { createSSRApp } from "vue"
 import * as Pinia from "pinia"
-import {
-	createUnistorage
-} from "./uni_modules/pinia-plugin-unistorage"
+import { createUnistorage } from "./uni_modules/pinia-plugin-unistorage"
 export function createApp() {
-	const app = createSSRApp(App)
-	const store = Pinia.createPinia()
-	store.use(createUnistorage()) // 数据持久化
-	app.use(store)
-	return {
-		app,
-		Pinia
-	}
+  const app = createSSRApp(App)
+  const store = Pinia.createPinia()
+  store.use(createUnistorage()) // 数据持久化
+  app.use(store)
+  return {
+    app,
+    Pinia
+  }
 }
+
 // #endif

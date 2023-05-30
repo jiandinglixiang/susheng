@@ -1,10 +1,15 @@
 <script setup>
 import InformationItem from "@/components/information/InformationItem.vue"
+import { NoticeStatus } from "@/pinia/notice"
+import { openURL } from "@/utils/func"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
 import { GET_ARTICLE_LIST, POST_ARTICLE_TYPE } from "@/api"
 import { usePageList } from "@/hooks/usePageList"
 import LoadTips from "@/components/tips/load-tips.vue"
+const storeNotice = NoticeStatus()
+
+
 let targetType
 const { list, getList, loading, loadMore, refresh } = usePageList({ requestFunc })
 
@@ -62,7 +67,7 @@ function gotoDetail(item) {
     :border="false"
     right-width="164rpx"
     @clickLeft="navigateBack"
-    @clickRight="navigateBack"
+    @clickRight="openURL(storeNotice.onlineConsultation[0])"
     class="nav-bar"
   >
     <template v-slot:right>

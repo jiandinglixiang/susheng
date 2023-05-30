@@ -2,13 +2,14 @@
 import FixedFab from "@/components/fab/FixedFab.vue"
 import NoticeBar from "@/components/notice-bar/NoticeBar.vue"
 import { usePageList } from "@/hooks/usePageList"
+import { NoticeStatus } from "@/pinia/notice"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
 import { POST_LIST_NOTICE, POST_LIST_OF_MATERIALS } from "@/api"
 import LoadTips from "@/components/tips/load-tips.vue"
-import { formatNumber } from "@/utils/func"
+import { formatNumber, openURL } from "@/utils/func"
 import { computed, ref } from "vue"
-
+const storeNotice = NoticeStatus()
 const { list, getList, loading, loadMore, refresh } = usePageList({ requestFunc })
 const noticeData = ref([])
 const noticeList = computed(() => {
@@ -62,7 +63,7 @@ function navigateBack() {
     left-icon="back"
     :border="false"
     @clickLeft="navigateBack"
-    @clickRight="navigateBack"
+    @clickRight="openURL(storeNotice.onlineConsultation[0])"
     class="nav-bar"
   >
     <template v-slot:right>

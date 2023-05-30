@@ -62,7 +62,7 @@ function handleAction(...actionParams) {
   }
   openParams.value?.handleClick?.(...actionParams) || emits("action", ...actionParams)
 }
-function open({ handleClick, ...args }) {
+function open({ handleClick, ...args } = {}) {
   if (args) {
     args = deepMergeObjects(args, openParams.value)
     openParams.value = { ...args, handleClick }

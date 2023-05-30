@@ -1,13 +1,13 @@
 <script setup>
 import dayjs from "dayjs"
-import { onMounted, onUnmounted, ref, watch } from "vue"
+import { onMounted, onUnmounted, ref } from "vue"
 import { NoticeStatus } from "@/pinia/notice"
 import { openURL } from "@/utils/func"
 const storeNotice = NoticeStatus()
 const current = ref({
   index: 0,
   name: "考试",
-  value: "00"
+  value: "0"
 })
 let list = []
 let time = 0

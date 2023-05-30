@@ -1,6 +1,8 @@
 <script setup>
 import CourseLineCardItem from "@/components/course/CourseLineCardItem.vue"
+import { NoticeStatus } from "@/pinia/notice"
 import { PAGES_VIDEO_DETAIL } from "@/utils/consts"
+import { openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { POST_VIDEO_LIST } from "@/api"
 import { onLoad } from "@dcloudio/uni-app"
@@ -8,6 +10,7 @@ import { ref } from "vue"
 import LoadTips from "@/components/tips/load-tips.vue"
 const list = ref([])
 const loading = ref("")
+const storeNotice = NoticeStatus()
 
 onLoad(async () => {
   try {
@@ -44,7 +47,7 @@ function navigateBack() {
     left-icon="back"
     :border="false"
     @clickLeft="navigateBack"
-    @clickRight="navigateBack"
+    @clickRight="openURL(storeNotice.onlineConsultation[0])"
     class="nav-bar"
   >
     <template v-slot:right>
