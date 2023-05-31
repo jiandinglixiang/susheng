@@ -3,6 +3,10 @@ import dayjs from "dayjs"
 import { computed } from "vue"
 
 const props = defineProps({
+  underLine: {
+    type: Boolean,
+    default: true
+  },
   itemData: {
     type: Object,
     default() {
@@ -14,7 +18,7 @@ const pubdate = computed(() => dayjs(props.itemData.pubdate).format("M月DD日")
 </script>
 
 <template>
-  <view class="information-item">
+  <view class="information-item" :class="[underLine && 'under-line']">
     <view class="left-content">
       <text class="title">{{ itemData.title }}</text>
       <text class="time">{{ pubdate }}</text>
@@ -29,6 +33,8 @@ const pubdate = computed(() => dayjs(props.itemData.pubdate).format("M月DD日")
   margin: 0 32rpx 32rpx;
   display: flex;
   flex-flow: row nowrap;
+}
+.under-line {
   border-bottom: 2rpx solid rgba(238, 238, 238, 1);
 }
 .left-content {

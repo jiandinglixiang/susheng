@@ -1,7 +1,7 @@
 <script setup>
 import CourseLineCardItem from "@/components/course/CourseLineCardItem.vue"
 import { PAGES_VIDEO_DETAIL } from "@/utils/consts"
-import { onMounted, ref } from "vue"
+import { onMounted, onUnmounted, ref } from "vue"
 import { httpRequest } from "@/utils/http"
 import { POST_VIDEO_LIST } from "@/api"
 const list = ref([])
@@ -16,7 +16,23 @@ onMounted(async () => {
       number: item.star
     }
   })
+  uni.$on("/pages/video/detail", handleCollect)
 })
+onUnmounted(() => {
+  uni.$off("/pages/video/detail", handleCollect)
+})
+function handleCollect(action, params) {
+  console.log(action, params)
+  if (action === "collect") {
+    list.value.some((item) => {
+      if (item.id === params.id) {
+        item.collect = params.collect
+        return true
+      }
+      return false
+    })
+  }
+}
 function handleClick(item) {
   uni.setStorageSync(PAGES_VIDEO_DETAIL, item)
   uni.navigateTo({

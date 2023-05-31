@@ -10,8 +10,6 @@ import LoadTips from "@/components/tips/load-tips.vue"
 import { formatNumber, openURL } from "@/utils/func"
 import { computed, ref } from "vue"
 
-
-
 const storeNotice = NoticeStatus()
 const { list, getList, loading, loadMore, refresh } = usePageList({ requestFunc })
 const noticeData = ref([])
@@ -106,7 +104,10 @@ function navigateBack() {
     </view>
   </view>
   <load-tips :loading="loading" />
-  <fixed-fab type="information" />
+  <fixed-fab
+    type="information"
+    @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))"
+  />
 </template>
 
 <style scoped lang="scss">

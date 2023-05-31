@@ -9,7 +9,6 @@ import { usePageList } from "@/hooks/usePageList"
 import LoadTips from "@/components/tips/load-tips.vue"
 const storeNotice = NoticeStatus()
 
-
 let targetType
 const { list, getList, loading, loadMore, refresh } = usePageList({ requestFunc })
 
@@ -76,9 +75,10 @@ function gotoDetail(item) {
   </uni-nav-bar>
   <view style="height: 16rpx" />
   <information-item
-    v-for="item in list"
+    v-for="(item, index) in list"
     :item-data="item"
     :key="item.id"
+    :under-line="list.length - 1 !== index"
     @click="gotoDetail(item)"
   />
   <load-tips :loading="loading" />

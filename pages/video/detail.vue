@@ -1,17 +1,23 @@
 <script setup>
-import { PAGES_VIDEO_DETAIL } from "@/utils/consts"
+import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
+import { PopupStatus } from "@/pinia/popup"
+import { PAGES_VIDEO_DETAIL, USER_TOKEN_DATA } from "@/utils/consts"
 import { openURL, setTitleNViewButtonStyle } from "@/utils/func"
 import FixedFab from "@/components/fab/FixedFab.vue"
 import { httpRequest } from "@/utils/http"
-import { POST_VIDEO_LIST_CLASSHOUR } from "@/api"
+import { POST_VIDEO_COLLECT, POST_VIDEO_LIST_CLASSHOUR } from "@/api"
 import { onLoad, onUnload } from "@dcloudio/uni-app"
 import { nextTick, ref } from "vue"
 import { NoticeStatus } from "@/pinia/notice"
+import PopupIndex from "@/components/popup/PopupIndex.vue"
+
+const noLogin = ref(!uni.getStorageSync(USER_TOKEN_DATA)?.token)
 const options = uni.getStorageSync(PAGES_VIDEO_DETAIL)
 const directory = ref([])
 const displayTab = ref(false)
 const videoSrc = ref("")
 
+const storePopup = PopupStatus()
 const storeNotice = NoticeStatus()
 let stopRightButtonListener
 
@@ -26,33 +32,56 @@ onLoad(async () => {
     children: []
   })
   directory.value = res.data
-})
-nextTick(() => {
+  await nextTick()
   uni.setNavigationBarTitle({ title: options.title })
-  stopRightButtonListener = setTitleNViewButtonStyle(
-    { text: "\ue688", color: "#333333" },
-    rightButton
-  )
-  uni.pageScrollTo(0)
+  setTimeout(() => {
+    stopRightButtonListener = setTitleNViewButtonStyle(
+      options.collect ? { text: "\ue68f", color: "#305DDA" } : { text: "\ue688", color: "#333" },
+      rightButton
+    )
+    uni.pageScrollTo(0)
+  }, 100)
 })
+
 onUnload(() => {
   stopRightButtonListener?.()
 })
 
-let s = 0
+async function rightButton() {
+  if (noLogin.value) {
+    gotoLogin()
+    return
+  }
+  await httpRequest(POST_VIDEO_COLLECT, "POST", { vid: options.id })
+  options.collect = options.collect ? 0 : 1
+  uni.setStorageSync(PAGES_VIDEO_DETAIL, options)
+  setTitleNViewButtonStyle(
+    options.collect ? { text: "\ue68f", color: "#305DDA" } : { text: "\ue688", color: "#333333" }
+  )
+  uni.$emit("/pages/video/detail", "collect", options)
+}
 
-function rightButton() {
-  s++
-  console.log(s)
-  setTitleNViewButtonStyle({
-    text: s % 2 ? "\ue68f" : "\ue688",
-    color: s % 2 ? "#333333" : "#305DDA"
+function gotoLogin() {
+  storePopup[LOGIN_TIPS_POPUP]?.open({
+    title: "提示",
+    tips: "收藏功能需要您登录后，我们才能为您保存相应的收藏内容",
+    buttonText: "去登录",
+    handleClick(action) {
+      if (action === "btn") {
+        uni.navigateTo({ url: "/pages/login/index" })
+      }
+    }
   })
 }
 </script>
 
 <template>
   <view>
+    <popup-index
+      v-if="noLogin"
+      :ref="(r) => PopupStatus().setPopupRef(LOGIN_TIPS_POPUP, r)"
+      :popup-key="LOGIN_TIPS_POPUP"
+    />
     <fixed-fab @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))" />
     <view class="header-container">
       <video

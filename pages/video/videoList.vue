@@ -5,7 +5,7 @@ import { PAGES_VIDEO_DETAIL } from "@/utils/consts"
 import { openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { POST_VIDEO_LIST } from "@/api"
-import { onLoad } from "@dcloudio/uni-app"
+import { onLoad, onUnload } from "@dcloudio/uni-app"
 import { ref } from "vue"
 import LoadTips from "@/components/tips/load-tips.vue"
 const list = ref([])
@@ -29,7 +29,25 @@ onLoad(async () => {
   } catch (e) {
     loading.value = e?.noNetwork ? "networkerror" : "error"
   }
+  uni.$on("/pages/video/detail", handleCollect)
 })
+
+onUnload(() => {
+  uni.$off("/pages/video/detail", handleCollect)
+})
+
+function handleCollect(action, params) {
+  console.log(action, params)
+  if (action === "collect") {
+    list.value.some((item) => {
+      if (item.id === params.id) {
+        item.collect = params.collect
+        return true
+      }
+      return false
+    })
+  }
+}
 function handleClick(item) {
   uni.setStorageSync(PAGES_VIDEO_DETAIL, item)
   uni.navigateTo({ url: "./detail" })

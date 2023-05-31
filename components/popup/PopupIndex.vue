@@ -40,8 +40,12 @@ import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
 import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
 import HomeAdPopup from "@/components/popup/HomeAdPopup.vue"
 
-const props = defineProps({
-  params: Object,
+const {
+  params: propsParams,
+  popupKey,
+  autoClose
+} = defineProps({
+  propsParams: Object,
   popupKey: String,
   autoClose: {
     type: Boolean,
@@ -50,28 +54,30 @@ const props = defineProps({
 })
 const emits = defineEmits(["action"])
 const popup = ref()
-const openParams = ref({ ...props.params })
+const params = ref({ ...propsParams })
 
 onUnmounted(() => {
-  uni.$off(props.popupKey)
+  uni.$off(popupKey)
 })
 
 function handleAction(...actionParams) {
-  if (props.autoClose && actionParams[0] === "close") {
+  if (autoClose && actionParams[0] === "close") {
     close()
   }
-  openParams.value?.handleClick?.(...actionParams) || emits("action", ...actionParams)
+  params.value?.handleClick?.(...actionParams) || emits("action", ...actionParams)
 }
-function open({ handleClick, ...args } = {}) {
-  if (args) {
-    args = deepMergeObjects(args, openParams.value)
-    openParams.value = { ...args, handleClick }
-  }
+function open(arg = {}) {
+  arg = deepMergeObjects(arg, params.value)
+  // 合并
+  const { handleClick, ...args } = arg
+  // 剔除
+  params.value = { ...args, handleClick }
+
   // #ifndef H5
-  uni.$on(props.popupKey, handleAction)
+  uni.$on(popupKey, handleAction)
   uni.navigateTo({
     url:
-      `/pages/popup/index?popupKey=${props.popupKey}&` +
+      `/pages/popup/index?popupKey=${popupKey}&` +
       (args ? encodeURIComponent(JSON.stringify(args)) : "")
   })
   // #endif

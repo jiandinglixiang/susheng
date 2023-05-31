@@ -1,13 +1,19 @@
 <script setup>
+import PopupIndex from "@/components/popup/PopupIndex.vue"
+import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
+import { PopupStatus } from "@/pinia/popup"
 import parseHtml from "@/static/js/html-parser"
-import { onLoad } from "@dcloudio/uni-app"
+import { USER_TOKEN_DATA } from "@/utils/consts"
+import { onLoad, onUnload } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
-import { GET_ARTICLE_DETAIL } from "@/api"
+import { GET_ARTICLE_DETAIL, POST_ARTICLE_COLLECT, POST_ARTICLE_COLLECT_STATUS } from "@/api"
 import { computed, ref } from "vue"
 import dayjs from "dayjs"
 import { NoticeStatus } from "@/pinia/notice"
-import { openURL } from "@/utils/func"
+import { openURL, setTitleNViewButtonStyle } from "@/utils/func"
 
+const noLogin = ref(!uni.getStorageSync(USER_TOKEN_DATA)?.token)
+const storePopup = PopupStatus()
 const storeNotice = NoticeStatus()
 const detail = ref({
   keywords: "",
@@ -24,9 +30,10 @@ const detail = ref({
   typename: "",
   pubdate: -1
 })
+const collect = ref(0)
 uni.setNavigationBarTitle({ title: "" })
 
-onLoad(({ id, domain }) => {
+onLoad(async ({ id, domain }) => {
   httpRequest(
     GET_ARTICLE_DETAIL.replace("{id}", id),
     "GET",
@@ -40,9 +47,32 @@ onLoad(({ id, domain }) => {
   ).then((res) => {
     detail.value = res.data
   })
+  const res = await httpRequest(POST_ARTICLE_COLLECT_STATUS, "POST", { aid: id })
+  collect.value = res.data.collect
 })
-const content = computed(() => parseHtml(detail.value.body))
 
+const content = computed(() => parseHtml(detail.value.body))
+async function handleCollect() {
+  if (noLogin.value) {
+    gotoLogin()
+    return
+  }
+  const { aid, title, pubdate, litpic: pic } = detail.value
+  await httpRequest(POST_ARTICLE_COLLECT, "POST", { aid, title, pubdate, pic })
+  collect.value = collect.value ? 0 : 1
+}
+function gotoLogin() {
+  storePopup[LOGIN_TIPS_POPUP]?.open({
+    title: "提示",
+    tips: "收藏功能需要您登录后，我们才能为您保存相应的收藏内容",
+    buttonText: "去登录",
+    handleClick(action) {
+      if (action === "btn") {
+        uni.navigateTo({ url: "/pages/login/index" })
+      }
+    }
+  })
+}
 function pubdate(pubdate) {
   return dayjs(pubdate * 1000).format("YYYY-MM-DD")
 }
@@ -61,7 +91,7 @@ function pubdate(pubdate) {
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">
-        <view class="collect collected">收藏</view>
+        <view class="collect" :class="collect && 'collected'" @click="handleCollect">收藏</view>
         <view
           class="free-information"
           @click="openURL(storeNotice.miniApp.find((i) => i.id === 7))"
@@ -71,6 +101,11 @@ function pubdate(pubdate) {
         <view class="btn" @click="openURL(storeNotice.onlineConsultation[0])">在线咨询</view>
       </view>
     </view>
+    <popup-index
+      v-if="noLogin"
+      :ref="(r) => PopupStatus().setPopupRef(LOGIN_TIPS_POPUP, r)"
+      :popup-key="LOGIN_TIPS_POPUP"
+    />
   </view>
 </template>
 <style scoped lang="scss">
