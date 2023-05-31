@@ -62,3 +62,5 @@ export const POST_ARTICLE_COLLECT_STATUS  = "/client/article/collect/status"
 export const POST_VIDEO_COLLECT_LIST = "/client/video/collect/list"
 
 export const POST_ARTICLE_COLLECT_LIST = "/client/article/collect/list"
+
+export const POST_VIDEO_PLAY_LOG = "/client/video/playLog"
