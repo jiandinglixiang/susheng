@@ -5,6 +5,10 @@ import FixedFab from "@/components/fab/FixedFab.vue"
 import { onLoad } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
 import { POST_VCOURSE_DETATILS } from "@/api"
+import { NoticeStatus } from "@/pinia/notice"
+import { openURL } from "@/utils/func"
+
+const storeNotice = NoticeStatus()
 const detail = ref({
   id: -1,
   name: "",
@@ -33,7 +37,7 @@ function rightButton() {}
 
 <template>
   <view>
-    <fixed-fab />
+    <fixed-fab @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))" />
     <image class="course-img" :src="detail.thumb" />
     <view class="course-price">
       <text class="price">
@@ -43,7 +47,10 @@ function rightButton() {}
       <text class="date-text">有效期：</text>
       <text class="date">购课之日起</text>
     </view>
-    <view class="receive-information-card">
+    <view
+      class="receive-information-card"
+      @click="openURL(storeNotice.miniApp.find((i) => i.id === 7))"
+    >
       <text class="name">{{ detail.name }}</text>
       <view class="box-below">
         <text class="highlight">领取资料</text>

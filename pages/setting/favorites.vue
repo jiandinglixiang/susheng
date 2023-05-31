@@ -9,6 +9,10 @@ import { findFormEnd } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { computed, markRaw, ref } from "vue"
+import {NoticeStatus} from '@/pinia/notice'
+
+
+const storeNotice = NoticeStatus()
 const controlList = ["精选课程", "资讯"]
 const currentTab = ref(0)
 const listData = ref([])

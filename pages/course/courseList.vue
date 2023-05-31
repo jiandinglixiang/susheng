@@ -5,7 +5,10 @@ import { httpRequest } from "@/utils/http"
 import { usePageList } from "@/hooks/usePageList"
 import { GET_VCOURSE_LIST } from "@/api"
 import LoadTips from "@/components/tips/load-tips.vue"
+import { openURL } from "@/utils/func"
+import { NoticeStatus } from "@/pinia/notice"
 
+const storeNotice = NoticeStatus()
 const { list, getList, loading, loadMore, refresh } = usePageList({ requestFunc })
 
 onLoad((options) => {
@@ -52,7 +55,7 @@ function navigateBack() {
     left-icon="back"
     :border="false"
     @clickLeft="navigateBack"
-    @clickRight="navigateBack"
+    @clickRight="openURL(storeNotice.onlineConsultation[0])"
     class="nav-bar"
   >
     <template v-slot:right>

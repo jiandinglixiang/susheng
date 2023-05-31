@@ -2,11 +2,12 @@
 const props = defineProps({
   type: String
 })
+const emits = defineEmits(["handleClick"])
 </script>
 
 <template>
   <movable-area class="movable-area">
-    <movable-view direction="vertical" class="movable-view" y="350">
+    <movable-view direction="vertical" class="movable-view" y="350" @click="emits('handleClick')">
       <image
         v-if="props.type === 'teaching'"
         class="fixed-fab"

@@ -9,6 +9,9 @@ import { POST_LIST_NOTICE, POST_LIST_OF_MATERIALS } from "@/api"
 import LoadTips from "@/components/tips/load-tips.vue"
 import { formatNumber, openURL } from "@/utils/func"
 import { computed, ref } from "vue"
+
+
+
 const storeNotice = NoticeStatus()
 const { list, getList, loading, loadMore, refresh } = usePageList({ requestFunc })
 const noticeData = ref([])

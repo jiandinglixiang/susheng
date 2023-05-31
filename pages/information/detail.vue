@@ -5,6 +5,10 @@ import { httpRequest } from "@/utils/http"
 import { GET_ARTICLE_DETAIL } from "@/api"
 import { computed, ref } from "vue"
 import dayjs from "dayjs"
+import { NoticeStatus } from "@/pinia/notice"
+import { openURL } from "@/utils/func"
+
+const storeNotice = NoticeStatus()
 const detail = ref({
   keywords: "",
   arcurl: "",
@@ -52,14 +56,19 @@ function pubdate(pubdate) {
       <text class="dec-info">小编：CPA</text>
       <text class="dec-info">{{ pubdate(detail.pubdate) }}</text>
     </view>
-    <view class="rich-text-box" >
+    <view class="rich-text-box">
       <rich-text :nodes="content"></rich-text>
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">
         <view class="collect collected">收藏</view>
-        <view class="free-information">免费资料</view>
-        <view class="btn">在线咨询</view>
+        <view
+          class="free-information"
+          @click="openURL(storeNotice.miniApp.find((i) => i.id === 7))"
+        >
+          免费资料
+        </view>
+        <view class="btn" @click="openURL(storeNotice.onlineConsultation[0])">在线咨询</view>
       </view>
     </view>
   </view>

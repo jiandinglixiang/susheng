@@ -10,7 +10,6 @@ import LiveScrollX from "@/pages/home/components/LiveScrollX.vue"
 import CourseGroupLine from "@/pages/home/components/CourseGroupLine.vue"
 import CourseGroup from "@/pages/home/components/CourseGroup.vue"
 import { AppAuditStatus } from "@/pinia/audit"
-import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import { nextTick, ref } from "vue"
 import { AD_POP_UP_IMPRESSION_HISTORY, USER_TOKEN_DATA } from "@/utils/consts"
@@ -21,7 +20,7 @@ const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
 const storeAppAuditStatus = { auditStatusBoolean: false } || AppAuditStatus()
 const showAdPopup = ref(false)
 const refAdPopup = ref()
-const storeNotice = NoticeStatus()
+
 onLoad(() => {
   const AdPopUpHistory = uni.getStorageSync(AD_POP_UP_IMPRESSION_HISTORY)
   if (!AdPopUpHistory || !dayjs().isSame(AdPopUpHistory, "day")) {

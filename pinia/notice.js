@@ -44,7 +44,7 @@ export const NoticeStatus = defineStore("NoticeStatus", {
           state.onlineConsultation.push(item)
         }
       })
-      console.log(state)
+      // console.log(state)
       this.$patch(state)
     }
   }

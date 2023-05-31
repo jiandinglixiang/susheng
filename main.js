@@ -1,5 +1,3 @@
-import { NoticeStatus } from "@/pinia/notice"
-import { onLoad } from "@dcloudio/uni-app"
 import App from "./App"
 
 // #ifndef VUE3

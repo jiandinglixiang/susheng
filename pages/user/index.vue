@@ -14,7 +14,6 @@ const storeNotice = NoticeStatus()
 
 onLoad(async () => {
   noLogin.value = !(await storeUserInfo.getUserInfo())
-  storeNotice.getCommonData()
 })
 
 function handleSign() {

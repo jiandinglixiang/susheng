@@ -1,6 +1,6 @@
 <script setup>
 import dayjs from "dayjs"
-import { onMounted, onUnmounted, ref } from "vue"
+import { onMounted, onUnmounted, ref, watch } from "vue"
 import { NoticeStatus } from "@/pinia/notice"
 import { openURL } from "@/utils/func"
 const storeNotice = NoticeStatus()
@@ -11,27 +11,32 @@ const current = ref({
 })
 let list = []
 let time = 0
-onMounted(async () => {
-  await storeNotice.getCommonData()
-  list = storeNotice.countDown.map((item, index) => {
-    return {
-      ...item,
-      index,
-      value: dayjs(item.value * 1000)
-        .diff(Date.now(), "day")
-        .toString()
+const stopWatch = watch(
+  () => storeNotice.countDown,
+  (countDown) => {
+    list = countDown.map((item, index) => {
+      return {
+        ...item,
+        index,
+        value: dayjs(item.value * 1000)
+          .diff(Date.now(), "day")
+          .toString()
+      }
+    })
+    if (!list.length) {
+      return
     }
-  })
-  if (!list.length) {
-    return
+    interval()
+    if (list.length === 1) {
+      return
+    }
+    clearInterval(time)
+    time = setInterval(interval, 2000)
+  },
+  {
+    immediate: true
   }
-  interval()
-  if (list.length === 1) {
-    return
-  }
-  clearInterval(time)
-  time = setInterval(interval, 2000)
-})
+)
 
 function interval() {
   let index = current.value.index + 1
@@ -42,6 +47,7 @@ function interval() {
 }
 onUnmounted(() => {
   clearInterval(time)
+  stopWatch()
 })
 </script>
 

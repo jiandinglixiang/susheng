@@ -1,15 +1,15 @@
-<script>
-export default {
-  onLaunch() {
-    console.log("App Launch")
-  },
-  onShow() {
-    console.log("App Show")
-  },
-  onHide() {
-    console.log("App Hide")
-  }
-}
+<script setup>
+import { NoticeStatus } from "@/pinia/notice"
+import { onLaunch } from "@dcloudio/uni-app"
+import { nextTick } from "vue"
+
+
+onLaunch(async () => {
+  await nextTick()
+  setTimeout(() => {
+    NoticeStatus().getCommonData()
+  }, 100)
+})
 </script>
 
 <style lang="scss">

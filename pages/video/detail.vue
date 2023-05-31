@@ -1,16 +1,18 @@
 <script setup>
 import { PAGES_VIDEO_DETAIL } from "@/utils/consts"
-import { setTitleNViewButtonStyle } from "@/utils/func"
+import { openURL, setTitleNViewButtonStyle } from "@/utils/func"
 import FixedFab from "@/components/fab/FixedFab.vue"
 import { httpRequest } from "@/utils/http"
 import { POST_VIDEO_LIST_CLASSHOUR } from "@/api"
 import { onLoad, onUnload } from "@dcloudio/uni-app"
 import { nextTick, ref } from "vue"
+import { NoticeStatus } from "@/pinia/notice"
 const options = uni.getStorageSync(PAGES_VIDEO_DETAIL)
 const directory = ref([])
 const displayTab = ref(false)
 const videoSrc = ref("")
 
+const storeNotice = NoticeStatus()
 let stopRightButtonListener
 
 onLoad(async () => {
@@ -51,7 +53,7 @@ function rightButton() {
 
 <template>
   <view>
-    <fixed-fab />
+    <fixed-fab @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))" />
     <view class="header-container">
       <video
         v-if="videoSrc"
@@ -65,7 +67,10 @@ function rightButton() {
       ></video>
       <image v-else class="full-box" :src="options.file" />
     </view>
-    <view class="receive-information-card">
+    <view
+      class="receive-information-card"
+      @click="openURL(storeNotice.miniApp.find((i) => i.id === 7))"
+    >
       <text class="name">{{ options.title }}</text>
       <view class="box-below">
         <text class="highlight">领取资料</text>

@@ -5,6 +5,10 @@ import { httpRequest } from "@/utils/http"
 import { POST_LIVE_DETATILS } from "@/api"
 import dayjs from "dayjs"
 import { computed, ref } from "vue"
+import { NoticeStatus } from "@/pinia/notice"
+import { openURL } from "@/utils/func"
+
+const storeNotice = NoticeStatus()
 const detail = ref({
   id: -1,
   title: "",
@@ -62,21 +66,30 @@ const status = computed(() => {
         topText: "直播已结束！",
         countdown: [],
         btnText: "领取回放资料",
-        btnStyle: "btn-done"
+        btnStyle: "btn-done",
+        btnClick() {
+          openURL(storeNotice.miniApp.find((i) => i.id === 7))
+        }
       }
     case 2:
       return {
         topText: "距直播开始还有",
         countdown: transformDate(starttime * 1000),
         btnText: "已预约 领取直播讲义",
-        btnStyle: "btn-done"
+        btnStyle: "btn-done",
+        btnClick() {
+          openURL(storeNotice.miniApp.find((i) => i.id === 7))
+        }
       }
     default:
       // 1
       return {
         topText: "距直播开始还有",
         countdown: transformDate(starttime * 1000),
-        btnText: "立即预约"
+        btnText: "立即预约",
+        btnClick() {
+
+        }
       }
   }
 })
@@ -100,7 +113,13 @@ const status = computed(() => {
           splitor-color="#ffffff"
           background-color="#ffffff"
         />
-        <view v-else-if="status.btnText === '领取回放资料'" class="receive-btn">领取回放资料</view>
+        <view
+          v-else-if="status.btnText === '领取回放资料'"
+          class="receive-btn"
+          @click="openURL(storeNotice.miniApp.find((i) => i.id === 7))"
+        >
+          领取回放资料
+        </view>
       </view>
     </view>
     <view class="person-info">
@@ -124,11 +143,11 @@ const status = computed(() => {
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">
-        <view class="teacher">
+        <view class="teacher" @click="openURL(storeNotice.miniApp.find((i) => i.id === 8))">
           <image src="/static/course/icon_banjiqun@2x.png"></image>
           <text>学管老师</text>
         </view>
-        <view class="btn" :class="status.btnStyle">
+        <view class="btn" :class="status.btnStyle" @click="status.btnClick">
           <!--立即预约-->
           {{ status.btnText }}
         </view>
