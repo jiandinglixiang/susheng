@@ -7,7 +7,7 @@ export const AppAuditStatus = defineStore("AppAuditStatus", {
   // 也可以这样定义
   state: () => ({
     auditStatus: 1, // 状态(1审核2发布)
-    auditStatusBoolean: !import.meta.env.DEV
+    auditStatusBoolean: import.meta.env.DEV
   }),
   actions: {
     async getAppAuditStatus() {

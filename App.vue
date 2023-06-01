@@ -2,14 +2,15 @@
 import { NoticeStatus } from "@/pinia/notice"
 import { onLaunch } from "@dcloudio/uni-app"
 import { nextTick } from "vue"
-import {AppAuditStatus} from '@/pinia/audit'
-
+import { AppAuditStatus } from "@/pinia/audit"
 
 onLaunch(async () => {
   await nextTick()
   setTimeout(() => {
     NoticeStatus().getCommonData()
+    // 获取跳转数据
     AppAuditStatus().getAppAuditStatus()
+    // 获取审核状态
   }, 100)
 })
 </script>
