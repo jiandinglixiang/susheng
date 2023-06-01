@@ -16,22 +16,6 @@
       }
     },
     {
-      "path": "pages/popup/index",
-      "style": {
-        "navigationBarTitleText": "弹窗页",
-        "navigationStyle": "custom",
-        "disableScroll": true,
-        "disableSwipeBack": true,
-        "backgroundColor": "transparent",
-        "app-plus": {
-          "animationType": "fade-in",
-          "background": "transparent",
-          "bounce": "none",
-          "popGesture": "none"
-        }
-      }
-    },
-    {
       "path": "pages/home/index",
       "style": {
         "navigationStyle": "custom",
@@ -55,6 +39,22 @@
         "pageOrientation": "landscape",
         "app-plus": {
           "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/popup/index",
+      "style": {
+        "navigationBarTitleText": "弹窗页",
+        "navigationStyle": "custom",
+        "disableScroll": true,
+        "disableSwipeBack": true,
+        "backgroundColor": "transparent",
+        "app-plus": {
+          "animationType": "fade-in",
+          "background": "transparent",
+          "bounce": "none",
+          "popGesture": "none"
         }
       }
     },
@@ -293,20 +293,20 @@
     "height": "50px",
     "list": [{
         "pagePath": "pages/home/index",
-        "iconPath": "static/tabbar/index.png",
-        "selectedIconPath": "static/tabbar/index@2x.png",
+        "iconPath": "static/tabbar/icon_index.png",
+        "selectedIconPath": "static/tabbar/index_selected.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/question-bank/index",
-        "iconPath": "static/tabbar/question-bank.png",
-        "selectedIconPath": "static/tabbar/question-bank@2x.png",
+        "iconPath": "static/tabbar/question_bank.png",
+        "selectedIconPath": "static/tabbar/question_bank_selected.png",
         "text": "题库"
       },
       {
         "pagePath": "pages/user/index",
-        "iconPath": "static/tabbar/user.png",
-        "selectedIconPath": "static/tabbar/user@2x.png",
+        "iconPath": "static/tabbar/icon_user.png",
+        "selectedIconPath": "static/tabbar/user_selected.png",
         "text": "我的"
       }
     ]
