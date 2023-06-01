@@ -5,7 +5,12 @@ import { computed, ref } from "vue"
 import dayjs from "dayjs"
 import { httpRequest } from "@/utils/http"
 import { POST_LIVE_SUBSCRIBE } from "@/api"
+import { openURL } from "@/utils/func"
+import { NoticeStatus } from "@/pinia/notice"
+import { USER_TOKEN_DATA } from "@/utils/consts"
 
+const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
+const storeNotice = NoticeStatus()
 const storePopup = PopupStatus()
 
 const props = defineProps({
@@ -44,9 +49,8 @@ const status = computed(() => {
         btn: "看直播",
         style2: "living",
         style: "watching-live",
-        async handleClick() {
-          //   跳转微信助教
-          storePopup[LOGIN_TIPS_POPUP]?.open()
+        handleClick() {
+          openURL(storeNotice.miniApp.find((i) => i.id === 7))
         }
       }
     case 4:
@@ -55,8 +59,7 @@ const status = computed(() => {
         style: "watch-replay",
         style2: "",
         handleClick() {
-          //   跳转微信助教
-          gotoLogin()
+          openURL(storeNotice.miniApp.find((i) => i.id === 7))
         }
       }
     case 2:
@@ -65,8 +68,7 @@ const status = computed(() => {
         style: "reserved",
         style2: "",
         handleClick() {
-          storePopup[LOGIN_TIPS_POPUP]?.open()
-          //
+          openURL(storeNotice.miniApp.find((i) => i.id === 7))
         }
       }
     default:
@@ -77,6 +79,10 @@ const status = computed(() => {
         style2: "",
         async handleClick() {
           if (enable.value) {
+            return
+          }
+          if (noLogin) {
+            gotoLogin()
             return
           }
           await httpRequest(POST_LIVE_SUBSCRIBE, "POST", { liveid: props.itemData.id, type: 1 })

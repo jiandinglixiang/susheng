@@ -2,12 +2,14 @@
 import { NoticeStatus } from "@/pinia/notice"
 import { onLaunch } from "@dcloudio/uni-app"
 import { nextTick } from "vue"
+import {AppAuditStatus} from '@/pinia/audit'
 
 
 onLaunch(async () => {
   await nextTick()
   setTimeout(() => {
     NoticeStatus().getCommonData()
+    AppAuditStatus().getAppAuditStatus()
   }, 100)
 })
 </script>

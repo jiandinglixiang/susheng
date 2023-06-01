@@ -1,9 +1,11 @@
 <template>
-  <view class="guide-page">
-    <image class="guide-image" src="/static/logo.png"></image>
-    <text class="guide-text">注册会计师App</text>
+  <view class="container">
+    <view class="guide-page">
+      <image class="guide-image" src="/static/logo.png"></image>
+      <text class="guide-text">注册会计师App</text>
+    </view>
+    <popup-index ref="privacyPopup" @action="handleAction" :popup-key="PRIVACY_AUTH_POPUP" />
   </view>
-  <popup-index ref="privacyPopup" @action="handleAction" :popup-key="PRIVACY_AUTH_POPUP" />
 </template>
 
 <script setup>
@@ -15,7 +17,6 @@ import { nextTick, ref } from "vue"
 import { AppAuditStatus } from "@/pinia/audit"
 const userInfoStore = userInfo()
 const privacyPopup = ref()
-
 onLoad(() => {
   //#ifdef APP-PLUS
   // plus.navigator.setFullscreen(true)
@@ -70,6 +71,12 @@ function handleAction(action) {
 </script>
 
 <style scoped lang="scss">
+.container {
+  width: 100%;
+  height: 100vh;
+  background-color: #fff;
+  position: relative;
+}
 .guide-page {
   position: absolute;
   bottom: trpx(88);

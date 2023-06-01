@@ -22,6 +22,10 @@
         {
             "openVueDevtools" : false,
             "type" : "uni-app:h5"
+        },
+        {
+            "playground" : "standard",
+            "type" : "uni-app:app-ios"
         }
     ]
 }

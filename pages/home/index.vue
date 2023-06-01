@@ -17,7 +17,7 @@ import dayjs from "dayjs"
 import { onLoad } from "@dcloudio/uni-app"
 const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
 
-const storeAppAuditStatus = { auditStatusBoolean: false } || AppAuditStatus()
+const storeAppAuditStatus = AppAuditStatus()
 const showAdPopup = ref(false)
 const refAdPopup = ref()
 

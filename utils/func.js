@@ -107,7 +107,10 @@ export function setTitleNViewButtonStyle({ text, color }, onclick = undefined) {
 
 export function openURL({ value: href }) {
   // #ifdef APP-PLUS
-  plus.runtime.openURL(href)
+  // plus.runtime.openURL(href)
+  uni.navigateTo({
+    url: `/pages/webview/index?${objectToQueryString({ link: href })}`
+  })
   // #endif
   // #ifdef H5
   window.open(href)

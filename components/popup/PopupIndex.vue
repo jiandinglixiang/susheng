@@ -25,7 +25,7 @@
   <!--#endif-->
 </template>
 <script setup>
-import { deepMergeObjects } from "@/utils/func"
+import { deepMergeObjects, objectToQueryString } from "@/utils/func"
 // 根据环境接收 并emits出事件
 // 接收popupKey
 import { onUnmounted, ref } from "vue"
@@ -39,6 +39,7 @@ import PrivacyAuthPopup from "./PrivacyAuthPopup.vue"
 import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
 import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
 import HomeAdPopup from "@/components/popup/HomeAdPopup.vue"
+import { PAGES_POPUP_INDEX } from "@/utils/consts"
 
 const {
   params: propsParams,
@@ -57,7 +58,7 @@ const popup = ref()
 const params = ref({ ...propsParams })
 
 onUnmounted(() => {
-  uni.$off(popupKey)
+  uni.$off(popupKey, handleAction)
 })
 
 function handleAction(...actionParams) {
@@ -74,11 +75,10 @@ function open(arg = {}) {
   params.value = { ...args, handleClick }
 
   // #ifndef H5
-  uni.$on(popupKey, handleAction)
+  uni.$on(popupKey, handleAction) // 事件订阅
+  uni.setStorageSync(PAGES_POPUP_INDEX, args) // 参数传递
   uni.navigateTo({
-    url:
-      `/pages/popup/index?popupKey=${popupKey}&` +
-      (args ? encodeURIComponent(JSON.stringify(args)) : "")
+    url: "/pages/popup/index?popupKey=" + popupKey
   })
   // #endif
   // #ifdef H5

@@ -36,14 +36,17 @@ import {
 import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
 import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
 import HomeAdPopup from "@/components/popup/HomeAdPopup.vue"
+import { PAGES_POPUP_INDEX } from "@/utils/consts"
 
 const popupKey = ref("")
 const params = ref(undefined)
 onBackPress(({ from }) => from !== "navigateBack")
 
-onLoad((query = { popupKey: "", params: null }) => {
+onLoad((query = { popupKey: "" }) => {
+  console.log(query)
   popupKey.value = query.popupKey
-  params.value = query.params ? JSON.parse(decodeURIComponent(query.params)) : undefined
+  const par = uni.getStorageSync(PAGES_POPUP_INDEX)
+  params.value = par ?? undefined
 })
 
 function handleAction(...par) {

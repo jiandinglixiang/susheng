@@ -7,6 +7,8 @@ export const PRIVACY_URL = `//www`
 export const USER_AGREEMENT_URL = `//www`
 export const PAGES_VIDEO_DETAIL = "/pages/video/detail"
 
+export const PAGES_POPUP_INDEX = "/pages/popup/index"
+
 export const LOADING_TEXT = {
   more: "- 上拉加载更多 -",
   nomore: "- 已经到底啦 -",
