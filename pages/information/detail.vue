@@ -47,6 +47,9 @@ onLoad(async ({ id, domain }) => {
   ).then((res) => {
     detail.value = res.data
   })
+  if (noLogin.value) {
+    return
+  }
   const res = await httpRequest(POST_ARTICLE_COLLECT_STATUS, "POST", { aid: id })
   collect.value = res.data.collect
 })

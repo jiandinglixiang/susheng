@@ -76,7 +76,7 @@ function open(arg = {}) {
 
   // #ifndef H5
   uni.$on(popupKey, handleAction) // 事件订阅
-  uni.setStorageSync(PAGES_POPUP_INDEX, args) // 参数传递
+  uni.setStorageSync(PAGES_POPUP_INDEX, Object.keys(args).length ? args: undefined) // 参数传递
   uni.navigateTo({
     url: "/pages/popup/index?popupKey=" + popupKey
   })

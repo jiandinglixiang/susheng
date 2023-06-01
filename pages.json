@@ -158,6 +158,7 @@
           "style": {
             "navigationBarTitleText": "课程详情",
             "app-plus": {
+              "bounce": "none",
               "titleNView": {
                 "buttons": [{
                   "color": "",

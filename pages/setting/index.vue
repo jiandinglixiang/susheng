@@ -115,8 +115,8 @@ page {
 .login-out {
   position: fixed;
   bottom: 78rpx;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
@@ -127,6 +127,7 @@ page {
     line-height: 33.6rpx;
     color: #333333;
     margin-bottom: 32rpx;
+    white-space: nowrap;
   }
   .highlight {
     color: rgba(48, 93, 218, 1);

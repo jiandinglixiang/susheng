@@ -1,13 +1,5 @@
 <script setup>
 const emits = defineEmits(["action"])
-const props = defineProps({
-  popupData: {
-    type: Object,
-    default() {
-      return { title: "提示", tips: "123", buttonText: "立即查看" }
-    }
-  }
-})
 </script>
 <template>
   <view class="home-ad-popup">
@@ -29,7 +21,7 @@ const props = defineProps({
       <uni-icons color="#10C278" type="checkmarkempty" size="25"></uni-icons>
     </view>
     <button class="agree" @click="emits('action', 'btn')">
-      {{ props.popupData.buttonText }}
+      立即查看
     </button>
     <image class="close" src="/static/close@2x.png" @click="emits('action', 'close')"></image>
     <image class="head-bg" src="@/static/home/popup-head.png"></image>
