@@ -5,6 +5,7 @@ import { nextTick } from "vue"
 import { AppAuditStatus } from "@/pinia/audit"
 
 onLaunch(async () => {
+
   await nextTick()
   setTimeout(() => {
     NoticeStatus().getCommonData()
@@ -21,9 +22,11 @@ onLaunch(async () => {
   font-family: PingFangSC-Regular, sans-serif;
   touch-action: pan-y;
 }
+
 body {
   background-color: transparent;
 }
+
 page {
   box-sizing: border-box;
   padding-bottom: constant(safe-area-inset-bottom);
