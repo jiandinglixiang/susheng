@@ -42,8 +42,7 @@ onLoad(async () => {
 
 async function goNext() {
   try {
-    const { auditStatusBoolean } = await auditStatus
-    if (auditStatusBoolean) {
+    if (await auditStatus) {
       uni.reLaunch({ url: "/pages/home/index" })
     } else if (await userInfo().getUserInfo()) {
       uni.reLaunch({ url: `/pages/user/index` })
