@@ -58,6 +58,7 @@ async function goNext() {
 
 function handleAction(action) {
   if (action === "agree") {
+    uni.setStorageSync(CONFIRM_AUTHORIZATION, true)
     privacyPopup.value.close()
     goNext()
   } else {
