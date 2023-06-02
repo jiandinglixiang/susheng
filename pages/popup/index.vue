@@ -24,19 +24,19 @@
 </template>
 
 <script setup>
-import { onBackPress, onLoad, onUnload } from "@dcloudio/uni-app"
-import { ref } from "vue"
-import PrivacyAuthPopup from "@/components/popup/PrivacyAuthPopup.vue"
+import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
+import HomeAdPopup from "@/components/popup/HomeAdPopup.vue"
+import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
 import {
   AGREE_AUTH_POPUP,
   HOME_AD_POPUP,
   LOGIN_TIPS_POPUP,
   PRIVACY_AUTH_POPUP
 } from "@/components/popup/popupKeyMap"
-import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
-import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
-import HomeAdPopup from "@/components/popup/HomeAdPopup.vue"
+import PrivacyAuthPopup from "@/components/popup/PrivacyAuthPopup.vue"
 import { PAGES_POPUP_INDEX } from "@/utils/consts"
+import { onBackPress, onLoad, onUnload } from "@dcloudio/uni-app"
+import { ref } from "vue"
 
 const popupKey = ref("")
 const params = ref(undefined)
@@ -52,19 +52,20 @@ onLoad((query = { popupKey: "" }) => {
 function handleAction(...par) {
   uni.$emit(popupKey.value, ...par)
 }
+
 onUnload(() => {
   uni.$off(popupKey.value)
 })
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .popup-container {
-  flex: 1;
-  height: 100vh;
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex: 1;
+  flex-flow: row nowrap;
   justify-content: center;
+  height: 100vh;
   background: transparent;
 }
 </style>

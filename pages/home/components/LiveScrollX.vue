@@ -2,8 +2,8 @@
 import { GET_LIVE_LIST } from "@/api"
 import LiveCardItem from "@/components/live/LiveCardItem.vue"
 import { httpRequest } from "@/utils/http"
-import { onMounted, ref } from "vue"
 import { onShow } from "@dcloudio/uni-app"
+import { onMounted, ref } from "vue"
 
 const scrollId = ref("")
 const list = ref([])
@@ -23,26 +23,27 @@ onShow(() => {
 
 <template>
   <scroll-view
-    class="scroll-view"
-    :scroll-x="true"
-    scroll-left="120"
-    :show-scrollbar="false"
     :enable-flex="true"
     :scroll-into-view="scrollId"
+    :scroll-x="true"
+    :show-scrollbar="false"
+    class="scroll-view"
+    scroll-left="120"
   >
-    <view class="scroll-view-content" id="id-scroll-home">
+    <view id="id-scroll-home" class="scroll-view-content">
       <live-card-item v-for="item in list" :key="item.id" :item-data="item" />
     </view>
   </scroll-view>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .scroll-view {
   height: 444rpx;
 }
+
 .scroll-view-content {
   display: flex;
-  flex-flow: row nowrap;
   align-items: flex-start;
+  flex-flow: row nowrap;
 }
 </style>

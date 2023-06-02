@@ -1,6 +1,6 @@
 <template>
   <!--#ifdef H5-->
-  <uni-popup class="max-index" ref="popup" type="center" :is-mask-click="false">
+  <uni-popup ref="popup" :is-mask-click="false" class="max-index" type="center">
     <privacy-auth-popup
       v-if="popupKey === PRIVACY_AUTH_POPUP"
       :popup-data="params"
@@ -25,7 +25,11 @@
   <!--#endif-->
 </template>
 <script setup>
-import { deepMergeObjects, objectToQueryString } from "@/utils/func"
+import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
+import HomeAdPopup from "@/components/popup/HomeAdPopup.vue"
+import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
+import { PAGES_POPUP_INDEX } from "@/utils/consts"
+import { deepMergeObjects } from "@/utils/func"
 // 根据环境接收 并emits出事件
 // 接收popupKey
 import { onUnmounted, ref } from "vue"
@@ -36,10 +40,6 @@ import {
   PRIVACY_AUTH_POPUP
 } from "./popupKeyMap"
 import PrivacyAuthPopup from "./PrivacyAuthPopup.vue"
-import AgreeAuthPopup from "@/components/popup/AgreeAuthPopup.vue"
-import LoginTipsPopup from "@/components/popup/LoginTipsPopup.vue"
-import HomeAdPopup from "@/components/popup/HomeAdPopup.vue"
-import { PAGES_POPUP_INDEX } from "@/utils/consts"
 
 const {
   params: propsParams,
@@ -67,6 +67,7 @@ function handleAction(...actionParams) {
   }
   params.value?.handleClick?.(...actionParams) || emits("action", ...actionParams)
 }
+
 function open(arg = {}) {
   arg = deepMergeObjects(arg, params.value)
   // 合并
@@ -76,7 +77,7 @@ function open(arg = {}) {
 
   // #ifndef H5
   uni.$on(popupKey, handleAction) // 事件订阅
-  uni.setStorageSync(PAGES_POPUP_INDEX, Object.keys(args).length ? args: undefined) // 参数传递
+  uni.setStorageSync(PAGES_POPUP_INDEX, Object.keys(args).length ? args : undefined) // 参数传递
   uni.navigateTo({
     url: "/pages/popup/index?popupKey=" + popupKey
   })
@@ -85,6 +86,7 @@ function open(arg = {}) {
   popup.value.open()
   // #endif
 }
+
 function close() {
   // #ifndef H5
   uni.navigateBack()
@@ -93,6 +95,7 @@ function close() {
   popup.value.close()
   // #endif
 }
+
 defineExpose({
   open,
   close

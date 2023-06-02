@@ -13,41 +13,46 @@
 const emits = defineEmits(["action"])
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .container {
+  overflow: hidden;
   width: 648rpx;
   border-radius: 32rpx;
   background: #ffffff;
-  overflow: hidden;
 }
+
 .tips {
-  padding: 76rpx 70rpx 0;
   font-size: 32rpx;
   font-weight: 500;
   line-height: 44.8rpx;
+  padding: 76rpx 70rpx 0;
   text-align: center;
 }
+
 .btn-group {
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex-flow: row nowrap;
   justify-content: space-between;
   height: 152rpx;
+
   button {
+    font-size: 32rpx;
+    line-height: 88rpx;
     width: 252rpx;
     height: 88rpx;
     border-radius: 200rpx;
-    line-height: 88rpx;
-    font-size: 32rpx;
   }
+
   .quit {
     color: #999999;
-    background-color: #ffffff;
     border: 1rpx solid #979797;
+    background-color: #ffffff;
   }
+
   .agree {
-    color: #ffffff;
     font-weight: 700;
+    color: #ffffff;
     border: none;
     background: linear-gradient(135deg, #618bff 0%, #305dd9 100%);
   }

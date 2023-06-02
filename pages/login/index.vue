@@ -1,14 +1,14 @@
 <script setup>
+import { POST_PHONE_AND_SMS_LOGIN, POST_PHONE_SMS } from "@/api"
 import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { AGREE_AUTH_POPUP } from "@/components/popup/popupKeyMap"
 import { useTimeCount } from "@/hooks/usePageList"
 import { AppAuditStatus } from "@/pinia/audit"
-import { ref } from "vue"
-import { onLoad } from "@dcloudio/uni-app"
-import univerify from "./univerify.js"
-import { config, httpRequest } from "@/utils/http"
-import { POST_PHONE_AND_SMS_LOGIN, POST_PHONE_SMS } from "@/api"
 import { USER_TOKEN_DATA } from "@/utils/consts"
+import { config, httpRequest } from "@/utils/http"
+import { onLoad } from "@dcloudio/uni-app"
+import { ref } from "vue"
+import univerify from "./univerify.js"
 
 const audit = AppAuditStatus()
 
@@ -131,42 +131,42 @@ function validate(phone) {
     <view class="input-item">
       <image src="/static/login/Icon_phone@2x.png"></image>
       <input
-        type="number"
+        v-model="formData.phone"
         class="uni-input"
         maxlength="11"
-        v-model="formData.phone"
         placeholder="请输入手机号"
+        type="number"
       />
       <uni-icons
         v-show="formData.phone"
-        @click="clearPhone"
         class="icon"
-        type="clear"
-        size="28"
         color="#D8D8D8"
+        size="28"
+        type="clear"
+        @click="clearPhone"
       ></uni-icons>
     </view>
     <view class="input-item">
       <image src="/static/login/Icon_verification@2x.png"></image>
       <input
-        type="number"
+        v-model="formData.code"
         class="uni-input"
         maxlength="6"
-        v-model="formData.code"
         placeholder="请输入验证码"
+        type="number"
       />
       <text class="code-sms" @click="countdownStart">{{ time === 60 ? "获取验证码" : time }}</text>
     </view>
 
-    <button class="submit-btn" hover-class="none" @click="submitForm" :disabled="formData.loading">
+    <button :disabled="formData.loading" class="submit-btn" hover-class="none" @click="submitForm">
       快速登录
     </button>
     <view class="auth-text">
       <uni-icons
-        class="check-icon"
-        type="checkbox-filled"
-        size="28"
         :color="agreeCheck ? '#36C26E' : '#999'"
+        class="check-icon"
+        size="28"
+        type="checkbox-filled"
         @click="agreeCheck = !agreeCheck"
       ></uni-icons>
       <text>
@@ -178,11 +178,11 @@ function validate(phone) {
     </view>
     <navigator
       v-if="audit.auditStatusBoolean"
-      url="/pages/home/index"
-      open-type="reLaunch"
       hover-class="none"
+      open-type="reLaunch"
+      url="/pages/home/index"
     >
-      <button class="btn-tourist" plain hover-class="none">游客模式</button>
+      <button class="btn-tourist" hover-class="none" plain>游客模式</button>
     </navigator>
   </view>
   <popup-index ref="agreePopup" :popup-key="AGREE_AUTH_POPUP" @action="handleAction"></popup-index>
@@ -190,28 +190,30 @@ function validate(phone) {
 
 <style lang="scss" scoped>
 .container {
+  display: flex;
+  align-items: center;
+  flex-flow: column nowrap;
   min-height: calc(100vh - 600rpx);
+  padding-top: 600rpx;
   background-image: url("/static/login/background_text@2x.png"),
     url("/static/login/material@2x.png"), url("/static/login/background@2x.png");
-  background-position: 60rpx 364rpx, 404rpx 320rpx, left top;
   background-repeat: no-repeat;
+  background-position: 60rpx 364rpx, 404rpx 320rpx, left top;
   background-size: 352rpx 120rpx, 297rpx 210rpx, 100% auto;
-  align-items: center;
-  display: flex;
-  flex-flow: column nowrap;
-  padding-top: 600rpx;
 }
 
 .auth-text {
-  margin-top: 36rpx;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
   font-size: 24rpx;
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  margin-top: 36rpx;
   color: #999999;
+
   .check-icon {
     padding: 0 20rpx;
   }
+
   .highlight {
     color: #305dda;
   }
@@ -219,63 +221,68 @@ function validate(phone) {
 
 .input-item {
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
-  border-radius: 200rpx;
-  border: 1rpx solid #cccccc;
-  height: 100rpx;
-  padding: 0 30rpx;
+  flex-flow: row nowrap;
   width: 570rpx;
+  height: 100rpx;
   margin-bottom: 16rpx;
+  padding: 0 30rpx;
+  border: 1rpx solid #cccccc;
+  border-radius: 200rpx;
+
   image {
     flex: 0 0 40rpx;
     width: 40rpx;
     height: 48rpx;
   }
+
   .uni-input {
-    height: 80rpx;
-    line-height: 80rpx;
-    flex: 1 1 auto;
     font-size: 28rpx;
     font-weight: 500;
-    color: #333333;
+    line-height: 80rpx;
+    flex: 1 1 auto;
+    height: 80rpx;
     margin: 0 24rpx;
+    color: #333333;
   }
+
   .uni-input::placeholder {
     color: #999999;
   }
+
   .icon {
     flex: 0 0 auto;
   }
+
   .code-sms {
-    flex: 0 0 auto;
     font-size: 28rpx;
     font-weight: 500;
+    flex: 0 0 auto;
     color: #305dda;
   }
 }
 
 .submit-btn {
-  margin-top: 40rpx;
-  width: 520rpx;
-  height: 88rpx;
-  border-radius: 44rpx;
-  background: linear-gradient(135deg, #618bff 0%, #305dd9 100%);
   font-size: 32rpx;
   font-weight: 700;
   line-height: 88rpx;
-  color: #ffffff;
+  width: 520rpx;
+  height: 88rpx;
+  margin-top: 40rpx;
   text-align: center;
+  color: #ffffff;
+  border-radius: 44rpx;
+  background: linear-gradient(135deg, #618bff 0%, #305dd9 100%);
 }
 
 .btn-tourist {
+  font-size: 28rpx;
+  line-height: 36rpx;
   position: fixed;
   bottom: 40rpx;
   left: 50%;
   transform: translateX(-50%);
-  border: none;
-  font-size: 28rpx;
-  line-height: 36rpx;
   color: #333333;
+  border: none;
 }
 </style>

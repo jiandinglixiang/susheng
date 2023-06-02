@@ -1,6 +1,7 @@
 <script setup>
-import { openURL } from "@/utils/func"
 import { NoticeStatus } from "@/pinia/notice"
+import { openURL } from "@/utils/func"
+
 const storeNotice = NoticeStatus()
 </script>
 
@@ -22,43 +23,46 @@ const storeNotice = NoticeStatus()
   <view class="nav-bar" />
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .nav-bar {
-  padding-top: var(--status-bar-height);
-  margin-bottom: 12rpx;
-  height: 88rpx;
-  background: #ffffff;
   z-index: 100;
+  height: 88rpx;
+  margin-bottom: 12rpx;
+  padding-top: var(--status-bar-height);
+  background: #ffffff;
 }
 
 .nav-bar-fixed {
   position: fixed;
   top: 0;
-  left: 0;
   right: 0;
+  left: 0;
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
-  padding-left: 32rpx;
+  flex-flow: row nowrap;
   padding-right: 32rpx;
+  padding-left: 32rpx;
   background: rgba(255, 255, 255, 1);
+
   .handoff {
     flex: 0 0 auto;
 
-    margin-right: 8rpx;
     width: 56rpx;
     height: 56rpx;
+    margin-right: 8rpx;
   }
+
   .weixin {
     flex: 0 0 auto;
     width: 48rpx;
     height: 48rpx;
     margin-left: 24rpx;
   }
+
   text {
-    flex: 1 1 auto;
     font-size: 36rpx;
     font-weight: 700;
+    flex: 1 1 auto;
     color: rgba(51, 51, 51, 1);
   }
 }

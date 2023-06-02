@@ -1,12 +1,12 @@
 <script setup>
-import CourseLineCardItem from "@/components/course/CourseLineCardItem.vue"
-import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
-import { httpRequest } from "@/utils/http"
-import { usePageList } from "@/hooks/usePageList"
 import { GET_VCOURSE_LIST } from "@/api"
+import CourseLineCardItem from "@/components/course/CourseLineCardItem.vue"
 import LoadTips from "@/components/tips/load-tips.vue"
-import { openURL } from "@/utils/func"
+import { usePageList } from "@/hooks/usePageList"
 import { NoticeStatus } from "@/pinia/notice"
+import { openURL } from "@/utils/func"
+import { httpRequest } from "@/utils/http"
+import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 
 const storeNotice = NoticeStatus()
 const { list, getList, loading, loadMore, refresh } = usePageList({ requestFunc })
@@ -37,11 +37,13 @@ function requestFunc(params) {
     return res
   })
 }
+
 function handleClick(item) {
   uni.navigateTo({
     url: "./detail?id=" + item.id
   })
 }
+
 function navigateBack() {
   uni.navigateBack()
 }
@@ -49,14 +51,14 @@ function navigateBack() {
 
 <template>
   <uni-nav-bar
-    title="系统课"
-    fixed
-    statusBar
-    left-icon="back"
     :border="false"
+    class="nav-bar"
+    fixed
+    left-icon="back"
+    statusBar
+    title="系统课"
     @clickLeft="navigateBack"
     @clickRight="openURL(storeNotice.onlineConsultation[0])"
-    class="nav-bar"
   >
     <template v-slot:right>
       <image class="right-btn" src="/static/pdf/customer-service@2x.png" />
@@ -67,26 +69,28 @@ function navigateBack() {
     v-for="item in list"
     :key="item.id"
     :item-data="item"
-    @click="handleClick(item)"
     displayMode="course"
+    @click="handleClick(item)"
   />
   <load-tips :loading="loading" />
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .list-loading {
-  text-align: center;
   font-size: 24rpx;
   font-weight: 500;
   line-height: 33.6rpx;
+  text-align: center;
   color: rgba(153, 153, 153, 1);
 }
+
 .nav-bar {
   :deep(.uni-nav-bar-text) {
     font-size: 36rpx;
     font-weight: 500;
   }
 }
+
 .right-btn {
   width: 48rpx;
   height: 48rpx;

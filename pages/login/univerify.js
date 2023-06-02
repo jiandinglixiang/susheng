@@ -1,8 +1,8 @@
+import { ONE_KEY_LOGIN_UNI_APP } from "@/api"
 import { APP_ID, UniAppID } from "@/config"
 import { PRIVACY_URL, USER_AGREEMENT_URL } from "@/utils/consts"
-import { config } from "@/utils/http"
 import { funcToPromise } from "@/utils/func"
-import { ONE_KEY_LOGIN_UNI_APP } from "@/api"
+import { config } from "@/utils/http"
 
 const LOGIN_CALL_BACK_URL = `${config.baseUrl}${ONE_KEY_LOGIN_UNI_APP}`
 export default async function openUniverify(successDeal, otherLogin) {

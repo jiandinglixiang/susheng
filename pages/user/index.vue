@@ -1,10 +1,10 @@
 <script setup>
+import { NoticeStatus } from "@/pinia/notice"
 import { userInfo } from "@/pinia/user"
 import { USER_TOKEN_DATA } from "@/utils/consts"
+import { openURL } from "@/utils/func"
 import { onLoad } from "@dcloudio/uni-app"
 import { ref } from "vue"
-import { NoticeStatus } from "@/pinia/notice"
-import { openURL } from "@/utils/func"
 
 const popup = ref()
 const noLogin = ref(!uni.getStorageSync(USER_TOKEN_DATA)?.token)
@@ -19,6 +19,7 @@ onLoad(async () => {
 function handleSign() {
   !noLogin.value && storeUserInfo.$patch({ signin: true })
 }
+
 function navigateTo(url, pass) {
   if (!noLogin.value || pass) {
     uni.navigateTo({ url })
@@ -29,7 +30,7 @@ function navigateTo(url, pass) {
 </script>
 <template>
   <view class="top-container">
-    <view class="signin" :class="storeUserInfo.signin && 'signined'" @click="handleSign">
+    <view :class="storeUserInfo.signin && 'signined'" class="signin" @click="handleSign">
       <image src="/static/user/signin1.png"></image>
       <text>{{ storeUserInfo.signin ? "已签到" : "签到" }}</text>
     </view>
@@ -37,8 +38,8 @@ function navigateTo(url, pass) {
 
     <view class="user-card">
       <image
-        class="head-portrait"
         :src="storeUserInfo.avatar || '/static/user/no-login@2x.png'"
+        class="head-portrait"
       ></image>
       <view v-if="!noLogin" class="user-info">
         <view class="name" @click="navigateTo('/pages/setting/userInfo')">
@@ -120,124 +121,139 @@ function navigateTo(url, pass) {
 .disable {
   filter: grayscale(100%);
 }
+
 .top-container {
   position: relative;
-  background: url("/static/user/bg@2x.png") no-repeat left top;
-  background-size: 100% auto;
-  padding-top: calc(120rpx + var(--status-bar-height));
   display: flex;
   flex-flow: column nowrap;
+  padding-top: calc(120rpx + var(--status-bar-height));
+  background: url("/static/user/bg@2x.png") no-repeat left top;
+  background-size: 100% auto;
 }
+
 .signin {
   position: absolute;
-  left: 32rpx;
   top: calc(16rpx + var(--status-bar-height));
+  left: 32rpx;
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  justify-content: center;
   width: 152rpx;
   height: 56rpx;
   border-radius: 34rpx;
   background: linear-gradient(130.38deg, #ffc75c 0%, #ff962f 100%);
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
+
   text {
     font-size: 24rpx;
     font-weight: 500;
-    color: #ffffff;
     line-height: 24rpx;
+    color: #ffffff;
   }
+
   image {
     width: 36rpx;
     height: 38rpx;
     margin-right: 8rpx;
   }
+
   &.signined {
     background: rgba(207, 207, 207, 1);
   }
 }
+
 .setting-btn {
   position: absolute;
-  right: 32rpx;
   top: calc(16rpx + var(--status-bar-height));
+  right: 32rpx;
   width: 56rpx;
   height: 56rpx;
   background: url("/static/user/setting-btn.png") no-repeat center center;
   background-size: 44rpx auto;
 }
+
 .user-card {
-  flex: 1;
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex: 1;
+  flex-flow: row nowrap;
   height: 252rpx;
-  padding-left: 32rpx;
   margin-bottom: 48rpx;
+  padding-left: 32rpx;
+
   .head-portrait {
+    overflow: hidden;
     flex: 0 0 auto;
-    margin-right: 16rpx;
     width: 156rpx;
     height: 156rpx;
+    margin-right: 16rpx;
     border-radius: 50%;
-    overflow: hidden;
     //background: url("/static/user/no-login@2x.png") no-repeat center center;
     //background-size: 156rpx 156rpx;
   }
+
   .login-text {
-    flex: 1 1 auto;
     font-size: 36rpx;
     font-weight: 500;
     line-height: 36rpx;
+    flex: 1 1 auto;
     color: rgba(51, 51, 51, 1);
   }
+
   .user-info {
     flex: 1 1 auto;
+
     .name {
-      width: 100%;
       font-size: 36rpx;
       font-weight: 500;
       line-height: 36rpx;
-      color: rgba(51, 51, 51, 1);
       display: flex;
       flex-flow: row nowrap;
+      width: 100%;
       margin-bottom: 16rpx;
+      color: rgba(51, 51, 51, 1);
     }
+
     .leve {
-      margin-left: 8rpx;
-      width: 64rpx;
-      height: 28rpx;
-      background: url("/static/user/level-bg.png") no-repeat left top;
-      background-size: 100%;
       font-size: 22rpx;
       font-weight: 500;
       line-height: 24rpx;
-      color: rgba(255, 255, 255, 1);
+      width: 64rpx;
+      height: 28rpx;
+      margin-left: 8rpx;
       text-align: center;
+      color: rgba(255, 255, 255, 1);
+      background: url("/static/user/level-bg.png") no-repeat left top;
+      background-size: 100%;
     }
+
     .user-work-title {
-      background: rgba(255, 255, 255, 1);
-      padding: 12rpx 16rpx;
       font-size: 24rpx;
       font-weight: 400;
       line-height: 24rpx;
+      padding: 12rpx 16rpx;
       color: rgba(102, 102, 102, 1);
+      background: rgba(255, 255, 255, 1);
     }
   }
+
   .user-teacher {
-    flex: 0 0 auto;
+    font-size: 24rpx;
+    font-weight: 500;
+    line-height: 24rpx;
     display: flex;
-    flex-flow: row nowrap;
+    overflow: hidden;
     align-items: center;
+    flex: 0 0 auto;
+    flex-flow: row nowrap;
     justify-content: flex-end;
     width: 156rpx;
     height: 64rpx;
     padding-right: 16rpx;
+    color: rgba(247, 228, 194, 1);
     border-radius: 32rpx 0rpx 0rpx 32rpx;
     background: linear-gradient(180deg, rgba(98, 98, 98, 1) 0%, rgba(28, 28, 28, 1) 100%);
-    overflow: hidden;
-    font-size: 24rpx;
-    font-weight: 500;
-    line-height: 24rpx;
-    color: rgba(247, 228, 194, 1);
+
     .teacher-bg {
       width: 32rpx;
       height: 38rpx;
@@ -248,87 +264,97 @@ function navigateTo(url, pass) {
 
 .diamond-region {
   margin: 0 32rpx 32rpx;
+
   .top-box {
-    padding: 0 20rpx;
-    height: 72rpx;
-    flex: 1 1 100%;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: space-between;
     font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    flex: 1 1 100%;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    height: 72rpx;
+    padding: 0 20rpx;
     border-radius: 16rpx 16rpx 0rpx 0rpx;
     background: rgba(255, 255, 255, 1);
     box-shadow: 0rpx 4rpx 32rpx 0rpx rgba(0, 0, 0, 0.06);
-    overflow: hidden;
+
     image {
       width: 14rpx;
       height: 20rpx;
     }
   }
+
   .bottom-box {
     display: flex;
     flex-flow: row wrap;
+    padding-bottom: 32rpx;
     border-radius: 0rpx 0rpx 16rpx 16rpx;
     background: rgba(255, 255, 255, 1);
     box-shadow: 0rpx 4rpx 32rpx 0rpx rgba(0, 0, 0, 0.06);
-    padding-bottom: 32rpx;
   }
+
   .region-item {
-    flex: 1 1 25%;
-    height: 128rpx;
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    justify-content: flex-end;
     font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
+    display: flex;
+    align-items: center;
+    flex: 1 1 25%;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+    height: 128rpx;
     color: rgba(102, 102, 102, 1);
+
     image {
-      height: 64rpx;
       width: 64rpx;
+      height: 64rpx;
       margin-bottom: 24rpx;
     }
   }
 }
 
 .list-item {
-  margin: 0 32rpx;
-  height: 112rpx;
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex-flow: row nowrap;
+  height: 112rpx;
+  margin: 0 32rpx;
   background: #ffffff;
   box-shadow: inset 0rpx -2rpx 0rpx 0rpx rgba(241, 241, 241, 1);
+
   .name {
-    flex: 1 1 auto;
     font-size: 28rpx;
     font-weight: 400;
     line-height: 32rpx;
+    flex: 1 1 auto;
     color: rgba(51, 51, 51, 1);
   }
+
   .sub-name {
-    flex: 0 0 auto;
     font-size: 28rpx;
     font-weight: 400;
     line-height: 32rpx;
+    flex: 0 0 auto;
     color: rgba(48, 93, 218, 1);
   }
+
   .left-icon {
     flex: 0 0 auto;
     width: 36rpx;
     height: 36rpx;
     margin: 0 18rpx;
   }
+
   .arrows {
-    margin-left: 16rpx;
     flex: 0 0 auto;
     width: 14rpx;
     height: 20rpx;
+    margin-left: 16rpx;
   }
+
   image {
     width: 32rpx;
     height: 32rpx;

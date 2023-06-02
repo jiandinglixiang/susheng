@@ -1,20 +1,21 @@
 <script setup>
 import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { HOME_AD_POPUP, LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
-import ImageCarousel from "@/pages/home/components/ImageCarousel.vue"
-import NavBar from "@/pages/home/components/NavBar.vue"
-import KongoDistrict from "@/pages/home/components/KongoDistrict.vue"
-import SectionBar from "@/pages/home/components/SectionBar.vue"
 import CountdownBar from "@/pages/home/components/CountdownBar.vue"
-import LiveScrollX from "@/pages/home/components/LiveScrollX.vue"
-import CourseGroupLine from "@/pages/home/components/CourseGroupLine.vue"
 import CourseGroup from "@/pages/home/components/CourseGroup.vue"
+import CourseGroupLine from "@/pages/home/components/CourseGroupLine.vue"
+import ImageCarousel from "@/pages/home/components/ImageCarousel.vue"
+import KongoDistrict from "@/pages/home/components/KongoDistrict.vue"
+import LiveScrollX from "@/pages/home/components/LiveScrollX.vue"
+import NavBar from "@/pages/home/components/NavBar.vue"
+import SectionBar from "@/pages/home/components/SectionBar.vue"
 import { AppAuditStatus } from "@/pinia/audit"
 import { PopupStatus } from "@/pinia/popup"
-import { nextTick, ref } from "vue"
 import { AD_POP_UP_IMPRESSION_HISTORY, USER_TOKEN_DATA } from "@/utils/consts"
-import dayjs from "dayjs"
 import { onLoad } from "@dcloudio/uni-app"
+import dayjs from "dayjs"
+import { nextTick, ref } from "vue"
+
 const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
 
 const storeAppAuditStatus = AppAuditStatus()
@@ -30,6 +31,7 @@ onLoad(() => {
     })
   }
 })
+
 function handleClick(action) {
   uni.setStorageSync(AD_POP_UP_IMPRESSION_HISTORY, Date.now())
   if (action === "btn") {

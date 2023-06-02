@@ -3,11 +3,13 @@ import { GET_VCOURSE_LIST } from "@/api"
 import CourseCardItem from "@/components/course/CourseCardItem.vue"
 import { httpRequest } from "@/utils/http"
 import { onMounted, ref } from "vue"
+
 const list = ref([])
 onMounted(async () => {
   const res = await httpRequest(GET_VCOURSE_LIST, "POST", { type: 0 })
   list.value = res.data.result
 })
+
 function handleClick(item) {
   uni.navigateTo({
     url: "/pages/course/detail?id=" + item.id
@@ -26,7 +28,7 @@ function handleClick(item) {
   </view>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .course-group {
   display: flex;
   flex-flow: row wrap;

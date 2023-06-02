@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue"
+
 const props = defineProps({
   list: {
     type: Array,
@@ -24,8 +25,8 @@ function onChange(index) {
     <view class="segmented-control-list">
       <view
         v-for="(item, index) in list"
-        class="segmented-control-item"
         :class="current === index && 'active'"
+        class="segmented-control-item"
         @click="onChange(index)"
       >
         <text>{{ item }}</text>
@@ -34,56 +35,62 @@ function onChange(index) {
   </view>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .fixed-top {
   flex: 1;
   height: 120rpx;
+
   .segmented-control-list {
-    z-index: 2;
     position: fixed;
+    z-index: 2;
     top: 0;
     // #ifdef H5
     top: 44px;
     // #endif
-    left: 0;
     right: 0;
+    left: 0;
   }
 }
+
 .segmented-control-list {
-  flex: 1;
-  margin-bottom: 32rpx;
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex: 1;
+  flex-flow: row nowrap;
   justify-content: center;
   height: 88rpx;
+  margin-bottom: 32rpx;
   background-color: #fff;
 }
+
 .segmented-control-item {
-  flex: 1 0 auto;
-  max-width: 33.33%;
   display: flex;
-  flex-flow: column nowrap;
   align-items: center;
+  flex: 1 0 auto;
+  flex-flow: column nowrap;
+  max-width: 33.33%;
+
   text {
-    position: relative;
     font-size: 28rpx;
     font-weight: 500;
     line-height: 32rpx;
+    position: relative;
     color: rgba(51, 51, 51, 1);
   }
+
   &.active text {
     font-size: 28rpx;
     font-weight: 700;
     line-height: 32rpx;
     color: rgba(48, 93, 218, 1);
+
     &:after {
-      content: "";
       position: absolute;
-      left: 0;
       right: 0;
       bottom: -20rpx;
+      left: 0;
       height: 8rpx;
+      content: "";
       border-radius: 4rpx;
       background: #305dda;
     }

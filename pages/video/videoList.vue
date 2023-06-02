@@ -1,13 +1,14 @@
 <script setup>
+import { POST_VIDEO_LIST } from "@/api"
 import CourseLineCardItem from "@/components/course/CourseLineCardItem.vue"
+import LoadTips from "@/components/tips/load-tips.vue"
 import { NoticeStatus } from "@/pinia/notice"
 import { PAGES_VIDEO_DETAIL } from "@/utils/consts"
 import { openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
-import { POST_VIDEO_LIST } from "@/api"
 import { onLoad, onUnload } from "@dcloudio/uni-app"
 import { ref } from "vue"
-import LoadTips from "@/components/tips/load-tips.vue"
+
 const list = ref([])
 const loading = ref("")
 const storeNotice = NoticeStatus()
@@ -48,10 +49,12 @@ function handleCollect(action, params) {
     })
   }
 }
+
 function handleClick(item) {
   uni.setStorageSync(PAGES_VIDEO_DETAIL, item)
   uni.navigateTo({ url: "./detail" })
 }
+
 function navigateBack() {
   uni.navigateBack()
 }
@@ -59,14 +62,14 @@ function navigateBack() {
 
 <template>
   <uni-nav-bar
-    title="精选课程"
-    fixed
-    statusBar
-    left-icon="back"
     :border="false"
+    class="nav-bar"
+    fixed
+    left-icon="back"
+    statusBar
+    title="精选课程"
     @clickLeft="navigateBack"
     @clickRight="openURL(storeNotice.onlineConsultation[0])"
-    class="nav-bar"
   >
     <template v-slot:right>
       <image class="right-btn" src="/static/pdf/customer-service@2x.png" />
@@ -77,19 +80,20 @@ function navigateBack() {
     v-for="item in list"
     :key="item.id"
     :item-data="item"
-    @click="handleClick(item)"
     displayMode="video"
+    @click="handleClick(item)"
   />
   <load-tips v-if="loading" :loading="loading" />
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .nav-bar {
   :deep(.uni-nav-bar-text) {
     font-size: 36rpx;
     font-weight: 500;
   }
 }
+
 .right-btn {
   width: 48rpx;
   height: 48rpx;

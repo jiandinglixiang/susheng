@@ -7,20 +7,20 @@
     <popup-index
       v-if="!ConfirmAuthorization"
       ref="privacyPopup"
-      @action="handleAction"
       :popup-key="PRIVACY_AUTH_POPUP"
+      @action="handleAction"
     />
   </view>
 </template>
 
 <script setup>
-import { PRIVACY_AUTH_POPUP } from "@/components/popup/popupKeyMap"
 import PopupIndex from "@/components/popup/PopupIndex.vue"
+import { PRIVACY_AUTH_POPUP } from "@/components/popup/popupKeyMap"
+import { AppAuditStatus } from "@/pinia/audit"
 import { userInfo } from "@/pinia/user"
 import { CONFIRM_AUTHORIZATION } from "@/utils/consts"
 import { onLoad } from "@dcloudio/uni-app"
 import { nextTick, ref } from "vue"
-import { AppAuditStatus } from "@/pinia/audit"
 
 // 是否授权
 const ConfirmAuthorization = uni.getStorageSync(CONFIRM_AUTHORIZATION)
@@ -77,22 +77,23 @@ function handleAction(action) {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .container {
+  position: relative;
   width: 100%;
   height: 100vh;
   background-color: #fff;
-  position: relative;
 }
+
 .guide-page {
   position: absolute;
   bottom: trpx(88);
   left: 50%;
-  transform: translateX(-50%);
   display: flex;
-  flex-flow: column nowrap;
   align-items: center;
+  flex-flow: column nowrap;
   justify-content: center;
+  transform: translateX(-50%);
 }
 
 .guide-text {

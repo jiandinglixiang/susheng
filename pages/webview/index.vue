@@ -1,10 +1,11 @@
 <template>
-  <web-view class="webView" :src="link" :webview-styles="webviewStyles" />
+  <web-view :src="link" :webview-styles="webviewStyles" class="webView" />
 </template>
 
 <script setup>
 import { onBackPress, onLoad } from "@dcloudio/uni-app"
 import { ref } from "vue"
+
 const system = uni.getSystemInfoSync()
 const webviewStyles = {
   height: `${system.windowHeight}px`,

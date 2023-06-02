@@ -4,12 +4,14 @@ import { USER_TOKEN_DATA } from "@/utils/consts"
 import { config } from "@/utils/http"
 import { onLoad } from "@dcloudio/uni-app"
 import { ref } from "vue"
+
 const isLogin = ref(!!uni.getStorageSync(USER_TOKEN_DATA)?.token)
 const storeUserInfo = userInfo()
 
 onLoad(async () => {
   isLogin.value = !!(await storeUserInfo.getUserInfo())
 })
+
 function loginOut() {
   userInfo().$reset()
   config.header.token = ""
@@ -20,7 +22,7 @@ function loginOut() {
 
 <template>
   <view class="mt16"></view>
-  <navigator url="/pages/setting/feedback" hover-class="none">
+  <navigator hover-class="none" url="/pages/setting/feedback">
     <view class="list-item line-bottom">
       <text class="name">意见反馈</text>
       <image class="arrows" src="/static/user/arrows@2x.png"></image>
@@ -33,7 +35,7 @@ function loginOut() {
   </view>
 
   <view class="mt16"></view>
-  <navigator v-if="isLogin" url="/pages/setting/cancelAccount" hover-class="none">
+  <navigator v-if="isLogin" hover-class="none" url="/pages/setting/cancelAccount">
     <view class="list-item line-bottom">
       <text class="name">注销账户</text>
       <image class="arrows" src="/static/user/arrows@2x.png"></image>
@@ -54,58 +56,65 @@ function loginOut() {
   </view>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 page {
   background-color: #f9f9f9;
 }
+
 .mt16 {
   height: 16rpx;
 }
+
 .line-bottom {
   &:after {
-    content: "";
     position: absolute;
-    left: 32rpx;
     right: 32rpx;
     bottom: 0;
+    left: 32rpx;
     height: 2rpx;
+    content: "";
     background-color: rgba(241, 241, 241, 1);
   }
 }
+
 .list-item {
   position: relative;
-  padding: 0 32rpx;
-  height: 112rpx;
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex-flow: row nowrap;
+  height: 112rpx;
+  padding: 0 32rpx;
   background: #ffffff;
 
   .name {
-    flex: 1 1 auto;
     font-size: 28rpx;
     font-weight: 400;
     line-height: 32rpx;
+    flex: 1 1 auto;
     color: rgba(51, 51, 51, 1);
   }
+
   .sub-name {
-    flex: 0 0 auto;
-    font-size: 24 rpx;
+    font-size: 24rpx;
     font-weight: 400;
+    flex: 0 0 auto;
     color: rgba(153, 153, 153, 1);
   }
+
   .left-icon {
     flex: 0 0 auto;
     width: 36rpx;
     height: 36rpx;
     margin: 0 18rpx;
   }
+
   .arrows {
-    margin-left: 16rpx;
     flex: 0 0 auto;
     width: 14rpx;
     height: 20rpx;
+    margin-left: 16rpx;
   }
+
   image {
     width: 32rpx;
     height: 32rpx;
@@ -114,34 +123,37 @@ page {
 
 .login-out {
   position: fixed;
+  right: 0;
   bottom: 78rpx;
   left: 0;
-  right: 0;
   display: flex;
-  flex-flow: column nowrap;
   align-items: center;
+  flex-flow: column nowrap;
   justify-content: center;
+
   .privacy {
     font-size: 24rpx;
     font-weight: 400;
     line-height: 33.6rpx;
-    color: #333333;
     margin-bottom: 32rpx;
     white-space: nowrap;
+    color: #333333;
   }
+
   .highlight {
     color: rgba(48, 93, 218, 1);
   }
+
   button {
-    width: 520rpx;
-    height: 88rpx;
-    border-radius: 50rpx;
-    background: #ffffff;
-    border: 1rpx solid #cccccc;
     font-size: 28rpx;
     font-weight: 400;
     line-height: 88rpx;
+    width: 520rpx;
+    height: 88rpx;
     color: rgba(102, 102, 102, 1);
+    border: 1rpx solid #cccccc;
+    border-radius: 50rpx;
+    background: #ffffff;
   }
 }
 </style>

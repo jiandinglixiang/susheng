@@ -1,7 +1,7 @@
 <script setup>
-import { ref } from "vue"
 import { POST_CLIENT_USER_FEEDBACK } from "@/api"
 import { httpRequest } from "@/utils/http"
+import { ref } from "vue"
 
 const checkData = [
   `功能异常:功能故障或者不可用`,
@@ -16,6 +16,7 @@ const loading = ref(false)
 function handleSelected(index) {
   selected.value = index
 }
+
 async function handleSubmit() {
   if (selected.value === -1) {
     uni.showToast({ title: "请选择反馈点", icon: "none" })
@@ -50,46 +51,51 @@ async function handleSubmit() {
       <view :class="selected === index ? 'selected' : 'unselected'" />
       <text class="name">{{ text }}</text>
     </view>
-    <uni-easyinput v-model="content" type="textarea" placeholder="请输入15字以上描述" />
+    <uni-easyinput v-model="content" placeholder="请输入15字以上描述" type="textarea" />
     <!--    <view class="file-picker">
       <uni-file-picker limit="3" title="请提供问题相关截图或照片" />
     </view>-->
-    <button class="btn-submit" @click="handleSubmit" :loading="loading">提交</button>
+    <button :loading="loading" class="btn-submit" @click="handleSubmit">提交</button>
   </view>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .feedback-container {
   padding: 50rpx 32rpx 0;
+
   .title {
     font-size: 32rpx;
     font-weight: 500;
     line-height: 56rpx;
     color: rgba(51, 51, 51, 1);
   }
+
   .file-picker {
     height: 120rpx;
   }
+
   .checkbox-custom {
     display: flex;
-    flex-flow: row nowrap;
     align-items: center;
+    flex-flow: row nowrap;
     height: 80rpx;
 
     .name {
       font-size: 28rpx;
       font-weight: 400;
       line-height: 50rpx;
-      color: rgba(51, 51, 51, 1);
-      margin-left: 16rpx;
       flex: 1 1 auto;
+      margin-left: 16rpx;
+      color: rgba(51, 51, 51, 1);
     }
+
     .unselected {
       width: 48rpx;
       height: 48rpx;
       background: url("/static/setting/unselected.png") no-repeat left top;
       background-size: 100% auto;
     }
+
     .selected {
       width: 48rpx;
       height: 48rpx;
@@ -97,18 +103,19 @@ async function handleSubmit() {
       background-size: 100% auto;
     }
   }
+
   .btn-submit {
-    position: fixed;
-    bottom: 78rpx;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 520rpx;
-    height: 88rpx;
-    border: none;
     font-size: 32rpx;
     font-weight: 500;
     line-height: 88rpx;
+    position: fixed;
+    bottom: 78rpx;
+    left: 50%;
+    width: 520rpx;
+    height: 88rpx;
+    transform: translateX(-50%);
     color: rgba(255, 255, 255, 1);
+    border: none;
     border-radius: 44rpx;
     background: linear-gradient(135deg, #618bff 0%, #305dd9 100%);
   }

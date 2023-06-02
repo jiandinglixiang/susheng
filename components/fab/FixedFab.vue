@@ -7,7 +7,7 @@ const emits = defineEmits(["handleClick"])
 
 <template>
   <movable-area class="movable-area">
-    <movable-view direction="vertical" class="movable-view" y="350" @click="emits('handleClick')">
+    <movable-view class="movable-view" direction="vertical" y="350" @click="emits('handleClick')">
       <image
         v-if="props.type === 'teaching'"
         class="fixed-fab"
@@ -23,23 +23,26 @@ const emits = defineEmits(["handleClick"])
   </movable-area>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .movable-area {
   position: fixed;
+  z-index: 3;
   top: 700rpx;
   right: 0;
   width: 188rpx;
   height: 450rpx;
-  z-index: 3;
   pointer-events: none;
 }
+
 .movable-view {
   pointer-events: auto;
 }
+
 .fixed-fab {
   width: 156rpx;
   height: 140rpx;
 }
+
 .fixed-fab2 {
   width: 188rpx;
   height: 147rpx;

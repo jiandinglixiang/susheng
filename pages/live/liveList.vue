@@ -1,17 +1,17 @@
 <script setup>
-import PopupIndex from "@/components/popup/PopupIndex.vue"
+import { GET_LIVE_LIST } from "@/api"
 import LiveLineCardItem from "@/components/live/LiveLineCardItem.vue"
+import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import SegmentedControl from "@/components/segmented-control/SegmentedControl.vue"
+import LoadTips from "@/components/tips/load-tips.vue"
+import { usePageList } from "@/hooks/usePageList"
 import { PopupStatus } from "@/pinia/popup"
 import { USER_TOKEN_DATA } from "@/utils/consts"
-import { computed, ref } from "vue"
-import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { findFormEnd } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
-import { GET_LIVE_LIST } from "@/api"
-import { usePageList } from "@/hooks/usePageList"
-import LoadTips from "@/components/tips/load-tips.vue"
+import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
+import { computed, ref } from "vue"
 
 const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
 
@@ -74,11 +74,11 @@ function tabChange(tab) {
     :ref="(r) => PopupStatus().setPopupRef(LOGIN_TIPS_POPUP, r)"
     :popup-key="LOGIN_TIPS_POPUP"
   />
-  <segmented-control fixed :list="controlList" @change="tabChange" />
-  <view v-for="page in listData" :key="page.key" v-show="currentTab === page.key">
-    <live-line-card-item v-for="item in page.list" :item-data="item" :key="item.id" />
+  <segmented-control :list="controlList" fixed @change="tabChange" />
+  <view v-for="page in listData" v-show="currentTab === page.key" :key="page.key">
+    <live-line-card-item v-for="item in page.list" :key="item.id" :item-data="item" />
     <load-tips :loading="page.loading" />
   </view>
 </template>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

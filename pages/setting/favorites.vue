@@ -5,12 +5,12 @@ import InformationItem from "@/components/information/InformationItem.vue"
 import SegmentedControl from "@/components/segmented-control/SegmentedControl.vue"
 import LoadTips from "@/components/tips/load-tips.vue"
 import { usePageList } from "@/hooks/usePageList"
+import { NoticeStatus } from "@/pinia/notice"
 import { PAGES_VIDEO_DETAIL } from "@/utils/consts"
 import { findFormEnd } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onHide, onLoad, onPullDownRefresh, onReachBottom, onShow } from "@dcloudio/uni-app"
 import { computed, markRaw, ref } from "vue"
-import { NoticeStatus } from "@/pinia/notice"
 
 const storeNotice = NoticeStatus()
 const controlList = ["精选课程", "资讯"]
@@ -61,6 +61,7 @@ async function handleClick(tab, item) {
   uni.setStorageSync(PAGES_VIDEO_DETAIL, item)
   uni.navigateTo({ url: "/pages/video/detail" })
 }
+
 async function requestFunc(tab, { page, rows }) {
   if (tab) {
     const res = await httpRequest(POST_ARTICLE_COLLECT_LIST, "POST", { page, rows })
@@ -117,19 +118,19 @@ async function tabChange(tab) {
 </script>
 
 <template>
-  <segmented-control fixed :list="controlList" @change="tabChange" />
-  <view v-for="page in listData" :key="page.key" v-show="currentTab === page.key">
+  <segmented-control :list="controlList" fixed @change="tabChange" />
+  <view v-for="page in listData" v-show="currentTab === page.key" :key="page.key">
     <component
+      :is="page.component"
       v-for="(item, index) in page.list"
       :key="item.id"
-      :is="page.component"
       :item-data="item"
-      display-mode="favorites"
       :under-line="page.list.length - 1 !== index"
+      display-mode="favorites"
       @click="page.handleClick(item)"
     ></component>
     <load-tips :loading="page.loading" />
   </view>
 </template>
 
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

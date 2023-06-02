@@ -1,6 +1,8 @@
 <script setup>
 import { AppAuditStatus } from "@/pinia/audit"
+
 const storeAppAuditStatus = AppAuditStatus()
+
 function navigateTo(url) {
   uni.navigateTo({ url })
 }
@@ -35,25 +37,28 @@ function navigateTo(url) {
   </view>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .kongo-district {
-  height: 212rpx;
   display: flex;
-  flex-flow: row wrap;
   align-items: center;
+  flex-flow: row wrap;
   justify-content: flex-start;
+  height: 212rpx;
   margin: 0 32rpx;
+
   .list-item {
-    flex: 0 0 20%;
     display: flex;
-    flex-flow: column nowrap;
     align-items: center;
+    flex: 0 0 20%;
+    flex-flow: column nowrap;
   }
+
   image {
     width: 80rpx;
     height: 80rpx;
     margin-bottom: 12rpx;
   }
+
   text {
     font-size: 24rpx;
     font-weight: 500;
@@ -61,6 +66,7 @@ function navigateTo(url) {
     color: rgba(51, 51, 51, 1);
   }
 }
+
 .disable {
   filter: grayscale(100%);
 }

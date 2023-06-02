@@ -1,12 +1,12 @@
 <script setup>
-import parseHtml from "@/static/js/html-parser"
-import { computed, nextTick, ref } from "vue"
-import FixedFab from "@/components/fab/FixedFab.vue"
-import { onLoad } from "@dcloudio/uni-app"
-import { httpRequest } from "@/utils/http"
 import { POST_VCOURSE_DETATILS } from "@/api"
+import FixedFab from "@/components/fab/FixedFab.vue"
 import { NoticeStatus } from "@/pinia/notice"
+import parseHtml from "@/static/js/html-parser"
 import { openURL } from "@/utils/func"
+import { httpRequest } from "@/utils/http"
+import { onLoad } from "@dcloudio/uni-app"
+import { computed, nextTick, ref } from "vue"
 
 const storeNotice = NoticeStatus()
 const detail = ref({
@@ -38,7 +38,7 @@ function rightButton() {}
 <template>
   <view>
     <fixed-fab @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))" />
-    <image class="course-img" :src="detail.thumb" />
+    <image :src="detail.thumb" class="course-img" />
     <view class="course-price">
       <text class="price">
         <text class="rmb">¥</text>
@@ -66,88 +66,100 @@ function rightButton() {}
   </view>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .rich-text-box {
-  width: 686rpx;
   display: flex;
+  width: 686rpx;
   margin: 0 32rpx 32rpx;
+
   * {
     max-width: 686rpx;
   }
 }
+
 .course-img {
   width: 750rpx;
   height: 412rpx;
 }
+
 .sub-name {
   font-size: 24rpx;
   font-weight: 400;
   line-height: 24rpx;
-  color: rgba(153, 153, 153, 1);
-  text-align: center;
   margin-bottom: 20rpx;
+  text-align: center;
+  color: rgba(153, 153, 153, 1);
 }
+
 .course-price {
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex-flow: row nowrap;
   height: 104rpx;
   padding: 0 32rpx;
   border-radius: 0rpx 0rpx 16rpx 16rpx;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.08);
+
   .rmb {
     font-size: 32rpx;
   }
+
   .price {
-    flex: 1 1 auto;
     font-size: 48rpx;
     font-weight: 700;
     line-height: 48rpx;
+    flex: 1 1 auto;
     color: rgba(235, 61, 61, 1);
   }
+
   .date-text {
-    flex: 0 0 auto;
     font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
-    color: rgba(153, 153, 153, 1);
+    flex: 0 0 auto;
     margin-right: 8rpx;
+    color: rgba(153, 153, 153, 1);
   }
+
   .date {
-    flex: 0 0 auto;
     font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
+    flex: 0 0 auto;
     color: rgba(235, 61, 61, 1);
   }
 }
+
 .receive-information-card {
+  display: flex;
+  flex-flow: column nowrap;
   margin: 32rpx;
   padding: 32rpx;
   border-radius: 16rpx;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-flow: column nowrap;
+
   .box-below {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
     font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
+    display: flex;
+    align-items: center;
+    flex-flow: row nowrap;
     color: rgba(51, 51, 51, 1);
     background: url("/static/home/arrow@2x.png") no-repeat right center;
     background-size: 14rpx 20rpx;
   }
+
   .name {
     font-size: 32rpx;
     font-weight: 700;
     line-height: 32rpx;
-    color: rgba(51, 51, 51, 1);
     margin-bottom: 32rpx;
+    color: rgba(51, 51, 51, 1);
   }
+
   .highlight {
     margin-right: 12rpx;
     padding: 6rpx 8rpx;
@@ -156,110 +168,130 @@ function rightButton() {}
     background: rgba(48, 93, 218, 0.1);
   }
 }
+
 .detailed-catalog {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: flex-start;
-  margin: 0 32rpx 32rpx;
   font-size: 28rpx;
   font-weight: 700;
   line-height: 28rpx;
+  display: flex;
+  align-items: flex-start;
+  flex-flow: row nowrap;
+  margin: 0 32rpx 32rpx;
   color: rgba(153, 153, 153, 1);
+
   text {
-    height: 42rpx;
     position: relative;
+    height: 42rpx;
     margin-right: 32rpx;
   }
+
   .highlight {
     color: rgba(51, 51, 51, 1);
+
     &:after {
-      content: "";
       position: absolute;
       bottom: 0;
       left: 50%;
-      transform: translateX(-50%);
       width: 32rpx;
       height: 6rpx;
+      content: "";
+      transform: translateX(-50%);
       border-radius: 4rpx;
       background: rgba(48, 93, 218, 1);
     }
   }
 }
+
 .collapse-item {
   overflow: hidden;
   margin: 0 32rpx 16rpx;
   border-radius: 16rpx;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.07);
+
   :deep(.uni-collapse-item__wrap-content) {
     padding-bottom: 24rpx;
   }
+
   :deep(.uni-collapse-item__title-text) {
     font-size: 32rpx;
     font-weight: 700;
     color: rgba(51, 51, 51, 1);
   }
+
   :deep(.uni-collapse-item__title-arrow) {
+    background: url("/static/home/arrow@2x.png") no-repeat center center;
+
+    background-size: 14rpx 20rpx;
     uni-text {
       display: none;
     }
-    background: url("/static/home/arrow@2x.png") no-repeat center center;
-    background-size: 14rpx 20rpx;
+
     &.uni-collapse-item__title-arrow-active {
       transform: rotate(90deg);
     }
   }
 }
+
 .collapse-content-item {
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex-flow: row nowrap;
   box-sizing: border-box;
   height: 120rpx;
   margin: 0 32rpx;
   padding: 24rpx 0;
+
   &.bottom-border {
     border-bottom: 4rpx solid rgba(238, 238, 238, 1);
   }
+
   .box-left {
-    flex: 1 1 auto;
     display: flex;
+    flex: 1 1 auto;
     flex-flow: row wrap;
   }
+
   .playing {
     display: inline-block;
     width: 20rpx;
     height: 24rpx;
     margin-right: 8rpx;
   }
+
   .name {
-    flex: 1 1 auto;
     font-size: 28rpx;
     font-weight: 400;
     line-height: 28rpx;
-    color: rgba(51, 51, 51, 1);
+    flex: 1 1 auto;
     margin-bottom: 16rpx;
+    color: rgba(51, 51, 51, 1);
   }
+
   .highlight {
     color: rgba(48, 93, 218, 1);
   }
+
   .time-people {
     display: flex;
-    flex-flow: row nowrap;
     align-items: center;
+    flex-flow: row nowrap;
   }
+
   .time {
     flex: 0 0 auto;
     width: 28rpx;
     height: 28rpx;
     margin-right: 8rpx;
   }
+
   .time-text,
   people-text {
     flex: 0 0 auto;
     margin-right: 18rpx;
     vertical-align: bottom;
   }
+
   .people {
     flex: 0 0 auto;
     width: 20rpx;
@@ -268,30 +300,35 @@ function rightButton() {}
   }
 
   .box-right {
-    flex: 0 0 auto;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
     font-size: 24rpx;
     font-weight: 400;
-    color: rgba(255, 139, 23, 1);
-    padding-left: 48rpx;
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    flex-flow: row nowrap;
     height: 40rpx;
+    padding-left: 48rpx;
+    color: rgba(255, 139, 23, 1);
     background: url("/static/course/play-with-learning@2x.png") no-repeat left center;
     background-size: 40rpx 40rpx;
+
     &:after {
       content: "待学习";
     }
+
     &.status-end {
       color: rgba(204, 204, 204, 1);
       background-image: url("/static/course/video-play3.png");
+
       &:after {
         content: "已学完";
       }
     }
+
     &.status-ing {
       color: rgba(48, 93, 218, 1);
       background-image: url("/static/course/video-play@2x.png");
+
       &:after {
         content: "学习中";
       }

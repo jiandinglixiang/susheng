@@ -1,13 +1,13 @@
 <script setup>
+import { POST_LIST_NOTICE, POST_LIST_OF_MATERIALS } from "@/api"
 import FixedFab from "@/components/fab/FixedFab.vue"
 import NoticeBar from "@/components/notice-bar/NoticeBar.vue"
+import LoadTips from "@/components/tips/load-tips.vue"
 import { usePageList } from "@/hooks/usePageList"
 import { NoticeStatus } from "@/pinia/notice"
-import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
-import { httpRequest } from "@/utils/http"
-import { POST_LIST_NOTICE, POST_LIST_OF_MATERIALS } from "@/api"
-import LoadTips from "@/components/tips/load-tips.vue"
 import { formatNumber, openURL } from "@/utils/func"
+import { httpRequest } from "@/utils/http"
+import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { computed, ref } from "vue"
 
 const storeNotice = NoticeStatus()
@@ -41,19 +41,24 @@ onReachBottom(() => {
 function requestFunc({ page, rows }) {
   return httpRequest(POST_LIST_OF_MATERIALS, "POST", { page, rows })
 }
+
 function star(star, num) {
   star = +star
   return star >= num ? "star-filled" : star === num - 0.5 ? "starhalf" : "star"
 }
+
 function iconUrl(url) {
   return `/static/pdf/${url.toUpperCase().slice(-3)}@2x.png`
 }
+
 function tagList(tag) {
   return tag?.split?.(",") ?? []
 }
+
 function navigateBack() {
   uni.navigateBack()
 }
+
 function handleDownload(item) {
   const link = `https://stark.pxo.cn/pdfjs-3.0.279-dist/web/viewer.html?file=${encodeURI(
     item.uploadResource
@@ -68,28 +73,28 @@ function handleDownload(item) {
 
 <template>
   <uni-nav-bar
-    title="资料列表"
-    fixed
-    statusBar
-    left-icon="back"
     :border="false"
+    class="nav-bar"
+    fixed
+    left-icon="back"
+    statusBar
+    title="资料列表"
     @clickLeft="navigateBack"
     @clickRight="openURL(storeNotice.onlineConsultation[0])"
-    class="nav-bar"
   >
     <template v-slot:right>
       <image class="right-btn" src="/static/pdf/customer-service@2x.png" />
     </template>
   </uni-nav-bar>
   <view class="fixed-box">
-    <notice-bar fixed :list="noticeList" />
+    <notice-bar :list="noticeList" fixed />
   </view>
-  <view class="pdf-list-item" v-for="item in list" :key="item.id">
+  <view v-for="item in list" :key="item.id" class="pdf-list-item">
     <view class="box-top">
-      <image class="file-icon" :src="iconUrl(item.uploadResource)" />
+      <image :src="iconUrl(item.uploadResource)" class="file-icon" />
       <view class="middle-box">
         <text class="file-name">{{ item.name }}</text>
-        <text class="keyword" v-for="item2 in tagList(item.tag)">{{ item2 }}</text>
+        <text v-for="item2 in tagList(item.tag)" class="keyword">{{ item2 }}</text>
       </view>
       <view class="download" @click="handleDownload(item)">下载</view>
     </view>
@@ -97,9 +102,9 @@ function handleDownload(item) {
       <view class="star">
         <uni-icons
           v-for="num in 5"
+          :type="star(item.star, num)"
           class="staff"
           color="#FFC800"
-          :type="star(item.star, num)"
           size="12"
         ></uni-icons>
         <!--        <uni-icons class="staff" color="#FFC800" type="star-filled" size="12"></uni-icons>-->
@@ -120,7 +125,7 @@ function handleDownload(item) {
   />
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .fixed-box {
   height: 116rpx;
 }
@@ -132,11 +137,11 @@ function handleDownload(item) {
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.08);
 
   .box-top {
+    display: flex;
+    align-items: center;
+    flex-flow: row nowrap;
     margin: 0 16rpx;
     padding: 16rpx 0;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
     border-bottom: 2rpx solid rgba(238, 238, 238, 1);
   }
 
@@ -148,65 +153,65 @@ function handleDownload(item) {
   }
 
   .middle-box {
-    flex: 1 1 auto;
     display: flex;
+    flex: 1 1 auto;
     flex-flow: row wrap;
     margin-right: 16rpx;
   }
 
   .file-name {
-    flex: 1 1 auto;
-    width: 100%;
-    margin-bottom: 12rpx;
     font-size: 28rpx;
     font-weight: 400;
     line-height: 28rpx;
+    flex: 1 1 auto;
+    width: 100%;
+    margin-bottom: 12rpx;
     color: rgba(51, 51, 51, 1);
   }
 
   .keyword {
-    margin: 0 8rpx 8rpx 0;
-    flex: 0 0 auto;
-    border-radius: 8rpx;
-    background: rgba(48, 93, 218, 0.1);
-    padding: 6rpx 12rpx 6rpx 12rpx;
     font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
+    flex: 0 0 auto;
+    margin: 0 8rpx 8rpx 0;
+    padding: 6rpx 12rpx 6rpx 12rpx;
     color: rgba(48, 93, 218, 1);
+    border-radius: 8rpx;
+    background: rgba(48, 93, 218, 0.1);
   }
 
   .download {
-    margin: 0;
-    flex: 0 0 auto;
-    width: 100rpx;
-    height: 56rpx;
-    text-align: center;
-    border-radius: 446rpx 430rpx 446rpx 430rpx;
-    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
     font-size: 24rpx;
     font-weight: 700;
     line-height: 56rpx;
+    flex: 0 0 auto;
+    width: 100rpx;
+    height: 56rpx;
+    margin: 0;
+    text-align: center;
     color: rgba(255, 255, 255, 1);
+    border-radius: 446rpx 430rpx 446rpx 430rpx;
+    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
   }
 
   .box-below {
-    padding: 16rpx;
     display: flex;
-    flex-flow: row nowrap;
     align-items: center;
+    flex-flow: row nowrap;
     justify-content: flex-end;
+    padding: 16rpx;
   }
 
   .star {
-    flex: 1 1 auto;
-    align-self: flex-start;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
     font-size: 20rpx;
     font-weight: 400;
     line-height: 24rpx;
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+    flex: 1 1 auto;
+    flex-flow: row nowrap;
     color: rgba(227, 178, 0, 1);
 
     .staff {
@@ -215,12 +220,12 @@ function handleDownload(item) {
   }
 
   .info {
-    flex: 0 0 auto;
     font-size: 20rpx;
     font-weight: 400;
     line-height: 24rpx;
-    color: rgba(153, 153, 153, 1);
+    flex: 0 0 auto;
     margin-left: 16rpx;
+    color: rgba(153, 153, 153, 1);
   }
 }
 

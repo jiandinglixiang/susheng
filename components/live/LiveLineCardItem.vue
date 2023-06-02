@@ -1,13 +1,13 @@
 <script setup>
-import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
-import { PopupStatus } from "@/pinia/popup"
-import { computed, ref } from "vue"
-import dayjs from "dayjs"
-import { httpRequest } from "@/utils/http"
 import { POST_LIVE_SUBSCRIBE } from "@/api"
-import { openURL } from "@/utils/func"
+import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import { NoticeStatus } from "@/pinia/notice"
+import { PopupStatus } from "@/pinia/popup"
 import { USER_TOKEN_DATA } from "@/utils/consts"
+import { openURL } from "@/utils/func"
+import { httpRequest } from "@/utils/http"
+import dayjs from "dayjs"
+import { computed, ref } from "vue"
 
 const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
 const storeNotice = NoticeStatus()
@@ -105,6 +105,7 @@ function gotoLogin() {
     }
   })
 }
+
 function navigateTo() {
   uni.navigateTo({ url: "/pages/live/detail?id=" + props.itemData.id })
 }
@@ -112,23 +113,23 @@ function navigateTo() {
 
 <template>
   <view class="live-line-card-item">
-    <image @click="navigateTo" class="live-img" :src="itemData.pic" />
+    <image :src="itemData.pic" class="live-img" @click="navigateTo" />
     <view class="right-content">
       <text class="name">
         {{ itemData.title }}
       </text>
       <view class="bottom-time">{{ date }}</view>
     </view>
-    <view class="live-status" :class="status.style">
+    <view :class="status.style" class="live-status">
       <!--已预约-->
     </view>
-    <view class="receive-handouts" :class="status.style2" @click="status.handleClick">
+    <view :class="status.style2" class="receive-handouts" @click="status.handleClick">
       {{ status.btn }}
     </view>
   </view>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .live-line-card-item {
   position: relative;
   display: flex;
@@ -138,108 +139,121 @@ function navigateTo() {
   border-radius: 8rpx;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.06);
+
   .live-img {
     flex: 0 0 auto;
     width: 254rpx;
     height: 140rpx;
+    margin-right: 20rpx;
     border-radius: 4rpx;
-    margin-right: 20rpx;
   }
+
   .right-content {
-    flex: 1 1 auto;
-    min-height: 140rpx;
     display: flex;
-    flex-flow: column nowrap;
     align-items: flex-end;
+    flex: 1 1 auto;
+    flex-flow: column nowrap;
     justify-content: space-between;
+    min-height: 140rpx;
     margin-right: 20rpx;
   }
+
   .name {
-    width: 100%;
     font-size: 28rpx;
     font-weight: 400;
     line-height: 36rpx;
-    color: rgba(51, 51, 51, 1);
-    text-align: left;
-    max-height: 72rpx;
+    display: -webkit-box;
     overflow: hidden;
+    width: 100%;
+    max-height: 72rpx;
+    text-align: left;
     text-overflow: ellipsis;
     word-break: break-all;
-    display: -webkit-box;
+    color: rgba(51, 51, 51, 1);
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
+
   .bottom-time {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
     font-size: 24rpx;
     font-weight: 400;
     line-height: 32rpx;
-    color: rgba(48, 93, 218, 1);
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
     padding-right: 128rpx;
+    color: rgba(48, 93, 218, 1);
   }
 }
+
 .receive-handouts {
+  font-size: 24rpx;
+  font-weight: 700;
+  line-height: 60rpx;
   position: absolute;
   right: 0;
   bottom: 0;
   width: 128rpx;
   height: 60rpx;
+  text-align: center;
+  color: rgba(255, 255, 255, 1);
   border-radius: 8rpx 0rpx 8rpx 0rpx;
   background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
-  font-size: 24rpx;
-  font-weight: 700;
-  line-height: 60rpx;
-  color: rgba(255, 255, 255, 1);
-  text-align: center;
+
   &.living:before {
-    content: "";
     display: inline-block;
     width: 20rpx;
     height: 20rpx;
+    margin-right: 4rpx;
+    content: "";
     background: url("/static/live/btniconliving.png") no-repeat left center;
     background-size: 100% auto;
-    margin-right: 4rpx;
   }
 }
+
 .live-status {
   position: absolute;
-  left: 0;
-  top: 0;
   z-index: 1;
+  top: 0;
+  left: 0;
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex-flow: row nowrap;
   justify-content: center;
   padding: 4rpx;
   border-radius: 8rpx 0rpx 8rpx 0rpx;
   background: rgba(255, 243, 230, 1);
 
   &:after {
-    content: "待开始";
-    scale: 0.75;
     font-size: 24rpx;
     font-weight: 700;
-    color: rgba(255, 142, 13, 1);
+    content: "待开始";
     vertical-align: top;
+    color: rgba(255, 142, 13, 1);
+    scale: 0.75;
   }
+
   &.watching-live {
     background: rgba(231, 241, 255, 1);
+
     &:after {
       content: "直播中";
       color: rgba(15, 115, 255, 1);
     }
   }
+
   &.reserved {
     background: rgba(237, 237, 237, 1);
+
     &:after {
       content: "已预约";
       color: rgba(138, 138, 138, 1);
     }
   }
+
   &.watch-replay {
     background: rgba(230, 247, 237, 1);
+
     &:after {
       content: "回放中";
       color: rgba(9, 179, 77, 1);

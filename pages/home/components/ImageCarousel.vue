@@ -4,6 +4,7 @@ import NoticeBar from "@/components/notice-bar/NoticeBar.vue"
 import { objectToQueryString } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onMounted, ref } from "vue"
+
 const dotsStyles = {
   border: "none",
   selectedBorder: "none",
@@ -17,6 +18,7 @@ const notice = ref([])
 function change(event) {
   current.value = event.detail.current
 }
+
 function handleClick(item) {
   console.log(item)
   jumpCenter(item.targetid, {
@@ -24,6 +26,7 @@ function handleClick(item) {
     url: item.url
   })
 }
+
 onMounted(async () => {
   const [res1, res2] = await Promise.allSettled([
     httpRequest(GET_AD_CLIENT_BANNER, "POST", { typeid: 1 }),
@@ -54,24 +57,24 @@ function jumpCenter(targetid, { id, url: link, title }) {
 
 <template>
   <uni-swiper-dot
-    class="uni-swiper-dot-box"
-    :info="list"
-    mode="round"
-    :dotsStyles="dotsStyles"
     :current="current"
+    :dotsStyles="dotsStyles"
+    :info="list"
+    class="uni-swiper-dot-box"
+    mode="round"
   >
     <swiper
-      class="swiper-box"
-      circular
-      previous-margin="16px"
-      next-margin="16px"
       :current="current"
-      @change="change"
       autoplay
+      circular
+      class="swiper-box"
+      next-margin="16px"
+      previous-margin="16px"
+      @change="change"
     >
       <swiper-item v-for="item in list" :key="item.id" @click="handleClick(item)">
         <view class="swiper-item">
-          <image class="swiper-img" :src="item.pic"></image>
+          <image :src="item.pic" class="swiper-img"></image>
         </view>
       </swiper-item>
     </swiper>
@@ -79,10 +82,11 @@ function jumpCenter(targetid, { id, url: link, title }) {
   <notice-bar :list="notice" show-detail @noticeClick="handleClick" />
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .uni-swiper-dot-box {
   margin-bottom: 32rpx;
 }
+
 .swiper-box {
   height: 300rpx;
 }
@@ -91,17 +95,17 @@ function jumpCenter(targetid, { id, url: link, title }) {
   /* #ifndef APP-NVUE */
   display: flex;
   /* #endif */
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   height: 300rpx;
   padding: 0 8px;
 }
 
 .swiper-img {
   overflow: hidden;
-  border-radius: 16rpx;
   flex: 1 1 auto;
   width: 100%;
+  border-radius: 16rpx;
 }
 </style>

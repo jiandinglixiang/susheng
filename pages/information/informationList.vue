@@ -1,12 +1,13 @@
 <script setup>
+import { GET_ARTICLE_LIST, POST_ARTICLE_TYPE } from "@/api"
 import InformationItem from "@/components/information/InformationItem.vue"
+import LoadTips from "@/components/tips/load-tips.vue"
+import { usePageList } from "@/hooks/usePageList"
 import { NoticeStatus } from "@/pinia/notice"
 import { openURL } from "@/utils/func"
-import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { httpRequest } from "@/utils/http"
-import { GET_ARTICLE_LIST, POST_ARTICLE_TYPE } from "@/api"
-import { usePageList } from "@/hooks/usePageList"
-import LoadTips from "@/components/tips/load-tips.vue"
+import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
+
 const storeNotice = NoticeStatus()
 
 let targetType
@@ -50,6 +51,7 @@ function requestFunc({ page, rows: pageSize }) {
 function navigateBack() {
   uni.navigateBack()
 }
+
 function gotoDetail(item) {
   uni.navigateTo({
     url: `/pages/information/detail?id=${item.id}&domain=${decodeURIComponent(targetType.domain)}`
@@ -59,15 +61,15 @@ function gotoDetail(item) {
 
 <template>
   <uni-nav-bar
-    title="考试资讯"
-    fixed
-    statusBar
-    left-icon="back"
     :border="false"
+    class="nav-bar"
+    fixed
+    left-icon="back"
     right-width="164rpx"
+    statusBar
+    title="考试资讯"
     @clickLeft="navigateBack"
     @clickRight="openURL(storeNotice.onlineConsultation[0])"
-    class="nav-bar"
   >
     <template v-slot:right>
       <view class="right-btn">在线考友</view>
@@ -76,32 +78,33 @@ function gotoDetail(item) {
   <view style="height: 16rpx" />
   <information-item
     v-for="(item, index) in list"
-    :item-data="item"
     :key="item.id"
+    :item-data="item"
     :under-line="list.length - 1 !== index"
     @click="gotoDetail(item)"
   />
   <load-tips :loading="loading" />
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .nav-bar {
   :deep(.uni-nav-bar-text) {
     font-size: 36rpx;
     font-weight: 500;
   }
 }
+
 .right-btn {
-  box-sizing: border-box;
-  width: 164rpx;
-  height: 56rpx;
-  border-radius: 200rpx;
-  border: 1rpx solid rgba(48, 93, 218, 1);
   font-size: 24rpx;
   font-weight: 500;
   line-height: 56rpx;
-  color: rgba(48, 93, 218, 1);
+  box-sizing: border-box;
+  width: 164rpx;
+  height: 56rpx;
   padding-left: 52rpx;
+  color: rgba(48, 93, 218, 1);
+  border: 1rpx solid rgba(48, 93, 218, 1);
+  border-radius: 200rpx;
   background: url("/static/information/test-friend@2x.png") rgba(48, 93, 218, 0.08) no-repeat 16rpx
     center;
   background-size: 32rpx 32rpx;

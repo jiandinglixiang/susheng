@@ -1,12 +1,12 @@
 <script setup>
-import parseHtml from "@/static/js/html-parser"
-import { onLoad } from "@dcloudio/uni-app"
-import { httpRequest } from "@/utils/http"
 import { POST_LIVE_DETATILS } from "@/api"
+import { NoticeStatus } from "@/pinia/notice"
+import parseHtml from "@/static/js/html-parser"
+import { openURL } from "@/utils/func"
+import { httpRequest } from "@/utils/http"
+import { onLoad } from "@dcloudio/uni-app"
 import dayjs from "dayjs"
 import { computed, ref } from "vue"
-import { NoticeStatus } from "@/pinia/notice"
-import { openURL } from "@/utils/func"
 
 const storeNotice = NoticeStatus()
 const detail = ref({
@@ -50,6 +50,7 @@ function transformDate(diff) {
   }
   return []
 }
+
 const status = computed(() => {
   const { enable, starttime } = detail.value
 
@@ -96,20 +97,20 @@ const status = computed(() => {
 <template>
   <view>
     <view class="live-top">
-      <image class="ad-img" :src="detail.pic" />
+      <image :src="detail.pic" class="ad-img" />
       <view class="content">
         <text class="distance">{{ status.topText }}</text>
         <uni-countdown
-          class="countdown-time"
           v-if="status.countdown.length"
           :day="status.countdown[0]"
           :hour="status.countdown[1]"
           :minute="status.countdown[2]"
           :second="status.countdown[3]"
           :show-colon="false"
+          background-color="#ffffff"
+          class="countdown-time"
           color="#305DDA"
           splitor-color="#ffffff"
-          background-color="#ffffff"
         />
         <view
           v-else-if="status.btnText === '领取回放资料'"
@@ -122,7 +123,7 @@ const status = computed(() => {
     </view>
     <view class="person-info">
       <text class="live-name">{{ detail.title }}</text>
-      <image class="avatar" :src="detail.teacher_pic"></image>
+      <image :src="detail.teacher_pic" class="avatar"></image>
       <view class="box-info">
         <text class="name">{{ detail.teachername }}</text>
         <view class="line-box">
@@ -145,7 +146,7 @@ const status = computed(() => {
           <image src="/static/course/icon_banjiqun@2x.png"></image>
           <text>学管老师</text>
         </view>
-        <view class="btn" :class="status.btnStyle" @click="status.btnClick">
+        <view :class="status.btnStyle" class="btn" @click="status.btnClick">
           <!--立即预约-->
           {{ status.btnText }}
         </view>
@@ -154,132 +155,149 @@ const status = computed(() => {
   </view>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .fixed-bottom {
   height: 98rpx;
 }
+
 .rich-text-box {
-  width: 686rpx;
   display: flex;
+  width: 686rpx;
   margin: 0 32rpx 48rpx;
+
   * {
     max-width: 100%;
     max-height: 100%;
   }
 }
+
 .fixed-bottom-content {
   position: fixed;
-  left: 0;
   right: 0;
   bottom: 0;
-  height: 98rpx;
+  left: 0;
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex-flow: row nowrap;
   justify-content: space-between;
+  height: 98rpx;
   padding: 0 24rpx;
   background: #ffffff;
+
   .teacher {
-    flex: 0 0 auto;
-    width: 326rpx;
     font-size: 28rpx;
     font-weight: 500;
     line-height: 44rpx;
-    color: rgba(51, 51, 51, 1);
     display: flex;
-    flex-flow: row nowrap;
     align-items: center;
+    flex: 0 0 auto;
+    flex-flow: row nowrap;
     justify-content: center;
+    width: 326rpx;
+    color: rgba(51, 51, 51, 1);
+
     image {
       width: 44rpx;
       height: 44rpx;
       margin-right: 10rpx;
     }
   }
+
   .btn {
-    flex: 0 0 auto;
-    width: 368rpx;
-    height: 76rpx;
-    border-radius: 200rpx;
-    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
-    text-align: center;
     font-size: 28rpx;
     font-weight: 700;
     line-height: 76rpx;
+    flex: 0 0 auto;
+    width: 368rpx;
+    height: 76rpx;
+    text-align: center;
     color: rgba(255, 255, 255, 1);
+    border-radius: 200rpx;
+    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
   }
+
   .btn-done {
     color: rgba(48, 93, 218, 1);
     border: 2rpx solid rgba(48, 93, 218, 1);
     background: #ffffff;
   }
 }
+
 .line-title {
   font-size: 28rpx;
   font-weight: 700;
   line-height: 28rpx;
-  color: rgba(51, 51, 51, 1);
   margin-bottom: 16rpx;
   margin-left: 32rpx;
+  color: rgba(51, 51, 51, 1);
 }
+
 .teacher-profile {
   font-size: 28rpx;
   font-weight: 400;
   line-height: 39.2rpx;
-  color: rgba(102, 102, 102, 1);
   margin: 0 32rpx 48rpx;
+  color: rgba(102, 102, 102, 1);
 }
+
 .person-info {
   display: flex;
   flex-flow: row wrap;
-  padding: 32rpx;
   margin-bottom: 48rpx;
+  padding: 32rpx;
   box-shadow: 0rpx 4rpx 32rpx 0rpx rgba(0, 0, 0, 0.06);
+
   .live-name {
-    width: 100%;
-    flex: 1 1 auto;
     font-size: 32rpx;
     font-weight: 500;
     line-height: 48rpx;
-    color: rgba(51, 51, 51, 1);
+    flex: 1 1 auto;
+    width: 100%;
     margin-bottom: 32rpx;
+    color: rgba(51, 51, 51, 1);
   }
+
   .avatar {
+    overflow: hidden;
     flex: 0 0 auto;
     width: 64rpx;
     height: 64rpx;
     margin-right: 6rpx;
     border-radius: 50%;
-    overflow: hidden;
   }
+
   .box-info {
-    width: calc(100% - 70rpx);
-    flex: 1 1 auto;
     display: flex;
+    flex: 1 1 auto;
     flex-flow: column nowrap;
+    width: calc(100% - 70rpx);
   }
+
   .name {
-    word-break: break-all;
-    width: 100%;
     font-size: 28rpx;
     font-weight: 400;
     line-height: 28rpx;
+    width: 100%;
+    word-break: break-all;
     color: rgba(51, 51, 51, 1);
   }
+
   .line-box {
-    flex: 1 1 auto;
-    width: 100%;
     display: flex;
-    flex-flow: row nowrap;
     align-items: center;
+    flex: 1 1 auto;
+    flex-flow: row nowrap;
     justify-content: space-between;
+    width: 100%;
   }
+
   .date {
     font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
     color: rgba(48, 93, 218, 1);
   }
+
   .booking {
     font-size: 28rpx;
     font-weight: 400;
@@ -287,65 +305,72 @@ const status = computed(() => {
     color: rgba(48, 93, 218, 1);
   }
 }
+
 .live-top {
   position: relative;
   width: 750rpx;
   height: 422rpx;
+
   .ad-img {
     width: 750rpx;
     height: 422rpx;
   }
+
   .content {
     position: absolute;
-    left: 0;
     top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    flex-flow: column nowrap;
+    justify-content: center;
     width: 750rpx;
     height: 422rpx;
     background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    justify-content: center;
+
     .distance {
       font-size: 32rpx;
       font-weight: 700;
       line-height: 44.8rpx;
-      color: rgba(255, 255, 255, 1);
       margin-bottom: 14rpx;
+      color: rgba(255, 255, 255, 1);
     }
 
     .receive-btn {
-      margin-top: 18rpx;
-      width: 232rpx;
-      height: 64rpx;
-      border-radius: 200rpx;
-      background: rgba(255, 255, 255, 1);
       font-size: 28rpx;
       font-weight: 700;
       line-height: 64rpx;
-      color: rgba(48, 93, 218, 1);
+      width: 232rpx;
+      height: 64rpx;
+      margin-top: 18rpx;
       text-align: center;
+      color: rgba(48, 93, 218, 1);
+      border-radius: 200rpx;
+      background: rgba(255, 255, 255, 1);
     }
   }
 }
+
 .countdown-time {
   :deep(.uni-countdown__number) {
     font-size: 28rpx !important;
     font-weight: 700;
-    height: 56rpx;
     line-height: 56rpx !important;
+    height: 56rpx;
   }
+
   :deep(.uni-countdown__splitor) {
     font-size: 28rpx !important;
     font-weight: 700;
   }
 }
+
 .card {
-  width: 44rpx;
   line-height: 56rpx;
+  width: 44rpx;
+  text-align: center;
+  color: rgba(48, 93, 218, 1);
   border-radius: 8rpx;
   background: rgba(255, 255, 255, 1);
-  color: rgba(48, 93, 218, 1);
-  text-align: center;
 }
 </style>

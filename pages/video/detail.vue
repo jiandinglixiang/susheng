@@ -1,16 +1,15 @@
 <script setup>
+import { POST_VIDEO_COLLECT, POST_VIDEO_LIST_CLASSHOUR, POST_VIDEO_PLAY_LOG } from "@/api"
+import FixedFab from "@/components/fab/FixedFab.vue"
+import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
+import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import { PAGES_VIDEO_DETAIL, USER_TOKEN_DATA } from "@/utils/consts"
 import { openURL, setTitleNViewButtonStyle } from "@/utils/func"
-import FixedFab from "@/components/fab/FixedFab.vue"
 import { httpRequest } from "@/utils/http"
-import { POST_VIDEO_COLLECT, POST_VIDEO_LIST_CLASSHOUR, POST_VIDEO_PLAY_LOG } from "@/api"
 import { onLoad, onUnload } from "@dcloudio/uni-app"
-import dayjs from "dayjs"
 import { nextTick, ref } from "vue"
-import { NoticeStatus } from "@/pinia/notice"
-import PopupIndex from "@/components/popup/PopupIndex.vue"
 
 const noLogin = ref(!uni.getStorageSync(USER_TOKEN_DATA)?.token)
 const options = uni.getStorageSync(PAGES_VIDEO_DETAIL)
@@ -77,6 +76,7 @@ const videoHandle = {
     }
   }
 }
+
 function handleClickDirectory(item) {
   if (item.try_see === 2) {
     uni.showToast({ title: "试看被关闭", icon: "none" })
@@ -109,6 +109,7 @@ async function getDirectory() {
     }
   })
 }
+
 async function rightButton() {
   if (noLogin.value) {
     gotoLogin()
@@ -152,18 +153,18 @@ function gotoLogin() {
       <video
         v-if="videoItem.id"
         id="myVideo"
-        class="full-box"
         :autoplay="true"
-        :loop="true"
-        :src="videoItem.url"
         :enable-progress-gesture="false"
-        :show-mute-btn="true"
         :initial-time="0"
-        @play="videoHandle.play"
+        :loop="true"
+        :show-mute-btn="true"
+        :src="videoItem.url"
+        class="full-box"
         @ended="videoHandle.ended"
+        @play="videoHandle.play"
         @timeupdate="videoHandle.timeupdate"
       ></video>
-      <image v-else class="full-box" :src="options.file" />
+      <image v-else :src="options.file" class="full-box" />
     </view>
     <view
       class="receive-information-card"
@@ -179,30 +180,30 @@ function gotoLogin() {
       <text :class="!displayTab && 'highlight'" @click="displayTab = !displayTab">课程详情</text>
       <text :class="displayTab && 'highlight'" @click="displayTab = !displayTab">课程目录</text>
     </view>
-    <view class="sub-box" v-show="!displayTab">
+    <view v-show="!displayTab" class="sub-box">
       <view class="sub-name">- 课程内容 -</view>
-      <image class="sub-img" :src="options.detail_img" mode="widthFix"></image>
+      <image :src="options.detail_img" class="sub-img" mode="widthFix"></image>
       <!-- <view class="sub-name">- 配套材料 -</view>
       <image class="sub-img" :src="options.src" mode="widthFix"></image> -->
     </view>
     <uni-collapse v-show="displayTab">
       <uni-collapse-item
-        :border="false"
-        class="collapse-item"
-        :title="item.title"
-        title-border="none"
         v-for="(item, index) in directory"
         :key="item.id"
+        :border="false"
         :open="index === 0"
+        :title="item.title"
+        class="collapse-item"
+        title-border="none"
       >
         <view
-          class="collapse-content-item"
-          :class="item.children.length !== index2 + 1 && 'bottom-border'"
           v-for="(item2, index2) in item.children"
           :key="item2.id"
+          :class="item.children.length !== index2 + 1 && 'bottom-border'"
+          class="collapse-content-item"
         >
           <view class="box-left">
-            <view class="name" :class="videoItem.id === item2.id && 'highlight'">
+            <view :class="videoItem.id === item2.id && 'highlight'" class="name">
               <image
                 v-if="videoItem.id === item2.id"
                 class="playing"
@@ -218,12 +219,12 @@ function gotoLogin() {
             </view>
           </view>
           <view
-            class="box-right"
             :class="[
               item2.try_see === 1 &&
                 ((videoItem.id === item2.id && 'status-ing') ||
                   (item2.status === 2 && 'status-end'))
             ]"
+            class="box-right"
             @click="handleClickDirectory(item2)"
           >
             <!--待学习-->
@@ -234,7 +235,7 @@ function gotoLogin() {
   </view>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .header-container {
   position: relative;
   width: 750rpx;
@@ -255,78 +256,89 @@ function gotoLogin() {
 .sub-box {
   margin: 0 32rpx;
 }
+
 .sub-img {
   width: 100%;
 }
+
 .sub-name {
   font-size: 24rpx;
   font-weight: 400;
   line-height: 24rpx;
-  color: rgba(153, 153, 153, 1);
-  text-align: center;
   margin-bottom: 20rpx;
+  text-align: center;
+  color: rgba(153, 153, 153, 1);
 }
+
 .course-price {
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex-flow: row nowrap;
   height: 104rpx;
   padding: 0 32rpx;
   border-radius: 0rpx 0rpx 16rpx 16rpx;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.08);
+
   .rmb {
     font-size: 32rpx;
   }
+
   .price {
-    flex: 1 1 auto;
     font-size: 48rpx;
     font-weight: 700;
     line-height: 48rpx;
+    flex: 1 1 auto;
     color: rgba(235, 61, 61, 1);
   }
+
   .date-text {
-    flex: 0 0 auto;
     font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
-    color: rgba(153, 153, 153, 1);
+    flex: 0 0 auto;
     margin-right: 8rpx;
+    color: rgba(153, 153, 153, 1);
   }
+
   .date {
-    flex: 0 0 auto;
     font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
+    flex: 0 0 auto;
     color: rgba(235, 61, 61, 1);
   }
 }
+
 .receive-information-card {
+  display: flex;
+  flex-flow: column nowrap;
   margin: 32rpx;
   padding: 32rpx;
   border-radius: 16rpx;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-flow: column nowrap;
+
   .box-below {
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
     font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
+    display: flex;
+    align-items: center;
+    flex-flow: row nowrap;
     color: rgba(51, 51, 51, 1);
     background: url("/static/home/arrow@2x.png") no-repeat right center;
     background-size: 14rpx 20rpx;
   }
+
   .name {
     font-size: 32rpx;
     font-weight: 700;
     line-height: 32rpx;
-    color: rgba(51, 51, 51, 1);
     margin-bottom: 32rpx;
+    color: rgba(51, 51, 51, 1);
   }
+
   .highlight {
     margin-right: 12rpx;
     padding: 6rpx 8rpx;
@@ -335,110 +347,130 @@ function gotoLogin() {
     background: rgba(48, 93, 218, 0.1);
   }
 }
+
 .detailed-catalog {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: flex-start;
-  margin: 0 32rpx 32rpx;
   font-size: 28rpx;
   font-weight: 700;
   line-height: 28rpx;
+  display: flex;
+  align-items: flex-start;
+  flex-flow: row nowrap;
+  margin: 0 32rpx 32rpx;
   color: rgba(153, 153, 153, 1);
+
   text {
-    height: 42rpx;
     position: relative;
+    height: 42rpx;
     margin-right: 32rpx;
   }
+
   .highlight {
     color: rgba(51, 51, 51, 1);
+
     &:after {
-      content: "";
       position: absolute;
       bottom: 0;
       left: 50%;
-      transform: translateX(-50%);
       width: 32rpx;
       height: 6rpx;
+      content: "";
+      transform: translateX(-50%);
       border-radius: 4rpx;
       background: rgba(48, 93, 218, 1);
     }
   }
 }
+
 .collapse-item {
   overflow: hidden;
   margin: 0 32rpx 16rpx;
   border-radius: 16rpx;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.07);
+
   :deep(.uni-collapse-item__wrap-content) {
     padding-bottom: 24rpx;
   }
+
   :deep(.uni-collapse-item__title-text) {
     font-size: 32rpx;
     font-weight: 700;
     color: rgba(51, 51, 51, 1);
   }
+
   :deep(.uni-collapse-item__title-arrow) {
+    background: url("/static/home/arrow@2x.png") no-repeat center center;
+
+    background-size: 14rpx 20rpx;
     uni-text {
       display: none;
     }
-    background: url("/static/home/arrow@2x.png") no-repeat center center;
-    background-size: 14rpx 20rpx;
+
     &.uni-collapse-item__title-arrow-active {
       transform: rotate(90deg);
     }
   }
 }
+
 .collapse-content-item {
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex-flow: row nowrap;
   box-sizing: border-box;
   height: 120rpx;
   margin: 0 32rpx;
   padding: 24rpx 0;
+
   &.bottom-border {
     border-bottom: 4rpx solid rgba(238, 238, 238, 1);
   }
+
   .box-left {
-    flex: 1 1 auto;
     display: flex;
+    flex: 1 1 auto;
     flex-flow: row wrap;
   }
+
   .playing {
     display: inline-block;
     width: 20rpx;
     height: 24rpx;
     margin-right: 8rpx;
   }
+
   .name {
-    min-width: 500rpx;
-    flex: 1 1 auto;
     font-size: 28rpx;
     font-weight: 400;
     line-height: 28rpx;
-    color: rgba(51, 51, 51, 1);
+    flex: 1 1 auto;
+    min-width: 500rpx;
     margin-bottom: 16rpx;
+    color: rgba(51, 51, 51, 1);
   }
+
   .highlight {
     color: rgba(48, 93, 218, 1);
   }
+
   .time-people {
     display: flex;
-    flex-flow: row nowrap;
     align-items: center;
+    flex-flow: row nowrap;
   }
+
   .time {
     flex: 0 0 auto;
     width: 28rpx;
     height: 28rpx;
     margin-right: 8rpx;
   }
+
   .time-text,
   people-text {
     flex: 0 0 auto;
     margin-right: 18rpx;
   }
+
   .people {
     flex: 0 0 auto;
     width: 20rpx;
@@ -447,30 +479,35 @@ function gotoLogin() {
   }
 
   .box-right {
-    flex: 0 0 auto;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
     font-size: 24rpx;
     font-weight: 400;
-    color: rgba(255, 139, 23, 1);
-    padding-left: 48rpx;
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    flex-flow: row nowrap;
     height: 40rpx;
+    padding-left: 48rpx;
+    color: rgba(255, 139, 23, 1);
     background: url("/static/course/play-with-learning@2x.png") no-repeat left center;
     background-size: 40rpx 40rpx;
+
     &:after {
       content: "待学习";
     }
+
     &.status-end {
       color: rgba(204, 204, 204, 1);
       background-image: url("/static/course/video-play3.png");
+
       &:after {
         content: "已学完";
       }
     }
+
     &.status-ing {
       color: rgba(48, 93, 218, 1);
       background-image: url("/static/course/video-play@2x.png");
+
       &:after {
         content: "学习中";
       }

@@ -1,16 +1,16 @@
 <script setup>
+import { GET_ARTICLE_DETAIL, POST_ARTICLE_COLLECT, POST_ARTICLE_COLLECT_STATUS } from "@/api"
 import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
+import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import parseHtml from "@/static/js/html-parser"
 import { USER_TOKEN_DATA } from "@/utils/consts"
-import { onLoad, onUnload } from "@dcloudio/uni-app"
+import { openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
-import { GET_ARTICLE_DETAIL, POST_ARTICLE_COLLECT, POST_ARTICLE_COLLECT_STATUS } from "@/api"
-import { computed, ref } from "vue"
+import { onLoad } from "@dcloudio/uni-app"
 import dayjs from "dayjs"
-import { NoticeStatus } from "@/pinia/notice"
-import { openURL, setTitleNViewButtonStyle } from "@/utils/func"
+import { computed, ref } from "vue"
 
 const noLogin = ref(!uni.getStorageSync(USER_TOKEN_DATA)?.token)
 const storePopup = PopupStatus()
@@ -55,6 +55,7 @@ onLoad(async ({ id, domain }) => {
 })
 
 const content = computed(() => parseHtml(detail.value.body))
+
 async function handleCollect() {
   if (noLogin.value) {
     gotoLogin()
@@ -64,6 +65,7 @@ async function handleCollect() {
   await httpRequest(POST_ARTICLE_COLLECT, "POST", { aid, title, pubdate, pic })
   collect.value = collect.value ? 0 : 1
 }
+
 function gotoLogin() {
   storePopup[LOGIN_TIPS_POPUP]?.open({
     title: "提示",
@@ -76,6 +78,7 @@ function gotoLogin() {
     }
   })
 }
+
 function pubdate(pubdate) {
   return dayjs(pubdate * 1000).format("YYYY-MM-DD")
 }
@@ -94,7 +97,7 @@ function pubdate(pubdate) {
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">
-        <view class="collect" :class="collect && 'collected'" @click="handleCollect">收藏</view>
+        <view :class="collect && 'collected'" class="collect" @click="handleCollect">收藏</view>
         <view
           class="free-information"
           @click="openURL(storeNotice.miniApp.find((i) => i.id === 7))"
@@ -111,62 +114,69 @@ function pubdate(pubdate) {
     />
   </view>
 </template>
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .rich-text-box {
-  width: 686rpx;
   display: flex;
+  width: 686rpx;
   margin: 0 32rpx 48rpx;
+
   * {
     max-width: 100%;
     max-height: 100%;
   }
 }
+
 .information-title {
-  margin: 16rpx 32rpx 0;
   font-size: 40rpx;
   font-weight: 500;
   line-height: 64rpx;
-  color: rgba(51, 51, 51, 1);
+  margin: 16rpx 32rpx 0;
   margin-bottom: 32rpx;
+  color: rgba(51, 51, 51, 1);
 }
+
 .desc {
   margin-bottom: 32rpx;
 }
+
 .dec-info {
-  display: inline-block;
-  margin-left: 32rpx;
   font-size: 24rpx;
   font-weight: 400;
   line-height: 24rpx;
+  display: inline-block;
+  margin-left: 32rpx;
   color: rgba(153, 153, 153, 1);
 }
+
 .fixed-bottom {
   height: 98rpx;
 }
 
 .fixed-bottom-content {
   position: fixed;
-  left: 0;
   right: 0;
   bottom: 0;
-  height: 98rpx;
+  left: 0;
   display: flex;
-  flex-flow: row nowrap;
   align-items: center;
+  flex-flow: row nowrap;
+  height: 98rpx;
   padding: 0 32rpx;
   background: #ffffff;
+
   .collect,
   .free-information {
-    flex: 0 0 100rpx;
     font-size: 20rpx;
     line-height: 20rpx;
-    color: rgba(102, 102, 102, 1);
+    flex: 0 0 100rpx;
     padding-top: 52rpx;
     text-align: center;
+    color: rgba(102, 102, 102, 1);
     background-repeat: no-repeat;
     background-position: center top;
     background-size: 44rpx 44rpx;
   }
+
   .collect {
     background-image: url("/static/information/collect2@2x.png");
 
@@ -174,21 +184,23 @@ function pubdate(pubdate) {
       background-image: url("/static/information/collect1@2x.png");
     }
   }
+
   .free-information {
     background-image: url("/static/information/icon_kczx@2x.png");
   }
+
   .btn {
-    margin-left: auto;
-    flex: 0 0 auto;
-    width: 360rpx;
-    height: 88rpx;
-    border-radius: 200rpx;
-    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
-    text-align: center;
     font-size: 32rpx;
     font-weight: 500;
     line-height: 88rpx;
+    flex: 0 0 auto;
+    width: 360rpx;
+    height: 88rpx;
+    margin-left: auto;
+    text-align: center;
     color: rgba(255, 255, 255, 1);
+    border-radius: 200rpx;
+    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
   }
 }
 </style>
