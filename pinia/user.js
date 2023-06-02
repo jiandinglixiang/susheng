@@ -1,6 +1,7 @@
 import { defineStore } from "pinia"
 import { httpRequest } from "@/utils/http"
 import { GET_USER_INFO, POST_UPDATE_LOGIN_USER_INFO } from "@/api"
+import {APP_ID} from '@/config'
 
 export const userInfo = defineStore("userInfo", {
   // 也可以这样定义
@@ -8,7 +9,7 @@ export const userInfo = defineStore("userInfo", {
     allotName: "",
     allotStatus: -1,
     allotUserid: "",
-    appid: -1,
+    appid: APP_ID,
     avatar: "",
     balance: -1,
     id: -1,

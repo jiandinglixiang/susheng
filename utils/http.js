@@ -1,5 +1,6 @@
 import { deepMergeObjects } from "@/utils/func"
 import { USER_TOKEN_DATA } from "@/utils/consts"
+import { APP_ID } from "@/config"
 
 const typeOfMethod = ["GET", "POST"]
 export const ErrorCodes = ["100000"]
@@ -8,7 +9,7 @@ export const config = {
   baseUrl: "https://apigateway.pxo.cn/ztApp",
   header: {
     token: uni.getStorageSync(USER_TOKEN_DATA)?.token ?? "",
-    appid: "10"
+    appid: APP_ID
   }
 }
 

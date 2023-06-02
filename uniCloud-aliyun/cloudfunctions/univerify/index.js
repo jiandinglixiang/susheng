@@ -47,7 +47,7 @@ exports.main = async (event, context) => {
       phone,
       openid,
       access_token,
-      appid: "__UNI__ED8E735"
+      appid: "__UNI__EBCDE13"
     }, // 请求内容
     headers: {
       appid // 10
