@@ -87,9 +87,7 @@ const status = computed(() => {
         topText: "距直播开始还有",
         countdown: transformDate(starttime * 1000),
         btnText: "立即预约",
-        btnClick() {
-
-        }
+        btnClick() {}
       }
   }
 })

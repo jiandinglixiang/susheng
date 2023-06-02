@@ -12,7 +12,11 @@ function navigateTo(url) {
       <image src="/static/home/video-lesson@2x.png"></image>
       <text>视频课</text>
     </view>
-    <view  v-if="!storeAppAuditStatus.auditStatusBoolean" class="list-item" @click="navigateTo('/pages/live/liveList')">
+    <view
+      v-if="!storeAppAuditStatus.auditStatusBoolean"
+      class="list-item"
+      @click="navigateTo('/pages/live/liveList')"
+    >
       <image src="/static/home/live-lesson@2x.png"></image>
       <text>直播课</text>
     </view>

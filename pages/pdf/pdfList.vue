@@ -55,16 +55,28 @@ function navigateBack() {
   uni.navigateBack()
 }
 function handleDownload(item) {
-  const link = `https://stark.pxo.cn/pdfjs-3.0.279-dist/web/viewer.html?file=${encodeURI(item.uploadResource)}`
+  const link = `https://stark.pxo.cn/pdfjs-3.0.279-dist/web/viewer.html?file=${encodeURI(
+    item.uploadResource
+  )}`
   uni.navigateTo({
-    url: `/pages/webview/index?noDecodeLinkQuery=1&title=${encodeURIComponent(item.name)}&link=${encodeURIComponent(link)}`
+    url: `/pages/webview/index?noDecodeLinkQuery=1&title=${encodeURIComponent(
+      item.name
+    )}&link=${encodeURIComponent(link)}`
   })
 }
 </script>
 
 <template>
-  <uni-nav-bar title="资料列表" fixed statusBar left-icon="back" :border="false" @clickLeft="navigateBack"
-    @clickRight="openURL(storeNotice.onlineConsultation[0])" class="nav-bar">
+  <uni-nav-bar
+    title="资料列表"
+    fixed
+    statusBar
+    left-icon="back"
+    :border="false"
+    @clickLeft="navigateBack"
+    @clickRight="openURL(storeNotice.onlineConsultation[0])"
+    class="nav-bar"
+  >
     <template v-slot:right>
       <image class="right-btn" src="/static/pdf/customer-service@2x.png" />
     </template>
@@ -83,7 +95,13 @@ function handleDownload(item) {
     </view>
     <view class="box-below">
       <view class="star">
-        <uni-icons v-for="num in 5" class="staff" color="#FFC800" :type="star(item.star, num)" size="12"></uni-icons>
+        <uni-icons
+          v-for="num in 5"
+          class="staff"
+          color="#FFC800"
+          :type="star(item.star, num)"
+          size="12"
+        ></uni-icons>
         <!--        <uni-icons class="staff" color="#FFC800" type="star-filled" size="12"></uni-icons>-->
         <!--        <uni-icons class="staff" color="#FFC800" type="starhalf" size="12"></uni-icons>-->
         <!--        <uni-icons class="staff" color="#FFC800" type="star" size="12"></uni-icons>-->
@@ -96,7 +114,10 @@ function handleDownload(item) {
     </view>
   </view>
   <load-tips :loading="loading" />
-  <fixed-fab type="information" @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))" />
+  <fixed-fab
+    type="information"
+    @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))"
+  />
 </template>
 
 <style scoped lang="scss">

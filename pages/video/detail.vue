@@ -58,7 +58,7 @@ const videoHandle = {
   },
   timeupdate(event) {
     const { currentTime, duration } = event.detail
-    if (currentTime > lastCurrentTime + 5&& !noLogin.value) {
+    if (currentTime > lastCurrentTime + 5 && !noLogin.value) {
       //  5s上报一次
       lastCurrentTime = currentTime
       const end = currentTime + 5 > duration // 和结束时间差5秒内
