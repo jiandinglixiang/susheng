@@ -23,8 +23,8 @@ const formData = ref({
 })
 
 onLoad(async () => {
-  //#ifdef APP-PLUS
   if (!audit.auditStatusBoolean) {
+    //#ifdef APP-PLUS
     // 非审核状态 打开一键登录
     await univerify(
       (data) => {
@@ -32,12 +32,14 @@ onLoad(async () => {
         console.log(data)
       },
       (e) => {
+        showPage.value = true
         console.log(e)
       }
     )
+    //#endif
+  } else {
+    showPage.value = true
   }
-  //#endif
-  showPage.value = true
 })
 
 const { time, start } = useTimeCount(60)
@@ -128,7 +130,13 @@ function validate(phone) {
   <view v-if="showPage" class="container">
     <view class="input-item">
       <image src="/static/login/Icon_phone@2x.png"></image>
-      <input type="number" class="uni-input" maxlength="11" v-model="formData.phone" placeholder="请输入手机号" />
+      <input
+        type="number"
+        class="uni-input"
+        maxlength="11"
+        v-model="formData.phone"
+        placeholder="请输入手机号"
+      />
       <uni-icons
         v-show="formData.phone"
         @click="clearPhone"
@@ -140,7 +148,13 @@ function validate(phone) {
     </view>
     <view class="input-item">
       <image src="/static/login/Icon_verification@2x.png"></image>
-      <input type="number" class="uni-input" maxlength="6" v-model="formData.code" placeholder="请输入验证码" />
+      <input
+        type="number"
+        class="uni-input"
+        maxlength="6"
+        v-model="formData.code"
+        placeholder="请输入验证码"
+      />
       <text class="code-sms" @click="countdownStart">{{ time === 60 ? "获取验证码" : time }}</text>
     </view>
 
