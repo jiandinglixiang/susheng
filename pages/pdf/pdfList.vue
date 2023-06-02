@@ -54,19 +54,17 @@ function tagList(tag) {
 function navigateBack() {
   uni.navigateBack()
 }
+function handleDownload(item) {
+  const link = `https://stark.pxo.cn/pdfjs-3.0.279-dist/web/viewer.html?file=${encodeURI(item.uploadResource)}`
+  uni.navigateTo({
+    url: `/pages/webview/index?noDecodeLinkQuery=1&title=${encodeURIComponent(item.name)}&link=${encodeURIComponent(link)}`
+  })
+}
 </script>
 
 <template>
-  <uni-nav-bar
-    title="资料列表"
-    fixed
-    statusBar
-    left-icon="back"
-    :border="false"
-    @clickLeft="navigateBack"
-    @clickRight="openURL(storeNotice.onlineConsultation[0])"
-    class="nav-bar"
-  >
+  <uni-nav-bar title="资料列表" fixed statusBar left-icon="back" :border="false" @clickLeft="navigateBack"
+    @clickRight="openURL(storeNotice.onlineConsultation[0])" class="nav-bar">
     <template v-slot:right>
       <image class="right-btn" src="/static/pdf/customer-service@2x.png" />
     </template>
@@ -81,17 +79,11 @@ function navigateBack() {
         <text class="file-name">{{ item.name }}</text>
         <text class="keyword" v-for="item2 in tagList(item.tag)">{{ item2 }}</text>
       </view>
-      <view class="download" @click="navigateBack">下载</view>
+      <view class="download" @click="handleDownload(item)">下载</view>
     </view>
     <view class="box-below">
       <view class="star">
-        <uni-icons
-          v-for="num in 5"
-          class="staff"
-          color="#FFC800"
-          :type="star(item.star, num)"
-          size="12"
-        ></uni-icons>
+        <uni-icons v-for="num in 5" class="staff" color="#FFC800" :type="star(item.star, num)" size="12"></uni-icons>
         <!--        <uni-icons class="staff" color="#FFC800" type="star-filled" size="12"></uni-icons>-->
         <!--        <uni-icons class="staff" color="#FFC800" type="starhalf" size="12"></uni-icons>-->
         <!--        <uni-icons class="staff" color="#FFC800" type="star" size="12"></uni-icons>-->
@@ -104,21 +96,20 @@ function navigateBack() {
     </view>
   </view>
   <load-tips :loading="loading" />
-  <fixed-fab
-    type="information"
-    @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))"
-  />
+  <fixed-fab type="information" @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))" />
 </template>
 
 <style scoped lang="scss">
 .fixed-box {
   height: 116rpx;
 }
+
 .pdf-list-item {
   margin: 0 32rpx 16rpx;
   border-radius: 16rpx;
   background: rgba(255, 255, 255, 1);
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.08);
+
   .box-top {
     margin: 0 16rpx;
     padding: 16rpx 0;
@@ -127,18 +118,21 @@ function navigateBack() {
     align-items: center;
     border-bottom: 2rpx solid rgba(238, 238, 238, 1);
   }
+
   .file-icon {
     flex: 0 0 auto;
     width: 84rpx;
     height: 84rpx;
     margin-right: 16rpx;
   }
+
   .middle-box {
     flex: 1 1 auto;
     display: flex;
     flex-flow: row wrap;
     margin-right: 16rpx;
   }
+
   .file-name {
     flex: 1 1 auto;
     width: 100%;
@@ -148,6 +142,7 @@ function navigateBack() {
     line-height: 28rpx;
     color: rgba(51, 51, 51, 1);
   }
+
   .keyword {
     margin: 0 8rpx 8rpx 0;
     flex: 0 0 auto;
@@ -159,6 +154,7 @@ function navigateBack() {
     line-height: 24rpx;
     color: rgba(48, 93, 218, 1);
   }
+
   .download {
     margin: 0;
     flex: 0 0 auto;
@@ -172,6 +168,7 @@ function navigateBack() {
     line-height: 56rpx;
     color: rgba(255, 255, 255, 1);
   }
+
   .box-below {
     padding: 16rpx;
     display: flex;
@@ -179,6 +176,7 @@ function navigateBack() {
     align-items: center;
     justify-content: flex-end;
   }
+
   .star {
     flex: 1 1 auto;
     align-self: flex-start;
@@ -189,10 +187,12 @@ function navigateBack() {
     font-weight: 400;
     line-height: 24rpx;
     color: rgba(227, 178, 0, 1);
+
     .staff {
       margin-right: 4rpx;
     }
   }
+
   .info {
     flex: 0 0 auto;
     font-size: 20rpx;
@@ -202,12 +202,14 @@ function navigateBack() {
     margin-left: 16rpx;
   }
 }
+
 .nav-bar {
   :deep(.uni-nav-bar-text) {
     font-size: 36rpx;
     font-weight: 500;
   }
 }
+
 .right-btn {
   width: 48rpx;
   height: 48rpx;
