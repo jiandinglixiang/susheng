@@ -4,16 +4,17 @@ import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { AGREE_AUTH_POPUP } from "@/components/popup/popupKeyMap"
 import { useTimeCount } from "@/hooks/usePageList"
 import { AppAuditStatus } from "@/pinia/audit"
+import { userInfo } from "@/pinia/user"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 import { config, httpRequest } from "@/utils/http"
 import { onLoad } from "@dcloudio/uni-app"
 import { ref } from "vue"
 import univerify from "./univerify.js"
 
+const storeUserInfo = userInfo()
 const audit = AppAuditStatus()
-
+const showPage = ref(!audit.auditStatusBoolean)
 const agreePopup = ref() // 隐私弹窗
-const showPage = ref(audit.auditStatusBoolean) // 非审核状态直接显示
 const agreeCheck = ref(false)
 const formData = ref({
   loading: false,
@@ -21,10 +22,15 @@ const formData = ref({
   code: "",
   tk: ""
 })
-
+//#ifndef APP-PLUS
+showPage.value = true
+//#endif
 onLoad(async () => {
-  if (!audit.auditStatusBoolean) {
-    //#ifdef APP-PLUS
+  storeUserInfo.loginOutClean()
+  //#ifdef APP-PLUS
+  if (audit.auditStatusBoolean) {
+    showPage.value = true
+  } else {
     // 非审核状态 打开一键登录
     await univerify(
       (data) => {
@@ -36,10 +42,8 @@ onLoad(async () => {
         console.log(e)
       }
     )
-    //#endif
-  } else {
-    showPage.value = true
   }
+  //#endif
 })
 
 const { time, start } = useTimeCount(60)
@@ -92,6 +96,7 @@ async function submitForm() {
 function loginSave(data) {
   config.header.token = data.token
   uni.setStorageSync(USER_TOKEN_DATA, data)
+  storeUserInfo.getUserInfo()
   uni.reLaunch({ url: "/pages/home/index" })
 }
 

@@ -22,11 +22,8 @@ function handleSelected(index) {
   selected.value = index
 }
 
-async function submitCancel() {
-  await httpRequest(POST_CLIENT_USER_LOGOUT, "POST")
-  userInfo().$reset()
-  config.header.token = ""
-  uni.removeStorageSync(USER_TOKEN_DATA)
+function submitCancel() {
+  userInfo().loginOutClean()
   uni.reLaunch({ url: "/pages/login/index" })
 }
 

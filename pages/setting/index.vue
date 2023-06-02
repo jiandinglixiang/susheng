@@ -13,9 +13,7 @@ onLoad(async () => {
 })
 
 function loginOut() {
-  userInfo().$reset()
-  config.header.token = ""
-  uni.removeStorageSync(USER_TOKEN_DATA)
+  userInfo().loginOutClean()
   uni.reLaunch({ url: "/pages/login/index" })
 }
 </script>

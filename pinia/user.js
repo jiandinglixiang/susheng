@@ -1,7 +1,8 @@
+import { USER_TOKEN_DATA } from "@/utils/consts"
 import { defineStore } from "pinia"
-import { httpRequest } from "@/utils/http"
-import { GET_USER_INFO, POST_UPDATE_LOGIN_USER_INFO } from "@/api"
-import {APP_ID} from '@/config'
+import { config, httpRequest } from "@/utils/http"
+import { GET_USER_INFO, POST_CLIENT_USER_LOGOUT } from "@/api"
+import { APP_ID } from "@/config"
 
 export const userInfo = defineStore("userInfo", {
   // 也可以这样定义
@@ -24,6 +25,12 @@ export const userInfo = defineStore("userInfo", {
       const res = await httpRequest(GET_USER_INFO, "POST")
       this.$patch(res.data)
       return res.data
+    },
+    loginOutClean() {
+      this.$reset()
+      httpRequest(POST_CLIENT_USER_LOGOUT, "POST")
+      config.header.token = ""
+      uni.removeStorageSync(USER_TOKEN_DATA)
     }
   },
   unistorage: true // 数据持久化
