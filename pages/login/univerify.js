@@ -1,10 +1,10 @@
+import { APP_ID, UniAppID } from "@/config"
 import { PRIVACY_URL, USER_AGREEMENT_URL } from "@/utils/consts"
 import { config } from "@/utils/http"
-import { APP_ID } from "@/config"
 import { funcToPromise } from "@/utils/func"
+import { ONE_KEY_LOGIN_UNI_APP } from "@/api"
 
-const loginCallBackUrl = `${config.baseUrl}/client/onekeyloginuniapp`
-
+const LOGIN_CALL_BACK_URL = `${config.baseUrl}${ONE_KEY_LOGIN_UNI_APP}`
 export default async function openUniverify(successDeal, otherLogin) {
   let loginRes
   try {
@@ -39,7 +39,7 @@ export default async function openUniverify(successDeal, otherLogin) {
           borderRadius: "24px" // 其他登录按钮圆角 默认值："24px" （按钮高度的一半）
         },
         privacyTerms: {
-          defaultCheckBoxState: false, // 条款勾选框初始状态 默认值： true
+          defaultCheckBoxState: import.meta.env.DEV, // 条款勾选框初始状态 默认值： true
           uncheckedImage: "static/login/icon_Choose2.png", // 可选 条款勾选框未选中状态图片（仅支持本地图片 建议尺寸 24x24px）(3.2.0+ 版本支持)
           checkedImage: "static/login/icon_Choose1.png", // 可选 条款勾选框选中状态图片（仅支持本地图片 建议尺寸24x24px）(3.2.0+ 版本支持)
           textColor: "#999999", // 文字颜色 默认值：#BBBBBB
@@ -73,12 +73,7 @@ export default async function openUniverify(successDeal, otherLogin) {
     } = loginRes
     const res = await uniCloud.callFunction({
       name: "univerify",
-      data: {
-        url: loginCallBackUrl,
-        access_token,
-        openid,
-        appid: APP_ID
-      }
+      data: { access_token, openid, appid: APP_ID, DCloudAppid: UniAppID, url: LOGIN_CALL_BACK_URL }
     })
     console.log(res)
     if (!res.result?.data?.data) {
@@ -89,6 +84,7 @@ export default async function openUniverify(successDeal, otherLogin) {
   } catch (err) {
     console.log(err)
     otherLogin && otherLogin()
+  } finally {
     uni.closeAuthView()
   }
 }

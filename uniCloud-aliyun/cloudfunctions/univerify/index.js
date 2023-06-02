@@ -4,15 +4,15 @@ const path = require("path")
 
 exports.main = async (event, context) => {
   //event为客户端上传的参数
-  const { access_token, openid, appid, url } = event
+  const { access_token, openid, appid, DCloudAppid, url } = event
   let phone = ""
 
   try {
     const phoneRes = await uniCloud.getPhoneNumber({
-      appid: "__UNI__EBCDE13",
       provider: "univerify",
       apiKey: "588badfa93630d75b522ab3f757f2798",
       apiSecret: "3de31c7b8e8acfb8050ad637ec7c04e4",
+      appid: DCloudAppid, // DCloud appid
       access_token,
       openid
     })
@@ -47,7 +47,7 @@ exports.main = async (event, context) => {
       phone,
       openid,
       access_token,
-      appid: "__UNI__EBCDE13"
+      appid: DCloudAppid
     }, // 请求内容
     headers: {
       appid // 10
