@@ -1,4 +1,6 @@
 <script setup>
+import { AppAuditStatus } from "@/pinia/audit"
+const storeAppAuditStatus = AppAuditStatus()
 function navigateTo(url) {
   uni.navigateTo({ url })
 }
@@ -10,7 +12,7 @@ function navigateTo(url) {
       <image src="/static/home/video-lesson@2x.png"></image>
       <text>视频课</text>
     </view>
-    <view class="list-item" @click="navigateTo('/pages/live/liveList')">
+    <view  v-if="!storeAppAuditStatus.auditStatusBoolean" class="list-item" @click="navigateTo('/pages/live/liveList')">
       <image src="/static/home/live-lesson@2x.png"></image>
       <text>直播课</text>
     </view>
@@ -18,10 +20,10 @@ function navigateTo(url) {
       <image src="/static/home/informationCenter@2x.png"></image>
       <text>资料中心</text>
     </view>
-    <view class="list-item disable">
+    <!-- <view  v-if="!storeAppAuditStatus.auditStatusBoolean" class="list-item disable">
       <image src="/static/home/onlineMockTest@2x.png"></image>
       <text>模考大赛</text>
-    </view>
+    </view> -->
     <view class="list-item" @click="navigateTo('/pages/information/informationList')">
       <image src="/static/home/examConsultation@2x.png"></image>
       <text>考试资讯</text>
@@ -35,7 +37,7 @@ function navigateTo(url) {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 0 32rpx;
   .list-item {
     flex: 0 0 20%;

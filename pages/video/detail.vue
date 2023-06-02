@@ -182,8 +182,8 @@ function gotoLogin() {
     <view class="sub-box" v-show="!displayTab">
       <view class="sub-name">- 课程内容 -</view>
       <image class="sub-img" :src="options.detail_img" mode="widthFix"></image>
-      <view class="sub-name">- 配套材料 -</view>
-      <image class="sub-img" :src="options.src" mode="widthFix"></image>
+      <!-- <view class="sub-name">- 配套材料 -</view>
+      <image class="sub-img" :src="options.src" mode="widthFix"></image> -->
     </view>
     <uni-collapse v-show="displayTab">
       <uni-collapse-item
@@ -213,8 +213,8 @@ function gotoLogin() {
             <view class="time-people">
               <image class="time" src="/static/course/time-icon@2x.png"></image>
               <text class="time-text">{{ item2.play_time }}</text>
-              <image class="people" src="/static/course/people-number@2x.png"></image>
-              <text class="people-text">666人</text>
+              <!-- <image class="people" src="/static/course/people-number@2x.png"></image>
+              <text class="people-text">666人</text> -->
             </view>
           </view>
           <view

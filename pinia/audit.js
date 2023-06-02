@@ -6,11 +6,19 @@ import { getSystemInfoPromise } from "@/utils/func"
 export const AppAuditStatus = defineStore("AppAuditStatus", {
   // 也可以这样定义
   state: () => ({
+    loading: false,
     auditStatus: 1, // 状态(1审核2发布)
-    auditStatusBoolean: import.meta.env.DEV
+    auditStatusBoolean: !import.meta.env.DEV
   }),
   actions: {
     async getAppAuditStatus() {
+      if (this.loading) {
+        return {
+          auditStatus: this.auditStatus, // 状态(1审核2发布)
+          auditStatusBoolean: this.auditStatusBoolean
+        }
+      }
+      this.loading = true
       const system = await getSystemInfoPromise()
       console.log(system)
       const res = await httpRequest(GET_USER_CLIENT_VERSION, "POST", {
@@ -20,6 +28,7 @@ export const AppAuditStatus = defineStore("AppAuditStatus", {
         this.auditStatus = res.data.status
         this.auditStatusBoolean = res.data.status === 1
       }
+      this.loading = false
       return {
         auditStatus: this.auditStatus, // 状态(1审核2发布)
         auditStatusBoolean: this.auditStatusBoolean
