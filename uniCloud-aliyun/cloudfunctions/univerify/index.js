@@ -9,10 +9,10 @@ exports.main = async (event, context) => {
 
   try {
     const phoneRes = await uniCloud.getPhoneNumber({
-      appid: "__UNI__ED8E735",
+      appid: "__UNI__EBCDE13",
       provider: "univerify",
-      apiKey: "a4a7677930d49392cbe434288d788c5e",
-      apiSecret: "cc03d4c1aba13f5b1af9c0b254621720",
+      apiKey: "588badfa93630d75b522ab3f757f2798",
+      apiSecret: "3de31c7b8e8acfb8050ad637ec7c04e4",
       access_token,
       openid
     })
