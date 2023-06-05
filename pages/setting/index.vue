@@ -1,15 +1,18 @@
 <script setup>
 import { userInfo } from "@/pinia/user"
 import { USER_TOKEN_DATA } from "@/utils/consts"
-import { config } from "@/utils/http"
 import { onLoad } from "@dcloudio/uni-app"
 import { ref } from "vue"
+import { getSystemInfoPromise } from "@/utils/func"
 
+const appVersion = ref("")
 const isLogin = ref(!!uni.getStorageSync(USER_TOKEN_DATA)?.token)
 const storeUserInfo = userInfo()
 
 onLoad(async () => {
   isLogin.value = !!(await storeUserInfo.getUserInfo())
+  const system = await getSystemInfoPromise()
+  appVersion.value = system.appVersion
 })
 
 function loginOut() {
@@ -41,7 +44,7 @@ function loginOut() {
   </navigator>
   <view class="list-item">
     <text class="name">版本号</text>
-    <text class="sub-name">v1.0.0</text>
+    <text class="sub-name">v{{ appVersion }}</text>
   </view>
 
   <view class="login-out">
