@@ -49,7 +49,7 @@ function navigateTo(url) {
   .list-item {
     display: flex;
     align-items: center;
-    flex: 0 0 20%;
+    flex: 0 0 25%;
     flex-flow: column nowrap;
   }
 
