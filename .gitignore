@@ -9,21 +9,22 @@ pnpm-debug.log*
 lerna-debug.log*
 .stylelintcache
 buildReport.html
-/.idea
-/test/
+.idea
+test
 dist-ssr
 *.local
-/components.d.ts
+components.d.ts
 package-lock.json
 # Editor directories and files
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
-/unpackage/
-/node_modules/
-/dist/
+unpackage
+node_modules
+dist
 .vscode
 .hbuilderx
+# Logs
+app-plus
