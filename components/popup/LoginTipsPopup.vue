@@ -1,5 +1,4 @@
 <script setup>
-import parseHtml from "@/static/js/html-parser"
 import { computed } from "vue"
 
 const emits = defineEmits(["action"])
@@ -11,7 +10,7 @@ const props = defineProps({
     }
   }
 })
-const content = computed(() => parseHtml(props.popupData.tips))
+const content = computed(() => props.popupData.tips)
 </script>
 <template>
   <view class="LoginTips-container">
@@ -19,7 +18,7 @@ const content = computed(() => parseHtml(props.popupData.tips))
     <view v-if="!popupData.tips.includes('<text>')" class="tips">
       <text>{{ popupData.tips }}</text>
     </view>
-    <rich-text v-else :nodes="content" class="tips"></rich-text>
+    <uv-parse v-else :content="content" class="tips"></uv-parse>
     <button class="agree" @click="emits('action', 'btn')">
       {{ popupData.buttonText }}
     </button>

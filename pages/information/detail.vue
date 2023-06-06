@@ -4,7 +4,6 @@ import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
-import parseHtml from "@/static/js/html-parser"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 import { openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
@@ -54,7 +53,7 @@ onLoad(async ({ id, domain }) => {
   collect.value = res.data.collect
 })
 
-const content = computed(() => parseHtml(detail.value.body))
+const content = computed(() => detail.value.body)
 
 async function handleCollect() {
   if (noLogin.value) {
@@ -64,6 +63,7 @@ async function handleCollect() {
   const { aid, title, pubdate, litpic: pic } = detail.value
   await httpRequest(POST_ARTICLE_COLLECT, "POST", { aid, title, pubdate, pic })
   collect.value = collect.value ? 0 : 1
+  uni.showToast({ title: collect.value ? "收藏成功" : "取消收藏", icon: "none" })
 }
 
 function gotoLogin() {
@@ -93,7 +93,7 @@ function pubdate(pubdate) {
       <text class="dec-info">{{ pubdate(detail.pubdate) }}</text>
     </view>
     <view class="rich-text-box">
-      <rich-text :nodes="content"></rich-text>
+      <uv-parse :content="content"></uv-parse>
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">

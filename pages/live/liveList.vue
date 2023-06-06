@@ -1,6 +1,6 @@
 <script setup>
 import { GET_LIVE_LIST } from "@/api"
-import LiveLineCardItem from "@/components/live/LiveLineCardItem.vue"
+import LiveCardItem from "@/components/live/LiveCardItem.vue"
 import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import SegmentedControl from "@/components/segmented-control/SegmentedControl.vue"
@@ -76,7 +76,7 @@ function tabChange(tab) {
   />
   <segmented-control :list="controlList" fixed @change="tabChange" />
   <view v-for="page in listData" v-show="currentTab === page.key" :key="page.key">
-    <live-line-card-item v-for="item in page.list" :key="item.id" :item-data="item" />
+    <live-card-item v-for="item in page.list" :key="item.id" :item-data="item" is-line-card />
     <load-tips :loading="page.loading" />
   </view>
 </template>

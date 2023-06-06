@@ -1,7 +1,6 @@
 <script setup>
 import { POST_LIVE_DETATILS } from "@/api"
 import { NoticeStatus } from "@/pinia/notice"
-import parseHtml from "@/static/js/html-parser"
 import { openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onLoad } from "@dcloudio/uni-app"
@@ -35,7 +34,7 @@ const date = computed(() => {
   const { starttime, endtime } = detail.value
   return `${dayjs(starttime).format("M月D日 HH:mm")}-${dayjs(endtime).format("HH:mm")}`
 })
-const content = computed(() => parseHtml(detail.value.classurl))
+const content = computed(() => detail.value.classurl)
 
 function transformDate(diff) {
   diff = dayjs(diff).diff(Date.now())
@@ -138,7 +137,7 @@ const status = computed(() => {
     </view>
     <view class="line-title">课程详情</view>
     <view class="rich-text-box">
-      <rich-text :nodes="content"></rich-text>
+      <uv-parse :content="content"></uv-parse>
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">

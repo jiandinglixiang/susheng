@@ -122,6 +122,7 @@ async function rightButton() {
     options.collect ? { text: "\ue68f", color: "#305DDA" } : { text: "\ue688", color: "#333333" }
   )
   uni.$emit("/pages/video/detail", "collect", options)
+  uni.showToast({ title: options.collect ? "收藏成功" : "取消收藏", icon: "none" })
 }
 
 function gotoLogin() {

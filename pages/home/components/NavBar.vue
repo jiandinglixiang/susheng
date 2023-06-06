@@ -7,7 +7,7 @@ const storeNotice = NoticeStatus()
 
 <template>
   <view class="nav-bar nav-bar-fixed">
-    <image class="handoff" src="/static/home/handoff@2x.png"></image>
+    <!--    <image class="handoff" src="/static/home/handoff@2x.png"></image>-->
     <text>注册会计师</text>
     <image
       class="weixin"

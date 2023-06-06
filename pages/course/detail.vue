@@ -2,7 +2,6 @@
 import { POST_VCOURSE_DETATILS } from "@/api"
 import FixedFab from "@/components/fab/FixedFab.vue"
 import { NoticeStatus } from "@/pinia/notice"
-import parseHtml from "@/static/js/html-parser"
 import { openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onLoad } from "@dcloudio/uni-app"
@@ -30,9 +29,7 @@ onLoad(async (options) => {
     uni.setNavigationBarTitle({ title: detail.value.name })
   })
 })
-const content = computed(() => parseHtml(detail.value.content))
-
-function rightButton() {}
+const content = computed(() => detail.value.content)
 </script>
 
 <template>
@@ -61,12 +58,79 @@ function rightButton() {}
       <text class="highlight">课程详情</text>
     </view>
     <view class="rich-text-box">
-      <rich-text :nodes="content"></rich-text>
+      <uv-parse :content="content"></uv-parse>
+    </view>
+    <view class="fixed-bottom">
+      <view class="fixed-bottom-content">
+        <view class="teacher" @click="openURL(storeNotice.miniApp.find((i) => i.id === 8))">
+          <image src="/static/course/icon_banjiqun@2x.png"></image>
+          <text>学管老师</text>
+        </view>
+        <view class="btn btn-done" @click="openURL(storeNotice.miniApp.find((i) => i.id === 7))">
+          立即报名
+        </view>
+      </view>
     </view>
   </view>
 </template>
 
 <style lang="scss" scoped>
+.fixed-bottom {
+  height: 98rpx;
+}
+
+.fixed-bottom-content {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  height: 98rpx;
+  padding: 0 24rpx;
+  background: #ffffff;
+
+  .teacher {
+    font-size: 28rpx;
+    font-weight: 500;
+    line-height: 44rpx;
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+    flex-flow: row nowrap;
+    justify-content: center;
+    width: 326rpx;
+    color: rgba(51, 51, 51, 1);
+
+    image {
+      width: 44rpx;
+      height: 44rpx;
+      margin-right: 10rpx;
+    }
+  }
+
+  .btn {
+    font-size: 28rpx;
+    font-weight: 700;
+    line-height: 76rpx;
+    flex: 0 0 auto;
+    width: 368rpx;
+    height: 76rpx;
+    text-align: center;
+    color: rgba(255, 255, 255, 1);
+    border-radius: 200rpx;
+    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+  }
+
+  .btn-done {
+    color: rgba(48, 93, 218, 1);
+    border: 2rpx solid rgba(48, 93, 218, 1);
+    background: #ffffff;
+  }
+}
+
 .rich-text-box {
   display: flex;
   width: 686rpx;

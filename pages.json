@@ -297,12 +297,12 @@
         "selectedIconPath": "static/tabbar/index_selected.png",
         "text": "首页"
       },
-      {
-        "pagePath": "pages/question-bank/index",
-        "iconPath": "static/tabbar/question_bank.png",
-        "selectedIconPath": "static/tabbar/question_bank_selected.png",
-        "text": "题库"
-      },
+//      {
+//        "pagePath": "pages/question-bank/index",
+//        "iconPath": "static/tabbar/question_bank.png",
+//        "selectedIconPath": "static/tabbar/question_bank_selected.png",
+//        "text": "题库"
+//      },
       {
         "pagePath": "pages/user/index",
         "iconPath": "static/tabbar/icon_user.png",
