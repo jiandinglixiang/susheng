@@ -1,8 +1,5 @@
 <script setup>
-import { POST_CLIENT_USER_LOGOUT } from "@/api"
 import { userInfo } from "@/pinia/user"
-import { USER_TOKEN_DATA } from "@/utils/consts"
-import { config, httpRequest } from "@/utils/http"
 import { ref } from "vue"
 
 const checkData = [
