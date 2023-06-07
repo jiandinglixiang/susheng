@@ -43,7 +43,7 @@ function navigateTo(url, pass) {
       ></image>
       <view v-if="!noLogin" class="user-info">
         <view class="name" @click="navigateTo('/pages/setting/userInfo')">
-          <text>{{ storeUserInfo.allotName || storeUserInfo.phone }}</text>
+          <text>{{ storeUserInfo.phone }}</text>
           <!--<view class="leve">Lv7</view>-->
         </view>
         <text class="user-work-title">注册会计师备考</text>

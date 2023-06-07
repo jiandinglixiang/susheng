@@ -1,6 +1,5 @@
 <script setup>
 import { GET_LIVE_LIST } from "@/api"
-import LiveCardItem from "@/components/live/LiveCardItem.vue"
 import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import SegmentedControl from "@/components/segmented-control/SegmentedControl.vue"
@@ -12,6 +11,7 @@ import { findFormEnd } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { computed, ref } from "vue"
+import LiveLineCardItem from "@/components/live/LiveLineCardItem.vue"
 
 const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
 
@@ -76,7 +76,7 @@ function tabChange(tab) {
   />
   <segmented-control :list="controlList" fixed @change="tabChange" />
   <view v-for="page in listData" v-show="currentTab === page.key" :key="page.key">
-    <live-card-item v-for="item in page.list" :key="item.id" :item-data="item" is-line-card />
+    <live-line-card-item v-for="item in page.list" :key="item.id" :item-data="item" is-line-card />
     <load-tips :loading="page.loading" />
   </view>
 </template>
