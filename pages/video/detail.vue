@@ -92,14 +92,7 @@ function handleClickDirectory(item) {
 
 async function getDirectory() {
   const res = await httpRequest(POST_VIDEO_LIST_CLASSHOUR, "POST", { id: options.id })
-  // res.data[0].children.push({
-  //   id: 4507,
-  //   pid: 4506,
-  //   title: "CPA职业发展规划",
-  //   url: "https://v-emkt.gaodun.com/video/22805c7-179c1f7558b-0000-0000-013-921e0.mp4",
-  //   try_see: 1,
-  //   children: []
-  // })
+
   directory.value = res.data.map((item) => {
     return {
       ...item,
