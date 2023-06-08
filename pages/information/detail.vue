@@ -82,6 +82,10 @@ function gotoLogin() {
 function pubdate(pubdate) {
   return dayjs(pubdate * 1000).format("YYYY-MM-DD")
 }
+function onLinkTap(res) {
+  // 跳转忽略
+  res?.ignore?.()
+}
 </script>
 
 <template>
@@ -93,7 +97,7 @@ function pubdate(pubdate) {
       <text class="dec-info">{{ pubdate(detail.pubdate) }}</text>
     </view>
     <view class="rich-text-box">
-      <uv-parse :content="content"></uv-parse>
+      <uv-parse :content="content" @linktap="onLinkTap"></uv-parse>
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">
