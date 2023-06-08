@@ -3,7 +3,8 @@ const props = defineProps({
   fixed: Boolean,
   top: Number,
   list: Array,
-  showDetail: Boolean
+  showDetail: Boolean,
+  vertical: Boolean
 })
 const emits = defineEmits(["noticeClick"])
 </script>
@@ -17,10 +18,10 @@ const emits = defineEmits(["noticeClick"])
           :style="
             list.length > 1 && [
               `animation-duration: ${list.length * 2 * 3}s`,
-              'animation-play-state:running'
+              `animation-play-state: running`
             ]
           "
-          class="list"
+          :class="['list', vertical && 'vertical']"
         >
           <view v-for="item in [...list, ...list]" class="item" @click="emits('noticeClick', item)">
             {{ item.title }}
@@ -90,13 +91,25 @@ const emits = defineEmits(["noticeClick"])
   animation-play-state: paused;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+  .item {
+    flex: 0 0 auto;
+    min-width: 594rpx;
+    padding-right: 20rpx;
+    white-space: nowrap;
+  }
 }
-
-.item {
-  flex: 0 0 auto;
-  min-width: 594rpx;
-  padding-right: 20rpx;
-  white-space: nowrap;
+.vertical {
+  align-items: flex-start;
+  flex-flow: column nowrap;
+  animation-name: rollingVertical;
+  height: auto;
+  .item {
+    flex: 0 0 auto;
+    height: 72rpx;
+    line-height: 72rpx;
+    padding-right: 20rpx;
+    white-space: nowrap;
+  }
 }
 
 @keyframes rolling {
@@ -106,6 +119,23 @@ const emits = defineEmits(["noticeClick"])
 
   to {
     transform: translateX(-50%);
+  }
+}
+@keyframes rollingVertical {
+  from {
+    transform: translateY(0);
+  }
+  //45%{
+  //  transform: translateY(-25%);
+  //}
+  //55%{
+  //  transform: translateY(-25%);
+  //}
+  //90%{
+  //  transform: translateY(-50%);
+  //}
+  to {
+    transform: translateY(-50%);
   }
 }
 </style>

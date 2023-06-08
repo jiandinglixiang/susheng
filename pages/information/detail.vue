@@ -30,7 +30,7 @@ const detail = ref({
   pubdate: -1
 })
 const collect = ref(0)
-uni.setNavigationBarTitle({ title: "" })
+uni.setNavigationBarTitle({ title: " " })
 
 onLoad(async ({ id, domain }) => {
   httpRequest(

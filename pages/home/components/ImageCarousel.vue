@@ -79,7 +79,7 @@ function jumpCenter(targetid, { id, url: link, title }) {
       </swiper-item>
     </swiper>
   </uni-swiper-dot>
-  <notice-bar :list="notice" show-detail @noticeClick="handleClick" />
+  <notice-bar :list="notice" show-detail vertical @noticeClick="handleClick" />
 </template>
 
 <style lang="scss" scoped>
@@ -93,19 +93,19 @@ function jumpCenter(targetid, { id, url: link, title }) {
 
 .swiper-item {
   /* #ifndef APP-NVUE */
-  display: flex;
-  /* #endif */
   align-items: center;
+  /* #endif */
+  display: flex;
   flex-direction: column;
-  justify-content: center;
   height: 300rpx;
+  justify-content: center;
   padding: 0 8px;
 }
 
 .swiper-img {
-  overflow: hidden;
-  flex: 1 1 auto;
-  width: 100%;
   border-radius: 16rpx;
+  flex: 1 1 auto;
+  overflow: hidden;
+  width: 100%;
 }
 </style>
