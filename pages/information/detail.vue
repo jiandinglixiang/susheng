@@ -97,7 +97,7 @@ function onLinkTap(res) {
       <text class="dec-info">{{ pubdate(detail.pubdate) }}</text>
     </view>
     <view class="rich-text-box">
-      <uv-parse :content="content" @linktap="onLinkTap"></uv-parse>
+      <uv-parse :content="content" @linktap="onLinkTap" :copy-link="false"></uv-parse>
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">
