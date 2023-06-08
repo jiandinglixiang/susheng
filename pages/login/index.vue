@@ -112,6 +112,26 @@ function clearPhone() {
   formData.value.phone = ""
 }
 
+async function navigateBack() {
+  // #ifdef APP-PLUS
+  const pages = getCurrentPages()
+  if (pages.length === 1) {
+    if (audit.auditStatusBoolean) {
+      uni.reLaunch({ url: "/pages/home/index" })
+    } else {
+      // 非审核状态 打开一键登录
+      await univerify((data) => {
+        loginSave(data)
+        console.log(data)
+      })
+    }
+    return
+  }
+  // #endif
+
+  uni.navigateBack()
+}
+
 function validate(phone) {
   const okPhone = /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(
     formData.value.phone
@@ -133,6 +153,9 @@ function validate(phone) {
 </script>
 <template>
   <view v-if="showPage" class="container">
+    <view class="navbar-content_view" @click="navigateBack">
+      <uni-icons size="20" type="back" />
+    </view>
     <view class="input-item">
       <image src="/static/login/Icon_phone@2x.png"></image>
       <input
@@ -194,6 +217,17 @@ function validate(phone) {
 </template>
 
 <style lang="scss" scoped>
+.navbar-content_view {
+  line-height: 44px;
+  position: fixed;
+  z-index: 2;
+  top: var(--status-bar-height);
+  left: 0;
+  width: 34px;
+  height: 44px;
+  padding-left: 10px;
+}
+
 .container {
   display: flex;
   align-items: center;

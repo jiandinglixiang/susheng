@@ -7,6 +7,7 @@ import LoadTips from "@/components/tips/load-tips.vue"
 import { usePageList } from "@/hooks/usePageList"
 import { PopupStatus } from "@/pinia/popup"
 import { USER_TOKEN_DATA } from "@/utils/consts"
+import { useSubscribeLiveStatusUpdate } from "@/utils/event"
 import { findFormEnd } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
@@ -24,6 +25,10 @@ const currentPageData = computed(() =>
 )
 onLoad(() => {
   tabChange(0)
+})
+
+useSubscribeLiveStatusUpdate((args) => {
+  currentPageData.value?.refresh()
 })
 
 onPullDownRefresh(() => {

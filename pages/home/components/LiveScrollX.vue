@@ -1,16 +1,24 @@
 <script setup>
 import { GET_LIVE_LIST } from "@/api"
 import LiveCardItem from "@/components/live/LiveCardItem.vue"
+import { useSubscribeLiveStatusUpdate } from "@/utils/event"
 import { httpRequest } from "@/utils/http"
 import { onShow } from "@dcloudio/uni-app"
-import { onMounted, ref } from "vue"
+import { ref } from "vue"
 
 const scrollId = ref("")
 const list = ref([])
-onMounted(async () => {
+useSubscribeLiveStatusUpdate((args) => {
+  if (list.value.some((i) => args.some((j) => i.id === j.id))) {
+    getList()
+  }
+})
+
+getList()
+async function getList() {
   const res = await httpRequest(GET_LIVE_LIST, "POST", { type: 1, rows: 5 })
   list.value = res.data.result
-})
+}
 onShow(() => {
   setTimeout(() => {
     scrollId.value = "id-scroll-home"

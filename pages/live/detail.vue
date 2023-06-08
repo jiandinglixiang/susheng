@@ -1,13 +1,21 @@
 <script setup>
-import { POST_LIVE_DETATILS } from "@/api"
+import { POST_LIVE_DETATILS, POST_LIVE_SUBSCRIBE } from "@/api"
+import PopupIndex from "@/components/popup/PopupIndex.vue"
+import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import { NoticeStatus } from "@/pinia/notice"
+import { PopupStatus } from "@/pinia/popup"
+import { USER_TOKEN_DATA } from "@/utils/consts"
+import { LIVE_STATUS_UPDATE } from "@/utils/event"
 import { openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onLoad } from "@dcloudio/uni-app"
 import dayjs from "dayjs"
 import { computed, ref } from "vue"
+const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
 
 const storeNotice = NoticeStatus()
+const storePopup = PopupStatus()
+
 const detail = ref({
   id: -1,
   title: "",
@@ -54,18 +62,21 @@ const status = computed(() => {
   const { enable, starttime } = detail.value
 
   switch (enable) {
-    case 3:
-      return {
-        topText: "正在直播中",
-        countdown: [],
-        btnText: "看直播",
-        btnStyle: "btn-done"
-      }
     case 4:
       return {
         topText: "直播已结束！",
         countdown: [],
         btnText: "领取回放资料",
+        btnStyle: "btn-done",
+        btnClick() {
+          openURL(storeNotice.miniApp.find((i) => i.id === 7))
+        }
+      }
+    case 3:
+      return {
+        topText: "正在直播中",
+        countdown: [],
+        btnText: "看直播",
         btnStyle: "btn-done",
         btnClick() {
           openURL(storeNotice.miniApp.find((i) => i.id === 7))
@@ -87,14 +98,41 @@ const status = computed(() => {
         topText: "距直播开始还有",
         countdown: transformDate(starttime * 1000),
         btnText: "立即预约",
-        btnClick() {}
+        async btnClick() {
+          if (noLogin) {
+            gotoLogin()
+            return
+          }
+          await httpRequest(POST_LIVE_SUBSCRIBE, "POST", { liveid: detail.value.id, type: 1 })
+          uni.showToast({ title: "预约成功", icon: "none" })
+          detail.value.enable = 2
+          uni.$emit(LIVE_STATUS_UPDATE, { id: detail.value.id })
+        }
       }
   }
 })
+
+function gotoLogin() {
+  storePopup[LOGIN_TIPS_POPUP]?.open({
+    title: "提示",
+    tips: "直播预约功能需要您登录后，我们才可通知您开课信息",
+    buttonText: "去登录",
+    handleClick(action) {
+      if (action === "btn") {
+        uni.navigateTo({ url: "/pages/login/index" })
+      }
+    }
+  })
+}
 </script>
 
 <template>
   <view>
+    <popup-index
+      v-if="noLogin"
+      :ref="(r) => PopupStatus().setPopupRef(LOGIN_TIPS_POPUP, r)"
+      :popup-key="LOGIN_TIPS_POPUP"
+    />
     <view class="live-top">
       <image :src="detail.pic" class="ad-img" />
       <view class="content">

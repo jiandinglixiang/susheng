@@ -4,6 +4,7 @@ import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import { USER_TOKEN_DATA } from "@/utils/consts"
+import { LIVE_STATUS_UPDATE } from "@/utils/event"
 import { openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import dayjs from "dayjs"
@@ -85,6 +86,7 @@ const status = computed(() => {
           await httpRequest(POST_LIVE_SUBSCRIBE, "POST", { liveid: props.itemData.id, type: 1 })
           uni.showToast({ title: "预约成功", icon: "none" })
           enable.value = 2
+          uni.$emit(LIVE_STATUS_UPDATE, { id: props.itemData.id })
         }
       }
   }
