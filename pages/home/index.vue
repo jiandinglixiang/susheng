@@ -15,9 +15,12 @@ import { AD_POP_UP_IMPRESSION_HISTORY, USER_TOKEN_DATA } from "@/utils/consts"
 import { onLoad } from "@dcloudio/uni-app"
 import dayjs from "dayjs"
 import { nextTick, ref } from "vue"
+import { NoticeStatus } from "@/pinia/notice"
+import { openURL } from "@/utils/func"
 
 const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
 
+const storeNotice = NoticeStatus()
 const storeAppAuditStatus = AppAuditStatus()
 const showAdPopup = ref(false)
 const refAdPopup = ref()
@@ -37,8 +40,8 @@ function handleClick(action) {
   if (action === "btn") {
     refAdPopup.value.close()
     setTimeout(() => {
-      uni.navigateTo({ url: "/pages/pdf/pdfList" })
-    })
+      openURL(storeNotice.miniApp.find((i) => i.id === 4))
+    }, 500)
   }
 }
 </script>

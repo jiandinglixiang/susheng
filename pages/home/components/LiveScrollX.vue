@@ -8,7 +8,7 @@ import { onMounted, ref } from "vue"
 const scrollId = ref("")
 const list = ref([])
 onMounted(async () => {
-  const res = await httpRequest(GET_LIVE_LIST, "POST", { type: 1 })
+  const res = await httpRequest(GET_LIVE_LIST, "POST", { type: 1, rows: 5 })
   list.value = res.data.result
 })
 onShow(() => {

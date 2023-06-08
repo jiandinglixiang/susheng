@@ -22,7 +22,7 @@ const emits = defineEmits(["action"])
     </view>
     <button class="agree" @click="emits('action', 'btn')">立即查看</button>
     <image class="close" src="/static/close@2x.png" @click="emits('action', 'close')"></image>
-    <image class="head-bg" src="@/static/home/popup-head.png"></image>
+    <image class="head-bg" src="/static/home/popup-head.png"></image>
   </view>
 </template>
 

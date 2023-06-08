@@ -42,9 +42,12 @@ onLoad(async () => {
 
 async function goNext() {
   try {
+    uni.showLoading()
     if (await auditStatus) {
+      // 审核状态
       uni.reLaunch({ url: "/pages/home/index" })
     } else if (await userInfo().getUserInfo()) {
+      // 非审核,登录状态
       uni.reLaunch({ url: `/pages/user/index` })
     } else {
       uni.reLaunch({ url: `/pages/login/index` })
@@ -52,6 +55,8 @@ async function goNext() {
   } catch (err) {
     console.log(err)
     uni.reLaunch({ url: `/pages/login/index` })
+  } finally {
+    uni.hideLoading()
   }
 }
 

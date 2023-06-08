@@ -193,10 +193,10 @@ function pubdate(pubdate) {
     font-size: 32rpx;
     font-weight: 500;
     line-height: 88rpx;
-    flex: 0 0 auto;
-    width: 360rpx;
+    flex: 1 1 auto;
+    min-width: 360rpx;
     height: 88rpx;
-    margin-left: auto;
+    margin-left: 32rpx;
     text-align: center;
     color: rgba(255, 255, 255, 1);
     border-radius: 200rpx;

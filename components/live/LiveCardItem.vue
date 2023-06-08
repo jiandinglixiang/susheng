@@ -79,16 +79,13 @@ const status = computed(() => {
         style: "",
         style2: "",
         async handleClick() {
-          if (enable.value) {
-            return
-          }
           if (noLogin) {
             gotoLogin()
             return
           }
           await httpRequest(POST_LIVE_SUBSCRIBE, "POST", { liveid: props.itemData.id, type: 1 })
           uni.showToast({ title: "预约成功", icon: "none" })
-          enable.value = 1
+          enable.value = 2
         }
       }
   }

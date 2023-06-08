@@ -42,6 +42,7 @@ export default async function openUniverify(successDeal, otherLogin) {
           defaultCheckBoxState: import.meta.env.DEV, // 条款勾选框初始状态 默认值： true
           uncheckedImage: "static/login/icon_Choose2.png", // 可选 条款勾选框未选中状态图片（仅支持本地图片 建议尺寸 24x24px）(3.2.0+ 版本支持)
           checkedImage: "static/login/icon_Choose1.png", // 可选 条款勾选框选中状态图片（仅支持本地图片 建议尺寸24x24px）(3.2.0+ 版本支持)
+          checkBoxSize: 20, // 可选 条款勾选框大小，仅android支持
           textColor: "#999999", // 文字颜色 默认值：#BBBBBB
           termsColor: "#305DDA", //  协议文字颜色 默认值： #5496E3
           prefix: "我已阅读并同意", // 条款前的文案 默认值：“我已阅读并同意”
