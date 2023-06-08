@@ -62,14 +62,11 @@
       "path": "pages/login/index",
       "style": {
         "disableSwipeBack": true,
-        "navigationBarTitleText": "",
+        "navigationBarTitleText": "登录",
+        "navigationStyle": "custom",
         "pageOrientation": "landscape",
         "app-plus": {
           "animationType": "fade-in",
-          "titleNView": {
-            "type": "float",
-            "backgroundColor": "rgba(0, 0, 0,0)"
-          },
           "popGesture": "none",
           "bounce": "none",
           "safearea": {
