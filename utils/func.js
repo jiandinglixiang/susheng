@@ -1,3 +1,7 @@
+import { POST_BEHAVIOR } from "@/api"
+import { httpRequest } from "@/utils/http"
+import dayjs from "dayjs"
+
 export function findFormEnd(arr, func) {
   let target
   for (let i = arr.length - 1; i >= 0; i--) {
@@ -115,4 +119,47 @@ export function openURL({ value: href }) {
   // #ifdef H5
   window.open(href)
   // #endif
+}
+
+function replacePlaceholders(str, values) {
+  return str.replace(/{([^}]+)}/g, (match, placeholder) => {
+    const index = parseInt(placeholder) - 1
+    if (index >= 0 && index < values.length) {
+      return values[index]
+    }
+    return match
+  })
+}
+export function postBehavior({ action = "", replaceValue = "", onceDay = false }) {
+  // action = "登录\t710\t用户登录 {AP名称} APP"
+  action = action.split(/\t|\n/)
+  let time
+  if (onceDay) {
+    time = uni.getStorageSync(`Behavior_${action[1]}${encodeURIComponent(action[2])}`)
+    if (time && dayjs().isSame(time, "day")) {
+      // 同一天
+      return function () {
+        console.log("不上报，每天一次", action)
+      }
+    } else {
+      time = undefined
+    }
+  }
+
+  return function (replaceValue2) {
+    if (onceDay && time) {
+      return
+    }
+    if (replaceValue2 !== "string") {
+      replaceValue2 = replaceValue
+    }
+    httpRequest(POST_BEHAVIOR, "POST", {
+      behavior_id: action[1],
+      content: replacePlaceholders(action[2], replaceValue2.split(","))
+    }).then(() => {
+      time = Date.now()
+      uni.setStorageSync(`Behavior_${action[1]}${encodeURIComponent(action[2])}`, time)
+      console.log("上报", action)
+    })
+  }
 }

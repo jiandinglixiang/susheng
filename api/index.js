@@ -66,3 +66,5 @@ export const POST_ARTICLE_COLLECT_LIST = "/client/article/collect/list"
 export const POST_VIDEO_PLAY_LOG = "/client/video/playLog"
 
 export const ONE_KEY_LOGIN_UNI_APP = "/client/onekeyloginuniapp"
+
+export const  POST_BEHAVIOR="/client/behavior/push"
