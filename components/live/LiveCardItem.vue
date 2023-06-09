@@ -5,7 +5,7 @@ import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 import { LIVE_STATUS_UPDATE } from "@/utils/event"
-import { formatNumber, openURL } from "@/utils/func"
+import { formatNumber, openURL, postBehavior } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import dayjs from "dayjs"
 import { computed, ref } from "vue"
@@ -69,9 +69,7 @@ const status = computed(() => {
         btn: "已预约",
         style: "",
         style2: "reserved",
-        handleClick() {
-          openURL(storeNotice.miniApp.find((i) => i.id === 7))
-        }
+        handleClick: navigateTo
       }
     default:
       // 1
@@ -87,7 +85,6 @@ const status = computed(() => {
           await httpRequest(POST_LIVE_SUBSCRIBE, "POST", { liveid: props.itemData.id, type: 1 })
           uni.showToast({ title: "预约成功", icon: "none" })
           enable.value = 2
-          uni.setStorageSync()
           uni.$emit(LIVE_STATUS_UPDATE, { id: props.itemData.id })
         }
       }
@@ -106,9 +103,13 @@ function gotoLogin() {
     }
   })
 }
-
+const buryThePoint = postBehavior({
+  action: "直播列表 点击 直播名称\t710\t用户查看 {直播名称}\n",
+  onceDay: false
+})
 function navigateTo() {
   uni.navigateTo({ url: "/pages/live/detail?id=" + props.itemData.id })
+  buryThePoint(props.itemData.title)
 }
 </script>
 

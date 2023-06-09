@@ -1,6 +1,6 @@
 <script setup>
 import { NoticeStatus } from "@/pinia/notice"
-import { openURL } from "@/utils/func"
+import { openURL, postBehavior } from "@/utils/func"
 import dayjs from "dayjs"
 import { onUnmounted, ref, watch } from "vue"
 
@@ -46,7 +46,9 @@ function interval() {
   }
   current.value = list[index]
 }
-
+const buryThePoint = postBehavior({
+  action: "首页-报考查询按钮&直播列表页-报考规划\t710\t用户查看CPA报考规划\n"
+})
 onUnmounted(() => {
   clearInterval(time)
   stopWatch()
@@ -61,7 +63,9 @@ onUnmounted(() => {
     </view>
     <view v-for="i in current.value" class="number">{{ i }}</view>
     <text class="days">DAYS</text>
-    <button class="btn" @click="openURL(storeNotice.onlineConsultation[0])">报考规划</button>
+    <button class="btn" @click="openURL(storeNotice.onlineConsultation[0]), buryThePoint()">
+      报考规划
+    </button>
   </view>
 </template>
 

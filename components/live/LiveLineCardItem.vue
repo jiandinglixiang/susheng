@@ -5,7 +5,7 @@ import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 import { LIVE_STATUS_UPDATE } from "@/utils/event"
-import { openURL } from "@/utils/func"
+import { openURL, postBehavior } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import dayjs from "dayjs"
 import { computed, ref } from "vue"
@@ -43,6 +43,12 @@ const date = computed(() => {
   return `${dayjs(starttime).format("M月D日 HH:mm")}-${dayjs(endtime).format("HH:mm")}`
 })
 
+const buryThePoint2 = postBehavior({
+  action: "直播列表/详情页 领取直播讲义\t710\t用户领取 {直播名称} 相关资料\n",
+  onceDay: true,
+  replaceValue: props.itemData.title
+})
+
 const status = computed(() => {
   switch (enable.value) {
     case 4:
@@ -70,6 +76,7 @@ const status = computed(() => {
         style2: "",
         handleClick() {
           openURL(storeNotice.miniApp.find((i) => i.id === 7))
+          buryThePoint2()
         }
       }
     default:
@@ -104,9 +111,13 @@ function gotoLogin() {
     }
   })
 }
-
+const buryThePoint = postBehavior({
+  action: "直播列表 点击 直播名称\t710\t用户查看 {直播名称}\n",
+  onceDay: false
+})
 function navigateTo() {
   uni.navigateTo({ url: "/pages/live/detail?id=" + props.itemData.id })
+  buryThePoint(props.itemData.title)
 }
 </script>
 

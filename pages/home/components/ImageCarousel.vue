@@ -1,7 +1,7 @@
 <script setup>
 import { GET_AD_CLIENT_BANNER } from "@/api"
 import NoticeBar from "@/components/notice-bar/NoticeBar.vue"
-import { objectToQueryString } from "@/utils/func"
+import { objectToQueryString, postBehavior } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onMounted, ref } from "vue"
 
@@ -20,11 +20,15 @@ function change(event) {
 }
 
 function handleClick(item) {
-  console.log(item)
   jumpCenter(item.targetid, {
     title: item.title,
     url: item.url
   })
+  postBehavior({
+    action: "点击 banner\t318\t用户查看 {banner名称} \n",
+    onceDay: true,
+    replaceValue: item.title
+  })()
 }
 
 onMounted(async () => {

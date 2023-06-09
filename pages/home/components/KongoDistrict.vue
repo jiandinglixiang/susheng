@@ -1,28 +1,34 @@
 <script setup>
 import { AppAuditStatus } from "@/pinia/audit"
+import { postBehavior } from "@/utils/func"
 
 const storeAppAuditStatus = AppAuditStatus()
 
-function navigateTo(url) {
+function navigateTo(url, title) {
   uni.navigateTo({ url })
+  postBehavior({
+    action: "用户点击 icon\t318\t用户查看 {icon名称}\n",
+    onceDay: true,
+    replaceValue: title
+  })()
 }
 </script>
 
 <template>
   <view class="kongo-district">
-    <view class="list-item" @click="navigateTo('/pages/video/videoList')">
+    <view class="list-item" @click="navigateTo('/pages/video/videoList', '视频课')">
       <image src="/static/home/video-lesson@2x.png"></image>
       <text>视频课</text>
     </view>
     <view
       v-if="!storeAppAuditStatus.auditStatusBoolean"
       class="list-item"
-      @click="navigateTo('/pages/live/liveList')"
+      @click="navigateTo('/pages/live/liveList', '直播课')"
     >
       <image src="/static/home/live-lesson@2x.png"></image>
       <text>直播课</text>
     </view>
-    <view class="list-item" @click="navigateTo('/pages/pdf/pdfList')">
+    <view class="list-item" @click="navigateTo('/pages/pdf/pdfList', '资料中心')">
       <image src="/static/home/informationCenter@2x.png"></image>
       <text>资料中心</text>
     </view>
@@ -30,7 +36,7 @@ function navigateTo(url) {
       <image src="/static/home/onlineMockTest@2x.png"></image>
       <text>模考大赛</text>
     </view> -->
-    <view class="list-item" @click="navigateTo('/pages/information/informationList')">
+    <view class="list-item" @click="navigateTo('/pages/information/informationList', '考试资讯')">
       <image src="/static/home/examConsultation@2x.png"></image>
       <text>考试资讯</text>
     </view>

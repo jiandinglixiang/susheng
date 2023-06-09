@@ -1,8 +1,15 @@
 <script setup>
 import { NoticeStatus } from "@/pinia/notice"
-import { openURL } from "@/utils/func"
+import { openURL, postBehavior } from "@/utils/func"
 
 const storeNotice = NoticeStatus()
+const buryThePoint = postBehavior({
+  action: "点击 小程序加好友 按钮\t710\t用户添加助教\n",
+  onceDay: true
+})
+const buryThePoint2 = postBehavior({
+  action: "点击  在线咨询 按钮\t710\t用户在线咨询CPA考试信息\n"
+})
 </script>
 
 <template>
@@ -12,12 +19,12 @@ const storeNotice = NoticeStatus()
     <image
       class="weixin"
       src="/static/home/weixin@2x.png"
-      @click="openURL(storeNotice.miniApp.find((i) => i.id === 4))"
+      @click="openURL(storeNotice.miniApp.find((i) => i.id === 4)), buryThePoint()"
     ></image>
     <image
       class="weixin"
       src="/static/home/customer@2x.png"
-      @click="openURL(storeNotice.onlineConsultation[0])"
+      @click="openURL(storeNotice.onlineConsultation[0]), buryThePoint2()"
     ></image>
   </view>
   <view class="nav-bar" />

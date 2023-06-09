@@ -31,6 +31,11 @@ export const userInfo = defineStore("userInfo", {
       httpRequest(POST_CLIENT_USER_LOGOUT, "POST")
       config.header.token = ""
       uni.removeStorageSync(USER_TOKEN_DATA)
+      const { keys } = uni.getStorageInfoSync()
+      keys.forEach((key) => {
+        // 清理埋点
+        key.includes("Behavior_") && uni.removeStorageSync(key)
+      })
     }
   },
   unistorage: true // 数据持久化

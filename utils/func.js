@@ -121,11 +121,13 @@ export function openURL({ value: href }) {
   // #endif
 }
 
-function replacePlaceholders(str, values) {
-  return str.replace(/{([^}]+)}/g, (match, placeholder) => {
-    const index = parseInt(placeholder) - 1
-    if (index >= 0 && index < values.length) {
-      return values[index]
+function replaceBracketsContent(str, replacements) {
+  let index = 0
+  return str.replace(/\{([^}]+)\}/g, (match, placeholder) => {
+    if (index < replacements.length) {
+      const replacement = replacements[index]
+      index++
+      return replacement
     }
     return match
   })
@@ -133,6 +135,9 @@ function replacePlaceholders(str, values) {
 export function postBehavior({ action = "", replaceValue = "", onceDay = false }) {
   // action = "登录\t710\t用户登录 {AP名称} APP"
   action = action.split(/\t|\n/)
+  if (replaceValue) {
+    action[2] = replaceBracketsContent(action[2], replaceValue.split(","))
+  }
   let time
   if (onceDay) {
     time = uni.getStorageSync(`Behavior_${action[1]}${encodeURIComponent(action[2])}`)
@@ -150,12 +155,13 @@ export function postBehavior({ action = "", replaceValue = "", onceDay = false }
     if (onceDay && time) {
       return
     }
-    if (replaceValue2 !== "string") {
-      replaceValue2 = replaceValue
+    let content = action[2]
+    if (typeof replaceValue2 === "string") {
+      content = replaceBracketsContent(action[2], replaceValue.split(","))
     }
     httpRequest(POST_BEHAVIOR, "POST", {
       behavior_id: action[1],
-      content: replacePlaceholders(action[2], replaceValue2.split(","))
+      content
     }).then(() => {
       time = Date.now()
       uni.setStorageSync(`Behavior_${action[1]}${encodeURIComponent(action[2])}`, time)

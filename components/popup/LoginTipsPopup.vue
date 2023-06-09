@@ -1,6 +1,4 @@
 <script setup>
-import { computed } from "vue"
-
 const emits = defineEmits(["action"])
 const props = defineProps({
   popupData: {
@@ -10,15 +8,14 @@ const props = defineProps({
     }
   }
 })
-const content = computed(() => props.popupData.tips)
 </script>
 <template>
   <view class="LoginTips-container">
     <text class="title">{{ popupData.title }}</text>
-    <view v-if="!popupData.tips.includes('<text>')" class="tips">
+    <view v-if="!popupData.tips.includes('</text>')" class="tips">
       <text>{{ popupData.tips }}</text>
     </view>
-    <uv-parse v-else :content="content" class="tips"></uv-parse>
+    <uv-parse v-else :content="popupData.tips" class="tips tips2"></uv-parse>
     <button class="agree" @click="emits('action', 'btn')">
       {{ popupData.buttonText }}
     </button>
@@ -53,6 +50,10 @@ const content = computed(() => props.popupData.tips)
   margin-bottom: 48rpx;
   text-align: center;
   color: rgba(51, 51, 51, 1);
+}
+.tips2{
+  text-align: left;
+
 }
 
 .agree {

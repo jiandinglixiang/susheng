@@ -6,7 +6,7 @@ import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 import { LIVE_STATUS_UPDATE } from "@/utils/event"
-import { openURL } from "@/utils/func"
+import { openURL, postBehavior } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onLoad } from "@dcloudio/uni-app"
 import dayjs from "dayjs"
@@ -36,6 +36,7 @@ const detail = ref({
 onLoad(async (options) => {
   const res = await httpRequest(POST_LIVE_DETATILS, "POST", { id: options.id })
   detail.value = res.data
+  detail.value.enable = 1
 })
 
 const date = computed(() => {
@@ -57,6 +58,12 @@ function transformDate(diff) {
   }
   return []
 }
+
+const buryThePoint2 = postBehavior({
+  action: "直播列表/详情页 领取直播讲义\t710\t用户领取 {直播名称} 相关资料\n",
+  onceDay: true,
+  replaceValue: detail.value.title
+})
 
 const status = computed(() => {
   const { enable, starttime } = detail.value
@@ -90,6 +97,7 @@ const status = computed(() => {
         btnStyle: "btn-done",
         btnClick() {
           openURL(storeNotice.miniApp.find((i) => i.id === 7))
+          buryThePoint2()
         }
       }
     default:
@@ -104,7 +112,7 @@ const status = computed(() => {
             return
           }
           await httpRequest(POST_LIVE_SUBSCRIBE, "POST", { liveid: detail.value.id, type: 1 })
-          uni.showToast({ title: "预约成功", icon: "none" })
+          openLivePopup()
           detail.value.enable = 2
           uni.$emit(LIVE_STATUS_UPDATE, { id: detail.value.id })
         }
@@ -112,6 +120,19 @@ const status = computed(() => {
   }
 })
 
+function openLivePopup() {
+  storePopup[LOGIN_TIPS_POPUP]?.open({
+    title: "预约成功",
+    tips: `已预约 <text style="color:#305DDA">${detail.value.title}</text> 直播，将于<text style="color:#305DDA">${date.value}</text>开始直播，请记得打开App观看，并添加老师领取讲义哦～`,
+    buttonText: "领取直播讲义",
+    handleClick(action) {
+      if (action === "btn") {
+        openURL(storeNotice.miniApp.find((i) => i.id === 7))
+        buryThePoint2()
+      }
+    }
+  })
+}
 function gotoLogin() {
   storePopup[LOGIN_TIPS_POPUP]?.open({
     title: "提示",
@@ -129,7 +150,6 @@ function gotoLogin() {
 <template>
   <view>
     <popup-index
-      v-if="noLogin"
       :ref="(r) => PopupStatus().setPopupRef(LOGIN_TIPS_POPUP, r)"
       :popup-key="LOGIN_TIPS_POPUP"
     />
