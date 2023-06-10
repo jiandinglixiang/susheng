@@ -31,10 +31,10 @@ function navigateTo(url, pass) {
 
 function buryThePoint(des) {
   pushBehavior({
-    action: `点击我的助教按钮\t710\t${des}`,
+    action: `点击我的内按钮\t710\t${des}`,
     onceDay: true,
     replaceValue: "",
-    isCallback: true
+    isCallback: false
   })
 }
 </script>

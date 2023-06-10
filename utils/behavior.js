@@ -13,6 +13,15 @@ const onceDayCache = (() => {
   return cache
 })()
 
+/**
+ * 推送行为数据
+ * @param {Object} options - 选项对象
+ * @param {string} options.action - 行为名称
+ * @param {string} [options.replaceValue] - 替换的值
+ * @param {boolean} [options.onceDay=false] - 是否仅在一天内执行一次
+ * @param {boolean} [options.isCallback=false] - 是否使用回调函数
+ * @returns {*} - 根据 isCallback 的值返回回调函数的结果或回调函数本身
+ */
 export function pushBehavior({
   action = "",
   replaceValue = "",
