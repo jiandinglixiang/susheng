@@ -1,14 +1,20 @@
 <script setup>
+import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
-import { openURL, postBehavior } from "@/utils/func"
+import { openURL } from "@/utils/func"
 
 const storeNotice = NoticeStatus()
-const buryThePoint = postBehavior({
+const buryThePoint = pushBehavior({
   action: "点击 小程序加好友 按钮\t710\t用户添加助教\n",
-  onceDay: true
+  replaceValue: "",
+  onceDay: true,
+  isCallback: true
 })
-const buryThePoint2 = postBehavior({
-  action: "点击  在线咨询 按钮\t710\t用户在线咨询CPA考试信息\n"
+const buryThePoint2 = pushBehavior({
+  action: "点击  在线咨询 按钮\t710\t用户在线咨询CPA考试信息\n",
+  replaceValue: "",
+  onceDay: false,
+  isCallback: true
 })
 </script>
 

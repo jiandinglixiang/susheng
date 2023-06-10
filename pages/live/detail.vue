@@ -2,15 +2,17 @@
 import { POST_LIVE_DETATILS, POST_LIVE_SUBSCRIBE } from "@/api"
 import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
+import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 import { LIVE_STATUS_UPDATE } from "@/utils/event"
-import { openURL, postBehavior } from "@/utils/func"
+import { openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onLoad } from "@dcloudio/uni-app"
 import dayjs from "dayjs"
 import { computed, ref } from "vue"
+
 const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
 
 const storeNotice = NoticeStatus()
@@ -36,7 +38,13 @@ const detail = ref({
 onLoad(async (options) => {
   const res = await httpRequest(POST_LIVE_DETATILS, "POST", { id: options.id })
   detail.value = res.data
-  detail.value.enable = 1
+  // detail.value.enable = 1
+  pushBehavior({
+    action: "直播列表 点击 直播名称\t710\t用户查看 {直播名称}\n",
+    onceDay: false,
+    replaceValue: detail.value.title,
+    isCallback: false
+  })
 })
 
 const date = computed(() => {
@@ -59,11 +67,14 @@ function transformDate(diff) {
   return []
 }
 
-const buryThePoint2 = postBehavior({
-  action: "直播列表/详情页 领取直播讲义\t710\t用户领取 {直播名称} 相关资料\n",
-  onceDay: true,
-  replaceValue: detail.value.title
-})
+const buryThePoint2 = () => {
+  pushBehavior({
+    action: "直播列表/详情页 领取直播讲义\t710\t用户领取 {直播名称} 相关资料\n",
+    onceDay: true,
+    replaceValue: detail.value.title,
+    isCallback: false
+  })
+}
 
 const status = computed(() => {
   const { enable, starttime } = detail.value
@@ -77,6 +88,13 @@ const status = computed(() => {
         btnStyle: "btn-done",
         btnClick() {
           openURL(storeNotice.miniApp.find((i) => i.id === 7))
+          pushBehavior({
+            action:
+              "直播列表/详情页 回放资料/进入直播/预约直播按钮\t710\t用户查看 {直播名称} 后 领取回放资料",
+            onceDay: true,
+            replaceValue: detail.value.title,
+            isCallback: false
+          })
         }
       }
     case 3:
@@ -87,6 +105,13 @@ const status = computed(() => {
         btnStyle: "btn-done",
         btnClick() {
           openURL(storeNotice.miniApp.find((i) => i.id === 7))
+          pushBehavior({
+            action:
+              "直播列表/详情页 回放资料/进入直播/预约直播按钮\t710\t用户查看 {直播名称} 后 进入直播间观看",
+            onceDay: true,
+            replaceValue: detail.value.title,
+            isCallback: false
+          })
         }
       }
     case 2:
@@ -115,6 +140,13 @@ const status = computed(() => {
           openLivePopup()
           detail.value.enable = 2
           uni.$emit(LIVE_STATUS_UPDATE, { id: detail.value.id })
+          pushBehavior({
+            action:
+              "直播列表/详情页 回放资料/进入直播/预约直播按钮\t710\t用户查看 {直播名称} 后 预约直播观看",
+            onceDay: true,
+            replaceValue: detail.value.title,
+            isCallback: false
+          })
         }
       }
   }
@@ -133,6 +165,7 @@ function openLivePopup() {
     }
   })
 }
+
 function gotoLogin() {
   storePopup[LOGIN_TIPS_POPUP]?.open({
     title: "提示",

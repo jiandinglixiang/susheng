@@ -12,6 +12,16 @@ export function findFormEnd(arr, func) {
   }
   return target
 }
+export function findFormEndIndex(arr, func) {
+  let index
+  for (let i = arr.length - 1; i >= 0; i--) {
+    if (func(arr[i], i, arr)) {
+      index = i
+      break
+    }
+  }
+  return index
+}
 
 export function deepMergeObjects(obj1, obj2) {
   const merged = { ...obj1 } // 创建一个新的对象，初始值为 obj1 的拷贝
@@ -119,53 +129,4 @@ export function openURL({ value: href }) {
   // #ifdef H5
   window.open(href)
   // #endif
-}
-
-function replaceBracketsContent(str, replacements) {
-  let index = 0
-  return str.replace(/\{([^}]+)\}/g, (match, placeholder) => {
-    if (index < replacements.length) {
-      const replacement = replacements[index]
-      index++
-      return replacement
-    }
-    return match
-  })
-}
-export function postBehavior({ action = "", replaceValue = "", onceDay = false }) {
-  // action = "登录\t710\t用户登录 {AP名称} APP"
-  action = action.split(/\t|\n/)
-  if (replaceValue) {
-    action[2] = replaceBracketsContent(action[2], replaceValue.split(","))
-  }
-  let time
-  if (onceDay) {
-    time = uni.getStorageSync(`Behavior_${action[1]}${encodeURIComponent(action[2])}`)
-    if (time && dayjs().isSame(time, "day")) {
-      // 同一天
-      return function () {
-        console.log("不上报，每天一次", action)
-      }
-    } else {
-      time = undefined
-    }
-  }
-
-  return function (replaceValue2) {
-    if (onceDay && time) {
-      return
-    }
-    let content = action[2]
-    if (typeof replaceValue2 === "string") {
-      content = replaceBracketsContent(action[2], replaceValue.split(","))
-    }
-    httpRequest(POST_BEHAVIOR, "POST", {
-      behavior_id: action[1],
-      content
-    }).then(() => {
-      time = Date.now()
-      uni.setStorageSync(`Behavior_${action[1]}${encodeURIComponent(action[2])}`, time)
-      console.log("上报", action)
-    })
-  }
 }

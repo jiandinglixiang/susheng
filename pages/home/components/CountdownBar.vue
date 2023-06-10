@@ -1,6 +1,7 @@
 <script setup>
+import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
-import { openURL, postBehavior } from "@/utils/func"
+import { openURL } from "@/utils/func"
 import dayjs from "dayjs"
 import { onUnmounted, ref, watch } from "vue"
 
@@ -46,9 +47,14 @@ function interval() {
   }
   current.value = list[index]
 }
-const buryThePoint = postBehavior({
-  action: "首页-报考查询按钮&直播列表页-报考规划\t710\t用户查看CPA报考规划\n"
+
+const buryThePoint = pushBehavior({
+  action: "首页-报考查询按钮&直播列表页-报考规划\t710\t用户查看CPA报考规划\n",
+  onceDay: false,
+  replaceValue: "",
+  isCallback: true
 })
+
 onUnmounted(() => {
   clearInterval(time)
   stopWatch()

@@ -51,9 +51,9 @@ const props = defineProps({
   text-align: center;
   color: rgba(51, 51, 51, 1);
 }
-.tips2{
-  text-align: left;
 
+.tips2 {
+  text-align: left;
 }
 
 .agree {

@@ -1,4 +1,5 @@
 <script setup>
+import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
 import { userInfo } from "@/pinia/user"
 import { USER_TOKEN_DATA } from "@/utils/consts"
@@ -27,6 +28,15 @@ function navigateTo(url, pass) {
     uni.reLaunch({ url: "/pages/login/index" })
   }
 }
+
+function buryThePoint(des) {
+  pushBehavior({
+    action: `点击我的助教按钮\t710\t${des}`,
+    onceDay: true,
+    replaceValue: "",
+    isCallback: true
+  })
+}
 </script>
 <template>
   <view class="top-container">
@@ -51,7 +61,12 @@ function navigateTo(url, pass) {
       <view v-else class="login-text" @click="navigateTo('/pages/login/index', true)">
         登录/注册
       </view>
-      <view class="user-teacher" @click="openURL(storeNotice.miniApp.find((i) => i.id === 8))">
+      <view
+        class="user-teacher"
+        @click="
+          openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户添加CPA助教老师')
+        "
+      >
         <image class="teacher-bg" src="/static/user/user-teacher.png"></image>
         <text>专属助教</text>
       </view>
@@ -83,11 +98,19 @@ function navigateTo(url, pass) {
           <image src="/static/user/help-center@2x.png"></image>
           <text>帮助中心</text>
         </view>
-        <view class="region-item" @click="navigateTo('/pages/pdf/pdfList', true)">
+        <view
+          class="region-item"
+          @click="navigateTo('/pages/pdf/pdfList', true), buryThePoint('用户领取CPA考试资料')"
+        >
           <image src="/static/user/data-get@2x.png"></image>
           <text>资料领取</text>
         </view>
-        <view class="region-item" @click="openURL(storeNotice.miniApp.find((i) => i.id === 8))">
+        <view
+          class="region-item"
+          @click="
+            openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户添加CPA备考群')
+          "
+        >
           <image src="/static/user/exam-preparation-group@2x.png"></image>
           <text>备考群</text>
         </view>
@@ -98,12 +121,20 @@ function navigateTo(url, pass) {
       </view>
     </view>
 
-    <view class="list-item" @click="openURL(storeNotice.miniApp.find((i) => i.id === 8))">
+    <view
+      class="list-item"
+      @click="
+        openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户领取CPA备考规划')
+      "
+    >
       <image class="left-icon" src="/static/user/goal-planning@2x.png"></image>
       <text class="name">备考规划</text>
       <image class="arrows" src="/static/user/arrows@2x.png"></image>
     </view>
-    <view class="list-item" @click="openURL(storeNotice.onlineConsultation[0])">
+    <view
+      class="list-item"
+      @click="openURL(storeNotice.onlineConsultation[0]), buryThePoint('用户咨询CPA考试信息')"
+    >
       <image class="left-icon" src="/static/user/consultation-line@2x.png"></image>
       <text class="name">在线咨询</text>
       <text class="sub-name">24小时在线</text>

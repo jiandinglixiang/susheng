@@ -1,16 +1,17 @@
 <script setup>
 import { AppAuditStatus } from "@/pinia/audit"
-import { postBehavior } from "@/utils/func"
+import { pushBehavior } from "@/utils/behavior"
 
 const storeAppAuditStatus = AppAuditStatus()
 
 function navigateTo(url, title) {
   uni.navigateTo({ url })
-  postBehavior({
+  pushBehavior({
     action: "用户点击 icon\t318\t用户查看 {icon名称}\n",
     onceDay: true,
-    replaceValue: title
-  })()
+    replaceValue: title,
+    isCallback: false
+  })
 }
 </script>
 

@@ -1,11 +1,12 @@
 <script setup>
 import { POST_LIVE_SUBSCRIBE } from "@/api"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
+import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 import { LIVE_STATUS_UPDATE } from "@/utils/event"
-import { formatNumber, openURL, postBehavior } from "@/utils/func"
+import { formatNumber, openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import dayjs from "dayjs"
 import { computed, ref } from "vue"
@@ -53,6 +54,13 @@ const status = computed(() => {
         style2: "watch-replay",
         handleClick() {
           openURL(storeNotice.miniApp.find((i) => i.id === 7))
+          pushBehavior({
+            action:
+              "直播列表/详情页 回放资料/进入直播/预约直播按钮\t710\t用户查看 {直播名称} 后 领取回放资料",
+            onceDay: true,
+            replaceValue: props.itemData.title,
+            isCallback: false
+          })
         }
       }
     case 3:
@@ -62,6 +70,13 @@ const status = computed(() => {
         style: "watching-live",
         handleClick() {
           openURL(storeNotice.miniApp.find((i) => i.id === 7))
+          pushBehavior({
+            action:
+              "直播列表/详情页 回放资料/进入直播/预约直播按钮\t710\t用户查看 {直播名称} 后 进入直播间观看",
+            onceDay: true,
+            replaceValue: props.itemData.title,
+            isCallback: false
+          })
         }
       }
     case 2:
@@ -86,6 +101,13 @@ const status = computed(() => {
           uni.showToast({ title: "预约成功", icon: "none" })
           enable.value = 2
           uni.$emit(LIVE_STATUS_UPDATE, { id: props.itemData.id })
+          pushBehavior({
+            action:
+              "直播列表/详情页 回放资料/进入直播/预约直播按钮\t710\t用户查看 {直播名称} 后 预约直播观看",
+            onceDay: true,
+            replaceValue: props.itemData.title,
+            isCallback: false
+          })
         }
       }
   }
@@ -103,13 +125,9 @@ function gotoLogin() {
     }
   })
 }
-const buryThePoint = postBehavior({
-  action: "直播列表 点击 直播名称\t710\t用户查看 {直播名称}\n",
-  onceDay: false
-})
+
 function navigateTo() {
   uni.navigateTo({ url: "/pages/live/detail?id=" + props.itemData.id })
-  buryThePoint(props.itemData.title)
 }
 </script>
 
@@ -273,6 +291,7 @@ function navigateTo() {
 
     &.watch-replay {
       background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+
       &:after {
         content: "回放资料";
       }

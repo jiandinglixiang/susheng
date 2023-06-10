@@ -15,10 +15,12 @@ useSubscribeLiveStatusUpdate((args) => {
 })
 
 getList()
+
 async function getList() {
   const res = await httpRequest(GET_LIVE_LIST, "POST", { type: 1, rows: 5 })
   list.value = res.data.result
 }
+
 onShow(() => {
   setTimeout(() => {
     scrollId.value = "id-scroll-home"

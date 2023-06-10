@@ -1,9 +1,9 @@
 <script setup>
 import { userInfo } from "@/pinia/user"
 import { USER_TOKEN_DATA } from "@/utils/consts"
+import { getSystemInfoPromise } from "@/utils/func"
 import { onLoad } from "@dcloudio/uni-app"
 import { ref } from "vue"
-import { getSystemInfoPromise } from "@/utils/func"
 
 const appVersion = ref("")
 const isLogin = ref(!!uni.getStorageSync(USER_TOKEN_DATA)?.token)

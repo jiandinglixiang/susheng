@@ -4,6 +4,7 @@ import FixedFab from "@/components/fab/FixedFab.vue"
 import NoticeBar from "@/components/notice-bar/NoticeBar.vue"
 import LoadTips from "@/components/tips/load-tips.vue"
 import { usePageList } from "@/hooks/usePageList"
+import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
 import { formatNumber, openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
@@ -59,6 +60,13 @@ function navigateBack() {
   uni.navigateBack()
 }
 
+const buryThePoint = pushBehavior({
+  action: "资料大礼包&一键领取\t311\t用户索取CPA复习相应资料\n",
+  onceDay: true,
+  replaceValue: "",
+  isCallback: true
+})
+
 function handleDownload(item) {
   const link = `https://stark.pxo.cn/pdfjs-3.0.279-dist/web/viewer.html?file=${encodeURI(
     item.uploadResource
@@ -66,7 +74,13 @@ function handleDownload(item) {
   uni.navigateTo({
     url: `/pages/webview/index?noDecodeLinkQuery=1&title=${encodeURIComponent(
       item.name
-    )}&link=${encodeURIComponent(link)}`
+    )}&link=${encodeURIComponent(link)}`,
+    success: pushBehavior({
+      action: "资料列表 点击 资料&下载&打开\t311\t用户查看领取 {资料名称}\n",
+      onceDay: true,
+      replaceValue: item.title,
+      isCallback: true
+    })
   })
 }
 </script>
@@ -121,7 +135,7 @@ function handleDownload(item) {
   <load-tips :loading="loading" />
   <fixed-fab
     type="information"
-    @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))"
+    @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4)), buryThePoint()"
   />
 </template>
 

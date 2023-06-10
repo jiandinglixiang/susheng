@@ -4,9 +4,9 @@ import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { AGREE_AUTH_POPUP } from "@/components/popup/popupKeyMap"
 import { useTimeCount } from "@/hooks/usePageList"
 import { AppAuditStatus } from "@/pinia/audit"
+import { pushBehavior } from "@/utils/behavior"
 import { userInfo } from "@/pinia/user"
 import { USER_TOKEN_DATA } from "@/utils/consts"
-import { postBehavior } from "@/utils/func"
 import { config, httpRequest } from "@/utils/http"
 import { onLoad } from "@dcloudio/uni-app"
 import { ref } from "vue"
@@ -94,16 +94,16 @@ async function submitForm() {
   }
 }
 
-const buryThePoint = postBehavior({
-  action: "登录\t710\t用户登录 {AP名称} APP\n",
-  replaceValue: uni.getSystemInfoSync().appName,
-  onceDay: true
-})
 function loginSave(data) {
   config.header.token = data.token
   uni.setStorageSync(USER_TOKEN_DATA, data)
   storeUserInfo.getUserInfo()
-  buryThePoint()
+  pushBehavior({
+    action: "登录\t710\t用户登录 {AP名称} APP\n",
+    replaceValue: uni.getSystemInfoSync().appName,
+    onceDay: true,
+    isCallback: false
+  })
   uni.reLaunch({ url: "/pages/home/index" })
 }
 

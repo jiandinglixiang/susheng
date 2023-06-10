@@ -3,6 +3,7 @@ import { POST_VIDEO_COLLECT, POST_VIDEO_LIST_CLASSHOUR, POST_VIDEO_PLAY_LOG } fr
 import FixedFab from "@/components/fab/FixedFab.vue"
 import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
+import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import { PAGES_VIDEO_DETAIL, USER_TOKEN_DATA } from "@/utils/consts"
@@ -32,6 +33,12 @@ onLoad(async () => {
     )
     uni.pageScrollTo(0)
   }, 100)
+  pushBehavior({
+    action: "点击封面图\t310\t用户查看课程 {课程名称}\n",
+    onceDay: true,
+    replaceValue: options.title,
+    isCallback: false
+  })
 })
 
 onUnload(() => {
@@ -88,6 +95,12 @@ function handleClickDirectory(item) {
     videoContext = uni.createVideoContext("myVideo")
     videoContext.play()
   })
+  pushBehavior({
+    action: "视频详情页 目录列表播放\t310\t用户试听课程 {课程名称} - {目录名称}\n",
+    onceDay: false,
+    replaceValue: [options.title, item.title].join(","),
+    isCallback: false
+  })
 }
 
 async function getDirectory() {
@@ -130,6 +143,19 @@ function gotoLogin() {
     }
   })
 }
+
+const buryThePoint = pushBehavior({
+  action: "视频详情页 领取资料/教辅资料按钮\t311\t用户领取 {课程名称} 相应资料\n",
+  onceDay: false,
+  replaceValue: options.title,
+  isCallback: true
+})
+const buryThePoint2 = pushBehavior({
+  action: "详情页 点击  添加助教 按钮\t710\t用户添加 {课程名称} 学管老师\n",
+  onceDay: true,
+  replaceValue: options.title,
+  isCallback: true
+})
 </script>
 
 <template>
@@ -141,7 +167,7 @@ function gotoLogin() {
     />
     <fixed-fab
       type="teaching"
-      @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))"
+      @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4)), buryThePoint()"
     />
     <view class="header-container">
       <video
@@ -162,7 +188,7 @@ function gotoLogin() {
     </view>
     <view
       class="receive-information-card"
-      @click="openURL(storeNotice.miniApp.find((i) => i.id === 7))"
+      @click="openURL(storeNotice.miniApp.find((i) => i.id === 7)), buryThePoint2()"
     >
       <text class="name">{{ options.title }}</text>
       <view class="box-below">
@@ -396,6 +422,7 @@ function gotoLogin() {
     background: url("/static/home/arrow@2x.png") no-repeat center center;
 
     background-size: 14rpx 20rpx;
+
     uni-text {
       display: none;
     }

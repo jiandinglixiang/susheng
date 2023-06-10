@@ -1,3 +1,4 @@
+import { spliceOnceDayCache } from "@/utils/behavior"
 import { USER_TOKEN_DATA } from "@/utils/consts"
 import { defineStore } from "pinia"
 import { config, httpRequest } from "@/utils/http"
@@ -31,11 +32,7 @@ export const userInfo = defineStore("userInfo", {
       httpRequest(POST_CLIENT_USER_LOGOUT, "POST")
       config.header.token = ""
       uni.removeStorageSync(USER_TOKEN_DATA)
-      const { keys } = uni.getStorageInfoSync()
-      keys.forEach((key) => {
-        // 清理埋点
-        key.includes("Behavior_") && uni.removeStorageSync(key)
-      })
+      spliceOnceDayCache(0) // 清理上报缓存
     }
   },
   unistorage: true // 数据持久化

@@ -15,13 +15,13 @@ const emits = defineEmits(["noticeClick"])
       <image class="trumpet" src="/static/home/notice@2x.png"></image>
       <view class="right-box">
         <view
+          :class="['list', vertical && 'vertical']"
           :style="
             list.length > 1 && [
               `animation-duration: ${list.length * 2 * 3}s`,
               `animation-play-state: running`
             ]
           "
-          :class="['list', vertical && 'vertical']"
         >
           <view v-for="item in [...list, ...list]" class="item" @click="emits('noticeClick', item)">
             {{ item.title }}
@@ -91,6 +91,7 @@ const emits = defineEmits(["noticeClick"])
   animation-play-state: paused;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
+
   .item {
     flex: 0 0 auto;
     min-width: 594rpx;
@@ -98,15 +99,17 @@ const emits = defineEmits(["noticeClick"])
     white-space: nowrap;
   }
 }
+
 .vertical {
   align-items: flex-start;
   flex-flow: column nowrap;
-  animation-name: rollingVertical;
   height: auto;
+  animation-name: rollingVertical;
+
   .item {
+    line-height: 72rpx;
     flex: 0 0 auto;
     height: 72rpx;
-    line-height: 72rpx;
     padding-right: 20rpx;
     white-space: nowrap;
   }
@@ -121,6 +124,7 @@ const emits = defineEmits(["noticeClick"])
     transform: translateX(-50%);
   }
 }
+
 @keyframes rollingVertical {
   from {
     transform: translateY(0);

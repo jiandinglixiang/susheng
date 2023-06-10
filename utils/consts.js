@@ -19,3 +19,5 @@ export const LOADING_TEXT = {
   error: "当前数据加载失败，请退出重试",
   networkerror: "网络好像出小差了"
 }
+
+export const BEHAVIOR_RECORDS = "Behavior_record"

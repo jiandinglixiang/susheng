@@ -10,13 +10,13 @@ import LiveScrollX from "@/pages/home/components/LiveScrollX.vue"
 import NavBar from "@/pages/home/components/NavBar.vue"
 import SectionBar from "@/pages/home/components/SectionBar.vue"
 import { AppAuditStatus } from "@/pinia/audit"
+import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import { AD_POP_UP_IMPRESSION_HISTORY, USER_TOKEN_DATA } from "@/utils/consts"
+import { openURL } from "@/utils/func"
 import { onLoad } from "@dcloudio/uni-app"
 import dayjs from "dayjs"
 import { nextTick, ref } from "vue"
-import { NoticeStatus } from "@/pinia/notice"
-import { openURL } from "@/utils/func"
 
 const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
 

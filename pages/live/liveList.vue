@@ -1,5 +1,6 @@
 <script setup>
 import { GET_LIVE_LIST } from "@/api"
+import LiveLineCardItem from "@/components/live/LiveLineCardItem.vue"
 import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
 import SegmentedControl from "@/components/segmented-control/SegmentedControl.vue"
@@ -12,7 +13,6 @@ import { findFormEnd } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { computed, ref } from "vue"
-import LiveLineCardItem from "@/components/live/LiveLineCardItem.vue"
 
 const noLogin = !uni.getStorageSync(USER_TOKEN_DATA)?.token
 

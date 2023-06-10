@@ -1,6 +1,7 @@
 <script setup>
 import { POST_VCOURSE_DETATILS } from "@/api"
 import FixedFab from "@/components/fab/FixedFab.vue"
+import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
 import { openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
@@ -28,6 +29,30 @@ onLoad(async (options) => {
   nextTick(() => {
     uni.setNavigationBarTitle({ title: detail.value.name })
   })
+  pushBehavior({
+    action: "点击封面图\t310\t用户查看课程 {课程名称}\n",
+    onceDay: true,
+    replaceValue: detail.value.name,
+    isCallback: false
+  })
+})
+const buryThePoint1 = pushBehavior({
+  action: "详情页 领取资料\t311\t用户领取 {课程名称} 相应资料\n",
+  onceDay: true,
+  replaceValue: detail.value.name,
+  isCallback: true
+})
+const buryThePoint2 = pushBehavior({
+  action: "详情页 点击  添加学管 按钮\t710\t用户添加 {课程名称} 学管老师\n",
+  onceDay: true,
+  replaceValue: detail.value.name,
+  isCallback: true
+})
+const buryThePoint3 = pushBehavior({
+  action: "详情页 点击立即报名\t710\t用户下单了解  {课程名称}\n",
+  onceDay: true,
+  replaceValue: detail.value.name,
+  isCallback: true
 })
 const content = computed(() => detail.value.content)
 </script>
@@ -46,7 +71,7 @@ const content = computed(() => detail.value.content)
     </view>
     <view
       class="receive-information-card"
-      @click="openURL(storeNotice.miniApp.find((i) => i.id === 7))"
+      @click="openURL(storeNotice.miniApp.find((i) => i.id === 7)), buryThePoint1()"
     >
       <text class="name">{{ detail.name }}</text>
       <view class="box-below">
@@ -62,11 +87,17 @@ const content = computed(() => detail.value.content)
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">
-        <view class="teacher" @click="openURL(storeNotice.miniApp.find((i) => i.id === 8))">
+        <view
+          class="teacher"
+          @click="openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint2()"
+        >
           <image src="/static/course/icon_banjiqun@2x.png"></image>
           <text>学管老师</text>
         </view>
-        <view class="btn btn-done" @click="openURL(storeNotice.miniApp.find((i) => i.id === 7))">
+        <view
+          class="btn btn-done"
+          @click="openURL(storeNotice.miniApp.find((i) => i.id === 7)), buryThePoint3()"
+        >
           立即报名
         </view>
       </view>
@@ -287,6 +318,7 @@ const content = computed(() => detail.value.content)
     background: url("/static/home/arrow@2x.png") no-repeat center center;
 
     background-size: 14rpx 20rpx;
+
     uni-text {
       display: none;
     }

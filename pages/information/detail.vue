@@ -2,6 +2,7 @@
 import { GET_ARTICLE_DETAIL, POST_ARTICLE_COLLECT, POST_ARTICLE_COLLECT_STATUS } from "@/api"
 import PopupIndex from "@/components/popup/PopupIndex.vue"
 import { LOGIN_TIPS_POPUP } from "@/components/popup/popupKeyMap"
+import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
 import { PopupStatus } from "@/pinia/popup"
 import { USER_TOKEN_DATA } from "@/utils/consts"
@@ -45,6 +46,12 @@ onLoad(async ({ id, domain }) => {
     }
   ).then((res) => {
     detail.value = res.data
+    pushBehavior({
+      action: "资讯列表 点击 资讯数据\t712\t用户查看 {资讯名称}\n",
+      onceDay: true,
+      replaceValue: detail.value.title,
+      isCallback: false
+    })
   })
   if (noLogin.value) {
     return
@@ -79,9 +86,19 @@ function gotoLogin() {
   })
 }
 
+function buryThePoint(name = "") {
+  pushBehavior({
+    action: "资讯详情页底部按钮\t712\t用户点击 {资讯名称} 内 {按钮名称}\n",
+    onceDay: true,
+    replaceValue: [detail.value.title, name].join(","),
+    isCallback: false
+  })
+}
+
 function pubdate(pubdate) {
   return dayjs(pubdate * 1000).format("YYYY-MM-DD")
 }
+
 function onLinkTap(res) {
   // 跳转忽略
   res?.ignore?.()
@@ -97,18 +114,29 @@ function onLinkTap(res) {
       <text class="dec-info">{{ pubdate(detail.pubdate) }}</text>
     </view>
     <view class="rich-text-box">
-      <uv-parse :content="content" @linktap="onLinkTap" :copy-link="false"></uv-parse>
+      <uv-parse :content="content" :copy-link="false" @linktap="onLinkTap"></uv-parse>
     </view>
     <view class="fixed-bottom">
       <view class="fixed-bottom-content">
-        <view :class="collect && 'collected'" class="collect" @click="handleCollect">收藏</view>
+        <view
+          :class="collect && 'collected'"
+          class="collect"
+          @click="handleCollect(), buryThePoint('收藏')"
+        >
+          收藏
+        </view>
         <view
           class="free-information"
-          @click="openURL(storeNotice.miniApp.find((i) => i.id === 7))"
+          @click="openURL(storeNotice.miniApp.find((i) => i.id === 7)), buryThePoint('免费资料')"
         >
           免费资料
         </view>
-        <view class="btn" @click="openURL(storeNotice.onlineConsultation[0])">在线咨询</view>
+        <view
+          class="btn"
+          @click="openURL(storeNotice.onlineConsultation[0]), buryThePoint('在线咨询')"
+        >
+          在线咨询
+        </view>
       </view>
     </view>
     <popup-index
