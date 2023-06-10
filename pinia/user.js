@@ -25,7 +25,7 @@ export const userInfo = defineStore("userInfo", {
     async getUserInfo() {
       const res = await httpRequest(GET_USER_INFO, "POST")
       this.$patch(res.data)
-      return res.data
+      return res?.data
     },
     loginOutClean() {
       this.$reset()

@@ -32,10 +32,10 @@ onLoad(async () => {
   // plus.navigator.setFullscreen(true)
   plus.navigator.closeSplashscreen() // 关闭启动页
   //#endif
-  await nextTick()
   if (ConfirmAuthorization) {
     goNext()
   } else {
+    await nextTick()
     privacyPopup.value.open()
   }
 })
@@ -60,10 +60,11 @@ async function goNext() {
   }
 }
 
-function handleAction(action) {
+async function handleAction(action) {
   if (action === "agree") {
     uni.setStorageSync(CONFIRM_AUTHORIZATION, true)
     privacyPopup.value.close()
+    await new Promise((resolve) => setTimeout(resolve, 200))
     goNext()
   } else {
     // #ifdef APP-PLUS

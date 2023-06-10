@@ -39,19 +39,16 @@ onLoad(async (options) => {
 const buryThePoint1 = pushBehavior({
   action: "详情页 领取资料\t311\t用户领取 {课程名称} 相应资料\n",
   onceDay: true,
-  replaceValue: detail.value.name,
   isCallback: true
 })
 const buryThePoint2 = pushBehavior({
   action: "详情页 点击  添加学管 按钮\t710\t用户添加 {课程名称} 学管老师\n",
   onceDay: true,
-  replaceValue: detail.value.name,
   isCallback: true
 })
 const buryThePoint3 = pushBehavior({
   action: "详情页 点击立即报名\t710\t用户下单了解  {课程名称}\n",
   onceDay: true,
-  replaceValue: detail.value.name,
   isCallback: true
 })
 const content = computed(() => detail.value.content)
@@ -71,7 +68,7 @@ const content = computed(() => detail.value.content)
     </view>
     <view
       class="receive-information-card"
-      @click="openURL(storeNotice.miniApp.find((i) => i.id === 7)), buryThePoint1()"
+      @click="openURL(storeNotice.miniApp.find((i) => i.id === 7)), buryThePoint1(detail.name)"
     >
       <text class="name">{{ detail.name }}</text>
       <view class="box-below">
@@ -89,14 +86,14 @@ const content = computed(() => detail.value.content)
       <view class="fixed-bottom-content">
         <view
           class="teacher"
-          @click="openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint2()"
+          @click="openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint2(detail.name)"
         >
           <image src="/static/course/icon_banjiqun@2x.png"></image>
           <text>学管老师</text>
         </view>
         <view
           class="btn btn-done"
-          @click="openURL(storeNotice.miniApp.find((i) => i.id === 7)), buryThePoint3()"
+          @click="openURL(storeNotice.miniApp.find((i) => i.id === 7)), buryThePoint3(detail.name)"
         >
           立即报名
         </view>

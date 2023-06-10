@@ -28,7 +28,10 @@ export function pushBehavior({
   onceDay = false,
   isCallback = false
 }) {
-  const callback = () => {
+  const callback = (replaceValue2) => {
+    if (replaceValue2) {
+      replaceValue = replaceValue2
+    }
     const cacheKey = replaceValue + action
     if (onceDay) {
       const index = findFormEndIndex(onceDayCache, (item) => item.key === cacheKey)
@@ -52,7 +55,10 @@ export function pushBehavior({
     })
       .then(() => {
         onceDay && spliceOnceDayCache(onceDayCache.length, 0, { key: cacheKey, expire: Date.now() })
-        console.log("上报", contents)
+        // console.log("上报", contents)
+        // if (contents[2].includes("{")) {
+        //   console.error("上报", contents)
+        // }
       })
       .catch((err) => {
         console.error("上报失败", action, err)

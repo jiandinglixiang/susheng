@@ -75,12 +75,14 @@ function handleDownload(item) {
     url: `/pages/webview/index?noDecodeLinkQuery=1&title=${encodeURIComponent(
       item.name
     )}&link=${encodeURIComponent(link)}`,
-    success: pushBehavior({
-      action: "资料列表 点击 资料&下载&打开\t311\t用户查看领取 {资料名称}\n",
-      onceDay: true,
-      replaceValue: item.title,
-      isCallback: true
-    })
+    success(){
+      pushBehavior({
+        action: "资料列表 点击 资料&下载&打开\t311\t用户查看领取 {资料名称}\n",
+        onceDay: true,
+        replaceValue: item.name,
+        isCallback: false
+      })
+    }
   })
 }
 </script>
@@ -103,14 +105,14 @@ function handleDownload(item) {
   <view class="fixed-box">
     <notice-bar :list="noticeList" fixed />
   </view>
-  <view v-for="item in list" :key="item.id" class="pdf-list-item">
+  <view v-for="item in list" :key="item.id" class="pdf-list-item" @click="handleDownload(item)">
     <view class="box-top">
       <image :src="iconUrl(item.uploadResource)" class="file-icon" />
       <view class="middle-box">
         <text class="file-name">{{ item.name }}</text>
         <text v-for="item2 in tagList(item.tag)" class="keyword">{{ item2 }}</text>
       </view>
-      <view class="download" @click="handleDownload(item)">下载</view>
+      <view class="download">下载</view>
     </view>
     <view class="box-below">
       <view class="star">

@@ -120,9 +120,9 @@ function clearPhone() {
 }
 
 async function navigateBack() {
-  // #ifdef APP-PLUS
   const pages = getCurrentPages()
   if (pages.length === 1) {
+    // #ifdef APP-PLUS
     if (audit.auditStatusBoolean) {
       uni.reLaunch({ url: "/pages/home/index" })
     } else {
@@ -132,11 +132,13 @@ async function navigateBack() {
         console.log(data)
       })
     }
-    return
+    // #endif
+    // #ifndef APP-PLUS
+    uni.reLaunch({ url: "/" })
+    // #endif
+  } else {
+    uni.navigateBack()
   }
-  // #endif
-
-  uni.navigateBack()
 }
 
 function validate(phone) {
