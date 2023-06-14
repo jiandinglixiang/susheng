@@ -6,11 +6,12 @@ import { useTimeCount } from "@/hooks/usePageList"
 import { AppAuditStatus } from "@/pinia/audit"
 import { pushBehavior } from "@/utils/behavior"
 import { userInfo } from "@/pinia/user"
-import { USER_TOKEN_DATA } from "@/utils/consts"
+import { PRIVACY_URL, USER_AGREEMENT_URL, USER_TOKEN_DATA } from "@/utils/consts"
 import { config, httpRequest } from "@/utils/http"
 import { onLoad } from "@dcloudio/uni-app"
 import { ref } from "vue"
 import univerify from "./univerify.js"
+import { openURL } from "@/utils/func"
 
 const storeUserInfo = userInfo()
 const audit = AppAuditStatus()
@@ -208,9 +209,11 @@ function validate(phone) {
       ></uni-icons>
       <text>
         我已阅读并同意
-        <text class="highlight">《用户服务协议》</text>
+        <text class="highlight" @click="openURL({ value: USER_AGREEMENT_URL })">
+          《用户服务协议》
+        </text>
         与
-        <text class="highlight">《隐私政策》</text>
+        <text class="highlight" @click="openURL({ value: PRIVACY_URL })">《隐私政策》</text>
       </text>
     </view>
     <navigator

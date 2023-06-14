@@ -140,7 +140,7 @@ function buryThePoint(des) {
       <text class="sub-name">24小时在线</text>
       <image class="arrows" src="/static/user/arrows@2x.png"></image>
     </view>
-    <view class="list-item">
+    <view class="list-item" @click="openURL(storeNotice.miniApp.find((i) => i.id === 8))">
       <image class="left-icon" src="/static/user/give-us-a-good-review@2x.png"></image>
       <text class="name">给我们好评</text>
       <image class="arrows" src="/static/user/arrows@2x.png"></image>

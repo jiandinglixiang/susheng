@@ -1,6 +1,8 @@
 <script setup>
 import { userInfo } from "@/pinia/user"
 import { ref } from "vue"
+import { PRIVACY_URL } from "@/utils/consts"
+import { openURL } from "@/utils/func"
 
 const checkData = [
   "需要解绑手机号、邮箱",
@@ -53,10 +55,8 @@ function next(value) {
   </view>
   <view v-else-if="showStep === 2" class="cancel-step2">
     <view class="title">高顿账号注销协议</view>
-    <view class="content">
-      <text>
-        1、这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议2、这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协3、这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议4、这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协5、这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议6、这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协议内容这个是协
-      </text>
+    <view class="content" @click="openURL({ value: PRIVACY_URL })" style="color: #007aff">
+      <text selectable>{{ PRIVACY_URL }}</text>
     </view>
     <view class="checkbox-custom" @click="isReadContent = true">
       <view :class="isReadContent ? 'selected' : 'unselected'" class="check-icon" />

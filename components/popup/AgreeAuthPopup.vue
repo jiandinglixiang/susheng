@@ -1,7 +1,16 @@
 <template>
   <view class="container">
     <view class="tips">
-      <text>我已阅读并同意《用户服务协议》与《隐私政策》</text>
+      <text>
+        我已阅读并同意
+        <text @click="openURL({ value: USER_AGREEMENT_URL })" style="color: #007aff">
+          《用户服务协议》
+        </text>
+        与
+        <text @click="openURL({ value: PRIVACY_URL })" style="color: #007aff">
+          《隐私保护政策》
+        </text>
+      </text>
     </view>
     <view class="btn-group">
       <button class="quit" @click="emits('action', 'close')">退出</button>
@@ -10,6 +19,9 @@
   </view>
 </template>
 <script setup>
+import { openURL } from "@/utils/func"
+import { PRIVACY_URL, USER_AGREEMENT_URL } from "@/utils/consts"
+
 const emits = defineEmits(["action"])
 </script>
 

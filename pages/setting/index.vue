@@ -1,13 +1,15 @@
 <script setup>
 import { userInfo } from "@/pinia/user"
-import { USER_TOKEN_DATA } from "@/utils/consts"
-import { getSystemInfoPromise } from "@/utils/func"
+import { PRIVACY_URL, USER_AGREEMENT_URL, USER_TOKEN_DATA } from "@/utils/consts"
+import { getSystemInfoPromise, openURL } from "@/utils/func"
 import { onLoad } from "@dcloudio/uni-app"
 import { ref } from "vue"
+import { NoticeStatus } from "@/pinia/notice"
 
 const appVersion = ref("")
 const isLogin = ref(!!uni.getStorageSync(USER_TOKEN_DATA)?.token)
 const storeUserInfo = userInfo()
+const storeNotice = NoticeStatus()
 
 onLoad(async () => {
   isLogin.value = !!(await storeUserInfo.getUserInfo())
@@ -30,7 +32,7 @@ function loginOut() {
     </view>
   </navigator>
 
-  <view class="list-item">
+  <view class="list-item" @click="openURL(storeNotice.miniApp.find((i) => i.id === 8))">
     <text class="name">给我们点个赞</text>
     <image class="arrows" src="/static/user/arrows@2x.png"></image>
   </view>
@@ -49,9 +51,11 @@ function loginOut() {
 
   <view class="login-out">
     <view class="privacy">
-      <text class="highlight">《高顿用户协议》</text>
+      <text class="highlight" @click="openURL({ value: USER_AGREEMENT_URL })">
+        《高顿用户协议》
+      </text>
       与
-      <text class="highlight">《隐私政策》</text>
+      <text class="highlight" @click="openURL({ value: PRIVACY_URL })">《隐私政策》</text>
     </view>
     <button v-if="isLogin" @click="loginOut">退出登录</button>
   </view>
