@@ -168,7 +168,7 @@ page {
   background: linear-gradient(135deg, #618bff 0%, #305dd9 100%);
 }
 .btn-content {
-  height: 200rpx;
+  height: 300rpx;
 }
 </style>
 <style lang="scss" scoped>
