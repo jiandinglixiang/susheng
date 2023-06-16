@@ -86,10 +86,14 @@ async function submitForm() {
       pcode: formData.value.code,
       tk: formData.value.tk
     })
+    if (!res.data) {
+      throw res
+    }
     loginSave(res.data)
     console.log(res, "res")
   } catch (e) {
-    uni.showToast({ title: e?.msg ?? "Error", icon: "none" })
+    console.log(e)
+    uni.showToast({ title: e?.info ?? "Error", icon: "none" })
   } finally {
     formData.value.loading = false
   }
