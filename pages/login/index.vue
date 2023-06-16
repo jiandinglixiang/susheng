@@ -93,7 +93,7 @@ async function submitForm() {
     console.log(res, "res")
   } catch (err) {
     console.log(err)
-    let title = "登录错误"
+    let title = err?.info ?? "登录错误"
     if (err?.code === "300004") {
       title = "验证码错误 请重新输入"
     } else if (err?.code === "300000") {
