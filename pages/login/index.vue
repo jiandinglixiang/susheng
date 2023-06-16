@@ -91,9 +91,15 @@ async function submitForm() {
     }
     loginSave(res.data)
     console.log(res, "res")
-  } catch (e) {
-    console.log(e)
-    uni.showToast({ title: e?.info ?? "Error", icon: "none" })
+  } catch (err) {
+    console.log(err)
+    let title = "登录错误"
+    if (err?.code === "300004") {
+      title = "验证码错误 请重新输入"
+    } else if (err?.code === "300000") {
+      title = "请重新获取验证码"
+    }
+    uni.showToast({ title, icon: "none" })
   } finally {
     formData.value.loading = false
   }
