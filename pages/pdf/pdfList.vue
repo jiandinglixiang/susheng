@@ -68,7 +68,7 @@ const buryThePoint = pushBehavior({
 })
 
 function handleDownload(item) {
-  const link = `https://stark.pxo.cn/pdfjs-3.0.279-dist/web/viewer.html?file=${encodeURI(
+  const link = `https://stark.pxo.cn/pdfjs-1.10.100-dist/web/viewer.html?file=${encodeURI(
     item.uploadResource
   )}`
   uni.navigateTo({
