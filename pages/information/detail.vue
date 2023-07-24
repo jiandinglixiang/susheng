@@ -232,8 +232,8 @@ function onLinkTap(res) {
     margin-left: 32rpx;
     text-align: center;
     color: rgba(255, 255, 255, 1);
-    border-radius: 200rpx;
-    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+    border-radius: 0;
+    background: #5C22E3;
   }
 }
 </style>
