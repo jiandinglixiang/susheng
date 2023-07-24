@@ -116,8 +116,8 @@ async function handleSubmit() {
     transform: translateX(-50%);
     color: rgba(255, 255, 255, 1);
     border: none;
-    border-radius: 44rpx;
-    background: linear-gradient(135deg, #618bff 0%, #305dd9 100%);
+    border-radius:0;
+    background: #5C22E3;
   }
 }
 </style>

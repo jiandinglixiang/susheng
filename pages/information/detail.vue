@@ -11,6 +11,7 @@ import { httpRequest } from "@/utils/http"
 import { onLoad } from "@dcloudio/uni-app"
 import dayjs from "dayjs"
 import { computed, ref } from "vue"
+import FixedFab from "@/components/fab/FixedFab.vue"
 
 const noLogin = ref(!uni.getStorageSync(USER_TOKEN_DATA)?.token)
 const storePopup = PopupStatus()
@@ -107,10 +108,12 @@ function onLinkTap(res) {
 
 <template>
   <view>
+    <fixed-fab  @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4))" />
+
     <view class="information-title">{{ detail.title }}</view>
     <view class="desc">
       <text class="dec-info">来源：互联网</text>
-      <text class="dec-info">小编：CPA</text>
+      <text class="dec-info">小编：阿清</text>
       <text class="dec-info">{{ pubdate(detail.pubdate) }}</text>
     </view>
     <view class="rich-text-box">
@@ -218,7 +221,11 @@ function onLinkTap(res) {
   }
 
   .free-information {
-    background-image: url("/static/information/icon_kczx@2x.png");
+    background-color: white;
+    background-image: url("/static/information/free@2x.png"),
+      url("/static/information/icon_kczx@2x.png");
+    background-position: 50rpx top, center top;
+    background-size: 44rpx 20rpx, 44rpx 44rpx;
   }
 
   .btn {
@@ -231,8 +238,7 @@ function onLinkTap(res) {
     margin-left: 32rpx;
     text-align: center;
     color: rgba(255, 255, 255, 1);
-    border-radius: 200rpx;
-    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+    background: #5c22e3;
   }
 }
 </style>

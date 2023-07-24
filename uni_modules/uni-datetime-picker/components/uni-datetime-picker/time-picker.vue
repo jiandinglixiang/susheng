@@ -812,7 +812,7 @@ export default {
 </script>
 
 <style lang="scss">
-$uni-primary: #007aff !default;
+$uni-primary: #5C22E3 !default;
 
 .uni-datetime-picker {
   /* #ifndef APP-NVUE */

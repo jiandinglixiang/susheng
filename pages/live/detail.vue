@@ -155,7 +155,7 @@ const status = computed(() => {
 function openLivePopup() {
   storePopup[LOGIN_TIPS_POPUP]?.open({
     title: "预约成功",
-    tips: `已预约 <text style="color:#305DDA">${detail.value.title}</text> 直播，将于<text style="color:#305DDA">${date.value}</text>开始直播，请记得打开App观看，并添加老师领取讲义哦～`,
+    tips: `已预约 <text style="color:#5C22E3">${detail.value.title}</text> 直播，将于<text style="color:#5C22E3">${date.value}</text>开始直播，请记得打开App观看，并添加老师领取讲义哦～`,
     buttonText: "领取直播讲义",
     handleClick(action) {
       if (action === "btn") {
@@ -199,7 +199,7 @@ function gotoLogin() {
           :show-colon="false"
           background-color="#ffffff"
           class="countdown-time"
-          color="#305DDA"
+          color="#5C22E3"
           splitor-color="#ffffff"
         />
         <view
@@ -302,13 +302,12 @@ function gotoLogin() {
     height: 76rpx;
     text-align: center;
     color: rgba(255, 255, 255, 1);
-    border-radius: 200rpx;
-    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+    background: #5C22E3;
   }
 
   .btn-done {
-    color: rgba(48, 93, 218, 1);
-    border: 2rpx solid rgba(48, 93, 218, 1);
+    color: #5C22E3;
+    border: 2rpx solid #5C22E3;
     background: #ffffff;
   }
 }
@@ -385,14 +384,14 @@ function gotoLogin() {
     font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
   }
 
   .booking {
     font-size: 28rpx;
     font-weight: 400;
     line-height: 28rpx;
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
   }
 }
 
@@ -434,7 +433,7 @@ function gotoLogin() {
       height: 64rpx;
       margin-top: 18rpx;
       text-align: center;
-      color: rgba(48, 93, 218, 1);
+      color: #5C22E3;
       border-radius: 200rpx;
       background: rgba(255, 255, 255, 1);
     }
@@ -459,7 +458,7 @@ function gotoLogin() {
   line-height: 56rpx;
   width: 44rpx;
   text-align: center;
-  color: rgba(48, 93, 218, 1);
+  color: #5C22E3;
   border-radius: 8rpx;
   background: rgba(255, 255, 255, 1);
 }

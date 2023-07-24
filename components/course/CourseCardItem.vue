@@ -55,9 +55,8 @@ const props = defineProps({
       flex: 0 0 auto;
       margin-right: 8rpx;
       padding: 8rpx 8rpx 8rpx 8rpx;
-      color: rgba(48, 93, 218, 1);
-      border-radius: 4rpx;
-      background: rgba(48, 93, 218, 0.1);
+      color: #5c22e3;
+      background: rgba(92, 34, 227, 0.1);
     }
   }
 }
@@ -66,6 +65,5 @@ const props = defineProps({
   width: 330rpx;
   height: 188rpx;
   margin-bottom: 16rpx;
-  border-radius: 8rpx;
 }
 </style>

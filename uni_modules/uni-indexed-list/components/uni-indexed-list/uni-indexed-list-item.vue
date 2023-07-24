@@ -23,7 +23,7 @@
             <view v-if="showSelect" style="margin-right: 20rpx">
               <uni-icons
                 :type="item.checked ? 'checkbox-filled' : 'circle'"
-                :color="item.checked ? '#007aff' : '#C0C0C0'"
+                :color="item.checked ? '#5C22E3' : '#C0C0C0'"
                 size="24"
               />
             </view>

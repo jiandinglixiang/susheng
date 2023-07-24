@@ -57,7 +57,7 @@ const emits = defineEmits(["noticeClick"])
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.08);
 
   .highlight {
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
   }
 }
 

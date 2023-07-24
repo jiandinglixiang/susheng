@@ -269,14 +269,14 @@ function validate(phone) {
   align-items: center;
   flex-flow: row nowrap;
   margin-top: 36rpx;
-  color: #999999;
+  color: #333333;
 
   .check-icon {
     padding: 0 20rpx;
   }
 
   .highlight {
-    color: #305dda;
+    color: #5C22E3;
   }
 }
 
@@ -284,12 +284,11 @@ function validate(phone) {
   display: flex;
   align-items: center;
   flex-flow: row nowrap;
-  width: 570rpx;
+  width: 540rpx;
   height: 100rpx;
   margin-bottom: 16rpx;
   padding: 0 30rpx;
   border: 1rpx solid #cccccc;
-  border-radius: 200rpx;
 
   image {
     flex: 0 0 40rpx;
@@ -319,7 +318,7 @@ function validate(phone) {
     font-size: 28rpx;
     font-weight: 500;
     flex: 0 0 auto;
-    color: #305dda;
+    color: #5C22E3;
   }
 }
 
@@ -327,13 +326,13 @@ function validate(phone) {
   font-size: 32rpx;
   font-weight: 700;
   line-height: 88rpx;
-  width: 520rpx;
+  width: 600rpx;
   height: 88rpx;
   margin-top: 40rpx;
   text-align: center;
   color: #ffffff;
-  border-radius: 44rpx;
-  background: linear-gradient(135deg, #618bff 0%, #305dd9 100%);
+  border-radius: 0;
+  background: #5C22E3;
 }
 
 .btn-tourist {

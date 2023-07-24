@@ -249,7 +249,7 @@ export default {
 }
 
 .uni-button-color {
-  color: #007aff;
+  color: #5C22E3;
 }
 
 .uni-dialog-input {

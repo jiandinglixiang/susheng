@@ -102,9 +102,9 @@ function gotoDetail(item) {
   width: 164rpx;
   height: 56rpx;
   padding-left: 52rpx;
-  color: rgba(48, 93, 218, 1);
-  border: 1rpx solid rgba(48, 93, 218, 1);
-  border-radius: 200rpx;
+  color: #5c22e3;
+  border: 1rpx solid #5c22e3;
+  border-radius: 16rpx 0 16rpx 0;
   background: url("/static/information/test-friend@2x.png") rgba(48, 93, 218, 0.08) no-repeat 16rpx
     center;
   background-size: 32rpx 32rpx;

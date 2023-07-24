@@ -28,7 +28,7 @@ onLoad(async () => {
   uni.setNavigationBarTitle({ title: options.title })
   setTimeout(() => {
     stopRightButtonListener = setTitleNViewButtonStyle(
-      options.collect ? { text: "\ue68f", color: "#305DDA" } : { text: "\ue688", color: "#333" },
+      options.collect ? { text: "\ue68f", color: "#5C22E3" } : { text: "\ue688", color: "#333" },
       rightButton
     )
     uni.pageScrollTo(0)
@@ -125,7 +125,7 @@ async function rightButton() {
   options.collect = options.collect ? 0 : 1
   uni.setStorageSync(PAGES_VIDEO_DETAIL, options)
   setTitleNViewButtonStyle(
-    options.collect ? { text: "\ue68f", color: "#305DDA" } : { text: "\ue688", color: "#333333" }
+    options.collect ? { text: "\ue68f", color: "#5C22E3" } : { text: "\ue688", color: "#333333" }
   )
   uni.$emit("/pages/video/detail", "collect", options)
   uni.showToast({ title: options.collect ? "收藏成功" : "取消收藏", icon: "none" })
@@ -362,7 +362,7 @@ const buryThePoint2 = pushBehavior({
   .highlight {
     margin-right: 12rpx;
     padding: 6rpx 8rpx;
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
     border-radius: 4rpx;
     background: rgba(48, 93, 218, 0.1);
   }
@@ -396,7 +396,7 @@ const buryThePoint2 = pushBehavior({
       content: "";
       transform: translateX(-50%);
       border-radius: 4rpx;
-      background: rgba(48, 93, 218, 1);
+      background: #5C22E3;
     }
   }
 }
@@ -470,7 +470,7 @@ const buryThePoint2 = pushBehavior({
   }
 
   .highlight {
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
   }
 
   .time-people {
@@ -526,7 +526,7 @@ const buryThePoint2 = pushBehavior({
     }
 
     &.status-ing {
-      color: rgba(48, 93, 218, 1);
+      color: #5C22E3;
       background-image: url("/static/course/video-play@2x.png");
 
       &:after {

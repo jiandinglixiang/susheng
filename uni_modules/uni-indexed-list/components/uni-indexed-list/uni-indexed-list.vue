@@ -353,7 +353,7 @@ export default {
   width: 16px;
   height: 16px;
   line-height: 16px;
-  background-color: #007aff;
+  background-color: #5C22E3;
   color: #fff;
 }
 

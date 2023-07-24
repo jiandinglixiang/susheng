@@ -146,7 +146,7 @@ page {
   }
 
   .highlight {
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
   }
 
   button {

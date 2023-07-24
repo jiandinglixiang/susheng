@@ -1,9 +1,9 @@
 <template>
   <view class="container">
-    <view class="guide-page">
-      <image class="guide-image" src="/static/logo.png"></image>
-      <text class="guide-text">注册会计师App</text>
-    </view>
+    <!--    <view class="guide-page">-->
+    <!--      <image class="guide-image" src="/static/logo.png"></image>-->
+    <!--      <text class="guide-text">中级经济师App</text>-->
+    <!--    </view>-->
     <popup-index
       v-if="!ConfirmAuthorization"
       ref="privacyPopup"
@@ -88,29 +88,30 @@ async function handleAction(action) {
   position: relative;
   width: 100%;
   height: 100vh;
-  background-color: #fff;
+  background: url("/static/guide_bg.png") no-repeat center bottom;
+  background-size: 100% auto;
 }
 
-.guide-page {
-  position: absolute;
-  bottom: trpx(88);
-  left: 50%;
-  display: flex;
-  align-items: center;
-  flex-flow: column nowrap;
-  justify-content: center;
-  transform: translateX(-50%);
-}
-
-.guide-text {
-  font-size: trpx(32);
-  line-height: trpx(32);
-  color: #333333;
-}
-
-.guide-image {
-  width: trpx(108);
-  height: trpx(108);
-  margin-bottom: trpx(24);
-}
+//.guide-page {
+//  position: absolute;
+//  bottom: trpx(88);
+//  left: 50%;
+//  display: flex;
+//  align-items: center;
+//  flex-flow: column nowrap;
+//  justify-content: center;
+//  transform: translateX(-50%);
+//}
+//
+//.guide-text {
+//  font-size: trpx(32);
+//  line-height: trpx(32);
+//  color: #333333;
+//}
+//
+//.guide-image {
+//  width: trpx(108);
+//  height: trpx(108);
+//  margin-bottom: trpx(24);
+//}
 </style>

@@ -155,16 +155,13 @@ function navigateTo() {
   flex-flow: column nowrap;
   height: 380rpx;
   margin-left: 32rpx;
-  border-radius: 0rpx 0rpx 8rpx 8rpx;
   background: rgba(255, 255, 255, 1);
-  box-shadow: 0rpx 4rpx 32rpx 0rpx rgba(0, 0, 0, 0.06);
 
   .live-img {
     flex: 0 0 auto;
     width: 312rpx;
     height: 176rpx;
     margin-bottom: 16rpx;
-    border-radius: 8rpx 8rpx 0rpx 0rpx;
   }
 
   .name {
@@ -204,8 +201,7 @@ function navigateTo() {
     flex-flow: column nowrap;
     justify-content: center;
     padding: 8rpx;
-    border-radius: 8rpx 0rpx 16rpx 0rpx;
-    background: linear-gradient(130.38deg, rgba(255, 186, 59, 1) 0%, rgba(255, 139, 23, 1) 100%);
+    background: #FF962F;
 
     &:after {
       font-size: 20rpx;
@@ -216,7 +212,7 @@ function navigateTo() {
     }
 
     &.watching-live {
-      background: linear-gradient(139.19deg, rgba(49, 227, 179, 1) 0%, rgba(22, 195, 124, 1) 100%);
+      background: #1DD186;
 
       &:after {
         content: "直播中";
@@ -224,7 +220,7 @@ function navigateTo() {
     }
 
     &.watch-replay {
-      background: linear-gradient(135deg, rgba(202, 148, 255, 1) 0%, rgba(154, 91, 255, 1) 100%);
+      background: #9A5BFF;
 
       &:after {
         content: "看回放";
@@ -261,7 +257,7 @@ function navigateTo() {
     width: 148rpx;
     height: 56rpx;
     text-align: center;
-    border-radius: 16rpx 0rpx 8rpx 0rpx;
+    border-radius: 0;
     background: linear-gradient(130.38deg, rgba(255, 186, 59, 1) 0%, rgba(255, 139, 23, 1) 100%);
 
     &:after {
@@ -273,7 +269,7 @@ function navigateTo() {
     }
 
     &.watching-live {
-      background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+      background: #5C22E3;
 
       &:after {
         content: "去上课";
@@ -290,7 +286,7 @@ function navigateTo() {
     }
 
     &.watch-replay {
-      background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+      background: #5C22E3;
 
       &:after {
         content: "回放资料";

@@ -69,15 +69,7 @@ function jumpCenter(targetid, { id, url: link, title }) {
     class="uni-swiper-dot-box"
     mode="round"
   >
-    <swiper
-      :current="current"
-      autoplay
-      circular
-      class="swiper-box"
-      next-margin="16px"
-      previous-margin="16px"
-      @change="change"
-    >
+    <swiper :current="current" autoplay circular class="swiper-box" @change="change">
       <swiper-item v-for="item in list" :key="item.id" @click="handleClick(item)">
         <view class="swiper-item">
           <image :src="item.pic" class="swiper-img"></image>
@@ -105,13 +97,11 @@ function jumpCenter(targetid, { id, url: link, title }) {
   flex-direction: column;
   justify-content: center;
   height: 300rpx;
-  padding: 0 8px;
 }
 
 .swiper-img {
   overflow: hidden;
   flex: 1 1 auto;
   width: 100%;
-  border-radius: 16rpx;
 }
 </style>

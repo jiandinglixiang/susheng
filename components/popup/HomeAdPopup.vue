@@ -34,7 +34,6 @@ const emits = defineEmits(["action"])
   flex-flow: column nowrap;
   width: 536rpx;
   padding: 134rpx 56rpx 48rpx;
-  border-radius: 32rpx;
   background: #ffffff;
 }
 
@@ -68,8 +67,8 @@ const emits = defineEmits(["action"])
   margin-top: 64rpx;
   color: #ffffff;
   border: none;
-  border-radius: 200rpx;
-  background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+  border-radius: 0;
+  background:#5C22E3;
 }
 
 .close {

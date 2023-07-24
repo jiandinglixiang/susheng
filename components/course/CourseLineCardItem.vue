@@ -51,7 +51,6 @@ function navigateTo() {
     width: 276rpx;
     height: 156rpx;
     margin-right: 16rpx;
-    border-radius: 8rpx;
   }
 
   .right-content {
@@ -109,8 +108,8 @@ function navigateTo() {
     height: 56rpx;
     text-align: center;
     color: rgba(255, 255, 255, 1);
-    border-radius: 446rpx 430rpx 446rpx 430rpx;
-    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+    border-radius: 0;
+    background: #5C22E3;
   }
 }
 </style>

@@ -172,7 +172,7 @@ function navigateTo() {
     width: 254rpx;
     height: 140rpx;
     margin-right: 20rpx;
-    border-radius: 4rpx;
+    transform: scale(0.9);
   }
 
   .right-content {
@@ -209,7 +209,7 @@ function navigateTo() {
     width: 100%;
     max-width: 100%;
     padding-right: 128rpx;
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
   }
 }
 
@@ -224,8 +224,7 @@ function navigateTo() {
   height: 60rpx;
   text-align: center;
   color: rgba(255, 255, 255, 1);
-  border-radius: 8rpx 0rpx 8rpx 0rpx;
-  background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+  background: #5C22E3;
 
   &.living:before {
     display: inline-block;
@@ -248,7 +247,6 @@ function navigateTo() {
   flex-flow: row nowrap;
   justify-content: center;
   padding: 4rpx;
-  border-radius: 8rpx 0rpx 8rpx 0rpx;
   background: rgba(255, 243, 230, 1);
 
   &:after {

@@ -192,9 +192,9 @@ function handleDownload(item) {
     flex: 0 0 auto;
     margin: 0 8rpx 8rpx 0;
     padding: 6rpx 12rpx 6rpx 12rpx;
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
     border-radius: 8rpx;
-    background: rgba(48, 93, 218, 0.1);
+    background: rgba(92, 34, 227, 0.1);
   }
 
   .download {
@@ -207,8 +207,8 @@ function handleDownload(item) {
     margin: 0;
     text-align: center;
     color: rgba(255, 255, 255, 1);
-    border-radius: 446rpx 430rpx 446rpx 430rpx;
-    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+    border-radius: 0;
+    background: #5C22E3;
   }
 
   .box-below {

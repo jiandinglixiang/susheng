@@ -148,13 +148,12 @@ const content = computed(() => detail.value.content)
     height: 76rpx;
     text-align: center;
     color: rgba(255, 255, 255, 1);
-    border-radius: 200rpx;
-    background: linear-gradient(135deg, rgba(97, 139, 255, 1) 0%, rgba(48, 93, 217, 1) 100%);
+    background: #5C22E3;
   }
 
   .btn-done {
-    color: rgba(48, 93, 218, 1);
-    border: 2rpx solid rgba(48, 93, 218, 1);
+    color: #5C22E3;
+    border: 2rpx solid #5C22E3;
     background: #ffffff;
   }
 }
@@ -255,7 +254,7 @@ const content = computed(() => detail.value.content)
   .highlight {
     margin-right: 12rpx;
     padding: 6rpx 8rpx;
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
     border-radius: 4rpx;
     background: rgba(48, 93, 218, 0.1);
   }
@@ -289,7 +288,7 @@ const content = computed(() => detail.value.content)
       content: "";
       transform: translateX(-50%);
       border-radius: 4rpx;
-      background: rgba(48, 93, 218, 1);
+      background: #5C22E3;
     }
   }
 }
@@ -362,7 +361,7 @@ const content = computed(() => detail.value.content)
   }
 
   .highlight {
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
   }
 
   .time-people {
@@ -419,7 +418,7 @@ const content = computed(() => detail.value.content)
     }
 
     &.status-ing {
-      color: rgba(48, 93, 218, 1);
+      color: #5C22E3;
       background-image: url("/static/course/video-play@2x.png");
 
       &:after {

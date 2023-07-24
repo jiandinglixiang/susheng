@@ -82,7 +82,7 @@ function onChange(index) {
     font-size: 28rpx;
     font-weight: 700;
     line-height: 32rpx;
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
 
     &:after {
       position: absolute;
@@ -92,7 +92,7 @@ function onChange(index) {
       height: 8rpx;
       content: "";
       border-radius: 4rpx;
-      background: #305dda;
+      background: #5C22E3;
     }
   }
 }

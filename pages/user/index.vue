@@ -56,7 +56,7 @@ function buryThePoint(des) {
           <text>{{ storeUserInfo.phone }}</text>
           <!--<view class="leve">Lv7</view>-->
         </view>
-        <text class="user-work-title">注册会计师备考</text>
+        <text class="user-work-title">中级经济师</text>
       </view>
       <view v-else class="login-text" @click="navigateTo('/pages/login/index', true)">
         登录/注册
@@ -67,8 +67,8 @@ function buryThePoint(des) {
           openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户添加CPA助教老师')
         "
       >
-        <image class="teacher-bg" src="/static/user/user-teacher.png"></image>
-        <text>专属助教</text>
+<!--        <image class="teacher-bg" src="/static/user/user-teacher.png"></image>-->
+<!--        <text>专属助教</text>-->
       </view>
     </view>
 
@@ -158,8 +158,8 @@ function buryThePoint(des) {
   display: flex;
   flex-flow: column nowrap;
   padding-top: calc(120rpx + var(--status-bar-height));
-  background: url("/static/user/bg@2x.png") no-repeat left top;
-  background-size: 100% auto;
+  //background: url("/static/user/bg@2x.png") no-repeat left top;
+  //background-size: 100% auto;
 }
 
 .signin {
@@ -172,14 +172,12 @@ function buryThePoint(des) {
   justify-content: center;
   width: 152rpx;
   height: 56rpx;
-  border-radius: 34rpx;
-  background: linear-gradient(130.38deg, #ffc75c 0%, #ff962f 100%);
 
   text {
     font-size: 24rpx;
     font-weight: 500;
     line-height: 24rpx;
-    color: #ffffff;
+    color: #ff6e00;
   }
 
   image {
@@ -189,7 +187,7 @@ function buryThePoint(des) {
   }
 
   &.signined {
-    background: rgba(207, 207, 207, 1);
+    filter: grayscale(100%);
   }
 }
 
@@ -269,27 +267,10 @@ function buryThePoint(des) {
   }
 
   .user-teacher {
-    font-size: 24rpx;
-    font-weight: 500;
-    line-height: 24rpx;
-    display: flex;
-    overflow: hidden;
-    align-items: center;
-    flex: 0 0 auto;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    width: 156rpx;
+    width: 172rpx;
     height: 64rpx;
-    padding-right: 16rpx;
-    color: rgba(247, 228, 194, 1);
-    border-radius: 32rpx 0rpx 0rpx 32rpx;
-    background: linear-gradient(180deg, rgba(98, 98, 98, 1) 0%, rgba(28, 28, 28, 1) 100%);
-
-    .teacher-bg {
-      width: 32rpx;
-      height: 38rpx;
-      margin-right: 8rpx;
-    }
+    background: url("/static/user/user-teacher.png") no-repeat left top;
+    background-size: 100% 100%;
   }
 }
 
@@ -308,9 +289,9 @@ function buryThePoint(des) {
     justify-content: space-between;
     height: 72rpx;
     padding: 0 20rpx;
+    color: #5C22E3;
     border-radius: 16rpx 16rpx 0rpx 0rpx;
     background: rgba(255, 255, 255, 1);
-    box-shadow: 0rpx 4rpx 32rpx 0rpx rgba(0, 0, 0, 0.06);
 
     image {
       width: 14rpx;
@@ -324,7 +305,6 @@ function buryThePoint(des) {
     padding-bottom: 32rpx;
     border-radius: 0rpx 0rpx 16rpx 16rpx;
     background: rgba(255, 255, 255, 1);
-    box-shadow: 0rpx 4rpx 32rpx 0rpx rgba(0, 0, 0, 0.06);
   }
 
   .region-item {
@@ -337,7 +317,7 @@ function buryThePoint(des) {
     flex-flow: column nowrap;
     justify-content: flex-end;
     height: 128rpx;
-    color: rgba(102, 102, 102, 1);
+    color: #666666;
 
     image {
       width: 64rpx;
@@ -369,7 +349,7 @@ function buryThePoint(des) {
     font-weight: 400;
     line-height: 32rpx;
     flex: 0 0 auto;
-    color: rgba(48, 93, 218, 1);
+    color: #5c22e3;
   }
 
   .left-icon {

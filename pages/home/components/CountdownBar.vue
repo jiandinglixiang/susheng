@@ -90,7 +90,7 @@ onUnmounted(() => {
   box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.06);
 
   .highlight {
-    color: rgba(48, 93, 218, 1);
+    color: #5C22E3;
   }
 
   .left-g {
@@ -119,7 +119,6 @@ onUnmounted(() => {
     height: 64rpx;
     margin-right: 8rpx;
     color: rgba(255, 255, 255, 1);
-    border-radius: 12rpx;
     background: url("/static/home/timeBg@2x.png") no-repeat left top;
     background-size: 100%;
   }
@@ -139,9 +138,9 @@ onUnmounted(() => {
     line-height: 64rpx;
     width: 160rpx;
     height: 64rpx;
-    color: rgba(48, 93, 218, 1);
-    border: 1rpx solid rgba(48, 93, 218, 1);
-    border-radius: 200rpx;
+    color: #5C22E3;
+    border: 1rpx solid #5C22E3;
+    border-radius: 0;
     background: rgba(48, 93, 218, 0.08);
   }
 }

@@ -72,7 +72,7 @@ export default {
     },
     bgColorChecked: {
       type: String,
-      default: "#007aff"
+      default: "#5C22E3"
     },
     fgColorChecked: {
       type: String,

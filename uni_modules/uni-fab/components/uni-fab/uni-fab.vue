@@ -147,9 +147,9 @@ export default {
       isAndroidNvue: platform === "android",
       styles: {
         color: "#3c3e49",
-        selectedColor: "#007AFF",
+        selectedColor: "#5C22E3",
         backgroundColor: "#fff",
-        buttonColor: "#007AFF",
+        buttonColor: "#5C22E3",
         iconColor: "#fff",
         icon: "plusempty"
       }
