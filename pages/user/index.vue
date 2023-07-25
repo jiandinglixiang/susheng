@@ -56,7 +56,7 @@ function buryThePoint(des) {
           <text>{{ storeUserInfo.phone }}</text>
           <!--<view class="leve">Lv7</view>-->
         </view>
-        <text class="user-work-title">注册会计师备考</text>
+        <text class="user-work-title">中级经济师考点速记备考</text>
       </view>
       <view v-else class="login-text" @click="navigateTo('/pages/login/index', true)">
         登录/注册
@@ -64,7 +64,7 @@ function buryThePoint(des) {
       <view
         class="user-teacher"
         @click="
-          openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户添加CPA助教老师')
+          openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户添加助教老师')
         "
       >
         <image class="teacher-bg" src="/static/user/user-teacher.png"></image>
@@ -78,10 +78,10 @@ function buryThePoint(des) {
         <image src="/static/user/arrows@2x.png"></image>
       </view>
       <view class="bottom-box">
-        <view class="region-item" @click="navigateTo('/pages/setting/favorites')">
-          <image src="/static/user/collection-item@2x.png"></image>
-          <text>收藏夹</text>
-        </view>
+        <!--        <view class="region-item" @click="navigateTo('/pages/setting/favorites')">-->
+        <!--          <image src="/static/user/collection-item@2x.png"></image>-->
+        <!--          <text>收藏夹</text>-->
+        <!--        </view>-->
         <!--        <view class="region-item disable">-->
         <!--          <image src="/static/user/error-question@2x.png"></image>-->
         <!--          <text>错题集</text>-->
@@ -100,7 +100,7 @@ function buryThePoint(des) {
         </view>
         <view
           class="region-item"
-          @click="navigateTo('/pages/pdf/pdfList', true), buryThePoint('用户领取CPA考试资料')"
+          @click="navigateTo('/pages/pdf/pdfList', true), buryThePoint('用户领取考试资料')"
         >
           <image src="/static/user/data-get@2x.png"></image>
           <text>资料领取</text>
@@ -108,7 +108,7 @@ function buryThePoint(des) {
         <view
           class="region-item"
           @click="
-            openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户添加CPA备考群')
+            openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户添加备考群')
           "
         >
           <image src="/static/user/exam-preparation-group@2x.png"></image>
@@ -124,7 +124,7 @@ function buryThePoint(des) {
     <view
       class="list-item"
       @click="
-        openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户领取CPA备考规划')
+        openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户领取备考规划')
       "
     >
       <image class="left-icon" src="/static/user/goal-planning@2x.png"></image>
@@ -133,7 +133,7 @@ function buryThePoint(des) {
     </view>
     <view
       class="list-item"
-      @click="openURL(storeNotice.onlineConsultation[0]), buryThePoint('用户咨询CPA考试信息')"
+      @click="openURL(storeNotice.onlineConsultation[0]), buryThePoint('用户咨询考试信息')"
     >
       <image class="left-icon" src="/static/user/consultation-line@2x.png"></image>
       <text class="name">在线咨询</text>

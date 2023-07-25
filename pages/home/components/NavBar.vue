@@ -2,6 +2,7 @@
 import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
 import { openURL } from "@/utils/func"
+import FixedFab from "@/components/fab/FixedFab.vue"
 
 const storeNotice = NoticeStatus()
 const buryThePoint = pushBehavior({
@@ -11,7 +12,7 @@ const buryThePoint = pushBehavior({
   isCallback: true
 })
 const buryThePoint2 = pushBehavior({
-  action: "点击  在线咨询 按钮\t710\t用户在线咨询CPA考试信息\n",
+  action: "点击  在线咨询 按钮\t710\t用户在线咨询考试信息\n",
   replaceValue: "",
   onceDay: false,
   isCallback: true
@@ -21,7 +22,7 @@ const buryThePoint2 = pushBehavior({
 <template>
   <view class="nav-bar nav-bar-fixed">
     <!--    <image class="handoff" src="/static/home/handoff@2x.png"></image>-->
-    <text>注册会计师</text>
+    <text>中级经济师考点速记</text>
     <image
       class="weixin"
       src="/static/home/weixin@2x.png"
@@ -34,6 +35,10 @@ const buryThePoint2 = pushBehavior({
     ></image>
   </view>
   <view class="nav-bar" />
+  <fixed-fab
+    type="home"
+    @handleClick="openURL(storeNotice.onlineConsultation[0]), buryThePoint2()"
+  />
 </template>
 
 <style lang="scss" scoped>

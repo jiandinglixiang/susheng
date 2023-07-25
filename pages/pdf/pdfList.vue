@@ -6,7 +6,7 @@ import LoadTips from "@/components/tips/load-tips.vue"
 import { usePageList } from "@/hooks/usePageList"
 import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
-import { formatNumber, openURL } from "@/utils/func"
+import { formatNumber, getPDFOrigin, openURL } from "@/utils/func"
 import { httpRequest } from "@/utils/http"
 import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
 import { computed, ref } from "vue"
@@ -18,7 +18,7 @@ const noticeList = computed(() => {
   const pdf = list.value
   return noticeData.value.map(({ nickname }, index) => {
     return {
-      title: `用户 ${nickname} 下载了 ${pdf[index]?.name || "CPA《考试必背概念》"}`
+      title: `用户 ${nickname} 下载了 ${pdf[index]?.name || "《考试必背概念》"}`
     }
   })
 })
@@ -61,14 +61,14 @@ function navigateBack() {
 }
 
 const buryThePoint = pushBehavior({
-  action: "资料大礼包&一键领取\t311\t用户索取CPA复习相应资料\n",
+  action: "资料大礼包&一键领取\t311\t用户索取复习相应资料\n",
   onceDay: true,
   replaceValue: "",
   isCallback: true
 })
 
 function handleDownload(item) {
-  const link = `https://stark.pxo.cn/pdfjs-3.0.279-dist/web/viewer.html?file=${encodeURI(
+  const link = `${getPDFOrigin(item.uploadResource)}?file=${encodeURI(
     item.uploadResource
   )}`
   uni.navigateTo({
