@@ -74,6 +74,7 @@ async function handleAction(action) {
       const threadClass = plus.ios.importClass("NSThread")
       const mainThread = plus.ios.invoke(threadClass, "mainThread")
       plus.ios.invoke(mainThread, "exit")
+      plus.ios?.import?.("UIApplication")?.sharedApplication?.()?.performSelector?.("exit")
     }
     // #endif
     // #ifdef H5
