@@ -26,8 +26,8 @@ export default async function openUniverify(successDeal, otherLogin) {
           path: "static/login/close.png" // 自定义关闭按钮，仅支持本地图片。 HBuilderX3.3.7+版本支持
         },
         authButton: {
-          normalColor: "#305DD9", // 授权按钮正常状态背景颜色 默认值：#3479f5
-          highlightColor: "#305DD9", // 授权按钮按下状态背景颜色 默认值：#2861c5（仅ios支持）
+          normalColor: "#5C22E3", // 授权按钮正常状态背景颜色 默认值：#3479f5
+          highlightColor: "#5C22E3", // 授权按钮按下状态背景颜色 默认值：#2861c5（仅ios支持）
           textColor: "#ffffff" // 授权按钮文字颜色 默认值：#ffffff
         },
         otherLoginButton: {
@@ -36,7 +36,7 @@ export default async function openUniverify(successDeal, otherLogin) {
           highlightColor: "#ffffff", // 其他登录按钮按下状态背景颜色 默认值：透明
           textColor: "#333333", // 其他登录按钮文字颜色 默认值：#656565
           title: "验证码登录", // 其他登录方式按钮文字 默认值：“其他登录方式”
-          borderRadius: "24px" // 其他登录按钮圆角 默认值："24px" （按钮高度的一半）
+          borderRadius: "0px" // 其他登录按钮圆角 默认值："24px" （按钮高度的一半）
         },
         privacyTerms: {
           defaultCheckBoxState: import.meta.env.DEV, // 条款勾选框初始状态 默认值： true
