@@ -20,7 +20,9 @@ package-lock.json
 *.njsproj
 *.sln
 *.sw?
-unpackage
+unpackage/dist
+unpackage/cache/apk
+unpackage/cache/ipa
 node_modules
 dist
 .vscode
