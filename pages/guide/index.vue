@@ -48,7 +48,7 @@ async function goNext() {
       uni.reLaunch({ url: "/pages/home/index" })
     } else if (await userInfo().getUserInfo()) {
       // 非审核,登录状态
-      uni.reLaunch({ url: `/pages/user/index` })
+      uni.reLaunch({ url: `/pages/home/index` })
     } else {
       uni.reLaunch({ url: `/pages/login/index` })
     }
