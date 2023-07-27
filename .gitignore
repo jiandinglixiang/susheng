@@ -29,3 +29,4 @@ dist
 .hbuilderx
 # Logs
 app-plus
+/unpackage/cache/appleConfig.ini
