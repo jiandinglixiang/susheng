@@ -25,7 +25,23 @@ import { nextTick, ref } from "vue"
 // 是否授权
 const ConfirmAuthorization = uni.getStorageSync(CONFIRM_AUTHORIZATION)
 const privacyPopup = ref()
-const auditStatus = AppAuditStatus().getAppAuditStatus()
+const auditStatus = AppAuditStatus()
+  .getAppAuditStatus()
+  .catch((err) => {
+    if (err.noNetwork) {
+      uni.showLoading({ title: "网络错误" })
+      return new Promise((resolve) => {
+        async function cbk(res) {
+          if (res.isConnected) {
+            resolve(await AppAuditStatus().getAppAuditStatus())
+            uni.offNetworkStatusChange(cbk)
+          }
+        }
+        uni.onNetworkStatusChange(cbk)
+      })
+    }
+    return Promise.reject(err)
+  })
 
 onLoad(async () => {
   //#ifdef APP-PLUS
