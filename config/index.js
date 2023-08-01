@@ -1,9 +1,8 @@
 export const APP_ID = 21
 
-export const UniAppID = "__UNI__4A01F98"
+export const UniAppID = "__UNI__B693EAB"
 
-export const BundleId = "com.newgd.jjs"
-// 包名 com.newgd.jjs
+export const BundleId = "com.gd.jjs"
+// 包名  com.gd.jjs
 // 云端证书
 // Abcd1234
-// 包名  com.gd.jjs
