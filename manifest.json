@@ -2,8 +2,8 @@
     "name" : "注册会计师习题宝",
     "appid" : "__UNI__EBCDE13",
     "description" : "",
-    "versionName" : "1.0.4",
-    "versionCode" : 104,
+    "versionName" : "1.5.0",
+    "versionCode" : 150,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
