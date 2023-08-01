@@ -6,3 +6,4 @@ export const BundleId = "com.newgd.jjs"
 // 包名 com.newgd.jjs
 // 云端证书
 // Abcd1234
+// 包名  com.gd.jjs
