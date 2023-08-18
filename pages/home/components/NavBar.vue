@@ -21,7 +21,7 @@ const buryThePoint2 = pushBehavior({
 <template>
   <view class="nav-bar nav-bar-fixed">
     <!--    <image class="handoff" src="/static/home/handoff@2x.png"></image>-->
-    <text>中级经济师</text>
+    <text>高顿中级经济师</text>
     <image
       class="weixin"
       src="/static/home/weixin@2x.png"

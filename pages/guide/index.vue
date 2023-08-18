@@ -2,7 +2,7 @@
   <view class="container">
     <!--    <view class="guide-page">-->
     <!--      <image class="guide-image" src="/static/logo.png"></image>-->
-    <!--      <text class="guide-text">中级经济师App</text>-->
+    <!--      <text class="guide-text">高顿中级经济师App</text>-->
     <!--    </view>-->
     <popup-index
       v-if="!ConfirmAuthorization"

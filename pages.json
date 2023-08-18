@@ -19,7 +19,7 @@
 			"path": "pages/home/index",
 			"style": {
 				"navigationStyle": "custom",
-				"navigationBarTitleText": "中级经济师",
+				"navigationBarTitleText": "高顿中级经济师",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -597,7 +597,7 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "中级经济师",
+		"navigationBarTitleText": "高顿中级经济师",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#FFFFFF"
 	},
