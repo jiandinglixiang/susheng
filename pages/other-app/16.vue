@@ -1,259 +1,374 @@
 <script setup>
-import { POST_LIST_NOTICE, POST_LIST_OF_MATERIALS } from "@/api"
-import FixedFab from "@/components/fab/FixedFab.vue"
-import NoticeBar from "@/components/notice-bar/NoticeBar.vue"
-import LoadTips from "@/components/tips/load-tips.vue"
-import { usePageList } from "@/hooks/usePageList"
 import { pushBehavior } from "@/utils/behavior"
 import { NoticeStatus } from "@/pinia/notice"
-import { formatNumber, openURL } from "@/utils/func"
-import { httpRequest } from "@/utils/http"
-import { onLoad, onPullDownRefresh, onReachBottom } from "@dcloudio/uni-app"
-import { computed, ref } from "vue"
+import { userInfo } from "@/pinia/user"
+import { USER_TOKEN_DATA } from "@/utils/consts"
+import { openURL } from "@/utils/func"
+import { onLoad } from "@dcloudio/uni-app"
+import { ref } from "vue"
 
+const popup = ref()
+const noLogin = ref(!uni.getStorageSync(USER_TOKEN_DATA)?.token)
+
+const storeUserInfo = userInfo()
 const storeNotice = NoticeStatus()
-const { list, getList, loading, loadMore, refresh } = usePageList({ requestFunc })
-const noticeData = ref([])
-const noticeList = computed(() => {
-  const pdf = list.value
-  return noticeData.value.map(({ nickname }, index) => {
-    return {
-      title: `用户 ${nickname} 下载了 ${pdf[index]?.name || "《考试必背概念》"}`
-    }
-  })
+
+onLoad(async () => {
+  noLogin.value = !(await storeUserInfo.getUserInfo())
 })
 
-onLoad(() => {
-  getList()
-  httpRequest(POST_LIST_NOTICE, "POST").then((res) => {
-    noticeData.value = res.data
-  })
-})
-onPullDownRefresh(async () => {
-  await refresh()
-  setTimeout(() => {
-    uni.stopPullDownRefresh()
-  }, 500)
-})
-onReachBottom(() => {
-  loadMore()
-})
-
-function requestFunc({ page, rows }) {
-  return httpRequest(POST_LIST_OF_MATERIALS, "POST", { page, rows })
+function handleSign() {
+  !noLogin.value && storeUserInfo.$patch({ signin: true })
 }
 
-function star(star, num) {
-  star = +star
-  return star >= num ? "star-filled" : star === num - 0.5 ? "starhalf" : "star"
+function navigateTo(url, pass) {
+  if (!noLogin.value || pass) {
+    uni.navigateTo({ url })
+  } else {
+    uni.reLaunch({ url: "/pages/login/index" })
+  }
 }
 
-function iconUrl(url) {
-  return `/static/pdf/${url.toUpperCase().slice(-3)}@2x.png`
-}
-
-function tagList(tag) {
-  return tag?.split?.(",") ?? []
-}
-
-function navigateBack() {
-  uni.navigateBack()
-}
-
-const buryThePoint = pushBehavior({
-  action: "资料大礼包&一键领取\t311\t用户索取复习相应资料\n",
-  onceDay: true,
-  replaceValue: "",
-  isCallback: true
-})
-
-function handleDownload(item) {
-  const link = `https://stark.pxo.cn/pdfjs-1.10.100-dist/web/viewer.html?file=${encodeURI(
-    item.uploadResource
-  )}`
-  uni.navigateTo({
-    url: `/pages/webview/index?noDecodeLinkQuery=1&title=${encodeURIComponent(
-      item.name
-    )}&link=${encodeURIComponent(link)}`,
-    success(){
-      pushBehavior({
-        action: "资料列表 点击 资料&下载&打开\t311\t用户查看领取 {资料名称}\n",
-        onceDay: true,
-        replaceValue: item.name,
-        isCallback: false
-      })
-    }
+function buryThePoint(des) {
+  pushBehavior({
+    action: `点击我的内按钮\t710\t${des}`,
+    onceDay: true,
+    replaceValue: "",
+    isCallback: false
   })
 }
 </script>
-
 <template>
-  <uni-nav-bar
-    :border="false"
-    class="nav-bar"
-    fixed
-    left-icon="back"
-    statusBar
-    title="资料列表"
-    @clickLeft="navigateBack"
-    @clickRight="openURL(storeNotice.onlineConsultation[0])"
-  >
-    <template v-slot:right>
-      <image class="right-btn" src="/static/pdf/customer-service@2x.png" />
-    </template>
-  </uni-nav-bar>
-  <view class="fixed-box">
-    <notice-bar :list="noticeList" fixed />
-  </view>
-  <view v-for="item in list" :key="item.id" class="pdf-list-item" @click="handleDownload(item)">
-    <view class="box-top">
-      <image :src="iconUrl(item.uploadResource)" class="file-icon" />
-      <view class="middle-box">
-        <text class="file-name">{{ item.name }}</text>
-        <text v-for="item2 in tagList(item.tag)" class="keyword">{{ item2 }}</text>
-      </view>
-      <view class="download">下载</view>
+  <view class="top-container">
+    <view :class="storeUserInfo.signin && 'signined'" class="signin" @click="handleSign">
+      <image src="/static/user/signin1.png"></image>
+      <text>{{ storeUserInfo.signin ? "已签到" : "签到" }}</text>
     </view>
-    <view class="box-below">
-      <view class="star">
-        <uni-icons
-          v-for="num in 5"
-          :type="star(item.star, num)"
-          class="staff"
-          color="#FFC800"
-          size="12"
-        ></uni-icons>
-        <!--        <uni-icons class="staff" color="#FFC800" type="star-filled" size="12"></uni-icons>-->
-        <!--        <uni-icons class="staff" color="#FFC800" type="starhalf" size="12"></uni-icons>-->
-        <!--        <uni-icons class="staff" color="#FFC800" type="star" size="12"></uni-icons>-->
-        <!--        <uni-icons class="staff" color="#FFC800" type="star" size="12"></uni-icons>-->
-        <text class="staff">{{ item.star }}</text>
+    <view class="setting-btn" @click="navigateTo('/pages/setting/index', true)" />
+
+    <view class="user-card">
+      <image
+        :src="storeUserInfo.avatar || '/static/user/no-login@2x.png'"
+        class="head-portrait"
+      ></image>
+      <view v-if="!noLogin" class="user-info">
+        <view class="name" @click="navigateTo('/pages/setting/userInfo')">
+          <text>{{ storeUserInfo.phone }}</text>
+          <!--<view class="leve">Lv7</view>-->
+        </view>
+        <text class="user-work-title">高顿中级经济师</text>
       </view>
-      <text class="info">点击量:{{ formatNumber(item.receiveNum) }}</text>
-      <text class="info">下载量:{{ formatNumber(item.viewsNum) }}</text>
-      <text class="info">{{ item.updateDate }}</text>
+      <view v-else class="login-text" @click="navigateTo('/pages/login/index', true)">
+        登录/注册
+      </view>
+      <view
+        class="user-teacher"
+        @click="
+          openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户添加助教老师')
+        "
+      >
+<!--        <image class="teacher-bg" src="/static/user/user-teacher.png"></image>-->
+<!--        <text>专属助教</text>-->
+      </view>
+    </view>
+
+    <view class="diamond-region">
+      <view class="top-box" @click="navigateTo('/pages/setting/userInfo')">
+        <text>偷偷告诉你，完善资料后，方便与老师沟通哦~</text>
+        <image src="/static/user/arrows@2x.png"></image>
+      </view>
+      <view class="bottom-box">
+        <view class="region-item" @click="navigateTo('/pages/setting/favorites')">
+          <image src="/static/user/collection-item@2x.png"></image>
+          <text>收藏夹</text>
+        </view>
+        <!--        <view class="region-item disable">-->
+        <!--          <image src="/static/user/error-question@2x.png"></image>-->
+        <!--          <text>错题集</text>-->
+        <!--        </view>-->
+        <!--        <view class="region-item disable">-->
+        <!--          <image src="/static/user/question-history@2x.png.png"></image>-->
+        <!--          <text>做题历史</text>-->
+        <!--        </view>-->
+        <!--        <view class="region-item disable">-->
+        <!--          <image src="/static/user/my-course@2x.png"></image>-->
+        <!--          <text>我的课程</text>-->
+        <!--        </view>-->
+        <view class="region-item" @click="openURL(storeNotice.onlineConsultation[0])">
+          <image src="/static/user/help-center@2x.png"></image>
+          <text>帮助中心</text>
+        </view>
+        <view
+          class="region-item"
+          @click="navigateTo('/pages/pdf/pdfList', true), buryThePoint('用户领取考试资料')"
+        >
+          <image src="/static/user/data-get@2x.png"></image>
+          <text>资料领取</text>
+        </view>
+        <view
+          class="region-item"
+          @click="
+            openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户添加备考群')
+          "
+        >
+          <image src="/static/user/exam-preparation-group@2x.png"></image>
+          <text>备考群</text>
+        </view>
+        <!--        <view class="region-item">-->
+        <!--          <image src="/static/user/recommend-to-friends@2x.png"></image>-->
+        <!--          <text>推荐给好友</text>-->
+        <!--        </view>-->
+      </view>
+    </view>
+
+    <view
+      class="list-item"
+      @click="
+        openURL(storeNotice.miniApp.find((i) => i.id === 8)), buryThePoint('用户领取备考规划')
+      "
+    >
+      <image class="left-icon" src="/static/user/goal-planning@2x.png"></image>
+      <text class="name">备考规划</text>
+      <image class="arrows" src="/static/user/arrows@2x.png"></image>
+    </view>
+    <view
+      class="list-item"
+      @click="openURL(storeNotice.onlineConsultation[0]), buryThePoint('用户咨询考试信息')"
+    >
+      <image class="left-icon" src="/static/user/consultation-line@2x.png"></image>
+      <text class="name">在线咨询</text>
+      <text class="sub-name">24小时在线</text>
+      <image class="arrows" src="/static/user/arrows@2x.png"></image>
+    </view>
+    <view class="list-item" @click="openURL(storeNotice.miniApp.find((i) => i.id === 8))">
+      <image class="left-icon" src="/static/user/give-us-a-good-review@2x.png"></image>
+      <text class="name">给我们好评</text>
+      <image class="arrows" src="/static/user/arrows@2x.png"></image>
     </view>
   </view>
-  <load-tips :loading="loading" />
-  <fixed-fab
-    type="information"
-    @handleClick="openURL(storeNotice.miniApp.find((i) => i.id === 4)), buryThePoint()"
-  />
 </template>
 
 <style lang="scss" scoped>
-.fixed-box {
-  height: 116rpx;
+.disable {
+  filter: grayscale(100%);
 }
 
-.pdf-list-item {
-  margin: 0 32rpx 16rpx;
-  border-radius: 16rpx;
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0rpx 4rpx 16rpx 0rpx rgba(0, 0, 0, 0.08);
+.top-container {
+  position: relative;
+  display: flex;
+  flex-flow: column nowrap;
+  padding-top: calc(120rpx + var(--status-bar-height));
+  //background: url("/static/user/bg@2x.png") no-repeat left top;
+  //background-size: 100% auto;
+}
 
-  .box-top {
-    display: flex;
-    align-items: center;
-    flex-flow: row nowrap;
-    margin: 0 16rpx;
-    padding: 16rpx 0;
-    border-bottom: 2rpx solid rgba(238, 238, 238, 1);
+.signin {
+  position: absolute;
+  top: calc(16rpx + var(--status-bar-height));
+  left: 32rpx;
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  justify-content: center;
+  width: 152rpx;
+  height: 56rpx;
+
+  text {
+    font-size: 24rpx;
+    font-weight: 500;
+    line-height: 24rpx;
+    color: #ff6e00;
   }
 
-  .file-icon {
+  image {
+    width: 36rpx;
+    height: 38rpx;
+    margin-right: 8rpx;
+  }
+
+  &.signined {
+    filter: grayscale(100%);
+  }
+}
+
+.setting-btn {
+  position: absolute;
+  top: calc(16rpx + var(--status-bar-height));
+  right: 32rpx;
+  width: 56rpx;
+  height: 56rpx;
+  background: url("/static/user/setting-btn.png") no-repeat center center;
+  background-size: 44rpx auto;
+}
+
+.user-card {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  flex-flow: row nowrap;
+  height: 252rpx;
+  margin-bottom: 48rpx;
+  padding-left: 32rpx;
+
+  .head-portrait {
+    overflow: hidden;
     flex: 0 0 auto;
-    width: 84rpx;
-    height: 84rpx;
+    width: 156rpx;
+    height: 156rpx;
     margin-right: 16rpx;
+    border-radius: 50%;
+    //background: url("/static/user/no-login@2x.png") no-repeat center center;
+    //background-size: 156rpx 156rpx;
   }
 
-  .middle-box {
-    display: flex;
+  .login-text {
+    font-size: 36rpx;
+    font-weight: 500;
+    line-height: 36rpx;
     flex: 1 1 auto;
-    flex-flow: row wrap;
-    margin-right: 16rpx;
-  }
-
-  .file-name {
-    font-size: 28rpx;
-    font-weight: 400;
-    line-height: 28rpx;
-    flex: 1 1 auto;
-    width: 100%;
-    margin-bottom: 12rpx;
     color: rgba(51, 51, 51, 1);
   }
 
-  .keyword {
-    font-size: 24rpx;
-    font-weight: 400;
-    line-height: 24rpx;
-    flex: 0 0 auto;
-    margin: 0 8rpx 8rpx 0;
-    padding: 6rpx 12rpx 6rpx 12rpx;
-    color: #5C22E3;
-    border-radius: 8rpx;
-    background: rgba(92, 34, 227, 0.1);
-  }
-
-  .download {
-    font-size: 24rpx;
-    font-weight: 700;
-    line-height: 56rpx;
-    flex: 0 0 auto;
-    width: 100rpx;
-    height: 56rpx;
-    margin: 0;
-    text-align: center;
-    color: rgba(255, 255, 255, 1);
-    border-radius: 0;
-    background: #5C22E3;
-  }
-
-  .box-below {
-    display: flex;
-    align-items: center;
-    flex-flow: row nowrap;
-    justify-content: flex-end;
-    padding: 16rpx;
-  }
-
-  .star {
-    font-size: 20rpx;
-    font-weight: 400;
-    line-height: 24rpx;
-    display: flex;
-    align-items: center;
-    align-self: flex-start;
+  .user-info {
     flex: 1 1 auto;
-    flex-flow: row nowrap;
-    color: rgba(227, 178, 0, 1);
 
-    .staff {
-      margin-right: 4rpx;
+    .name {
+      font-size: 36rpx;
+      font-weight: 500;
+      line-height: 36rpx;
+      display: flex;
+      flex-flow: row nowrap;
+      width: 100%;
+      margin-bottom: 16rpx;
+      color: rgba(51, 51, 51, 1);
+    }
+
+    .leve {
+      font-size: 22rpx;
+      font-weight: 500;
+      line-height: 24rpx;
+      width: 64rpx;
+      height: 28rpx;
+      margin-left: 8rpx;
+      text-align: center;
+      color: rgba(255, 255, 255, 1);
+      background: url("/static/user/level-bg.png") no-repeat left top;
+      background-size: 100%;
+    }
+
+    .user-work-title {
+      font-size: 24rpx;
+      font-weight: 400;
+      line-height: 24rpx;
+      padding: 12rpx 16rpx;
+      color: rgba(102, 102, 102, 1);
+      background: rgba(255, 255, 255, 1);
     }
   }
 
-  .info {
-    font-size: 20rpx;
+  .user-teacher {
+    width: 172rpx;
+    height: 64rpx;
+    background: url("/static/user/user-teacher.png") no-repeat left top;
+    background-size: 100% 100%;
+  }
+}
+
+.diamond-region {
+  margin: 0 32rpx 32rpx;
+
+  .top-box {
+    font-size: 24rpx;
     font-weight: 400;
     line-height: 24rpx;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+    flex: 1 1 100%;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    height: 72rpx;
+    padding: 0 20rpx;
+    color: #5C22E3;
+    border-radius: 16rpx 16rpx 0rpx 0rpx;
+    background: rgba(255, 255, 255, 1);
+
+    image {
+      width: 14rpx;
+      height: 20rpx;
+    }
+  }
+
+  .bottom-box {
+    display: flex;
+    flex-flow: row wrap;
+    padding-bottom: 32rpx;
+    border-radius: 0rpx 0rpx 16rpx 16rpx;
+    background: rgba(255, 255, 255, 1);
+  }
+
+  .region-item {
+    font-size: 24rpx;
+    font-weight: 400;
+    line-height: 24rpx;
+    display: flex;
+    align-items: center;
+    flex: 1 1 25%;
+    flex-flow: column nowrap;
+    justify-content: flex-end;
+    height: 128rpx;
+    color: #666666;
+
+    image {
+      width: 64rpx;
+      height: 64rpx;
+      margin-bottom: 24rpx;
+    }
+  }
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  height: 112rpx;
+  margin: 0 32rpx;
+  background: #ffffff;
+  box-shadow: inset 0rpx -2rpx 0rpx 0rpx rgba(241, 241, 241, 1);
+
+  .name {
+    font-size: 28rpx;
+    font-weight: 400;
+    line-height: 32rpx;
+    flex: 1 1 auto;
+    color: rgba(51, 51, 51, 1);
+  }
+
+  .sub-name {
+    font-size: 28rpx;
+    font-weight: 400;
+    line-height: 32rpx;
     flex: 0 0 auto;
+    color: #5c22e3;
+  }
+
+  .left-icon {
+    flex: 0 0 auto;
+    width: 36rpx;
+    height: 36rpx;
+    margin: 0 18rpx;
+  }
+
+  .arrows {
+    flex: 0 0 auto;
+    width: 14rpx;
+    height: 20rpx;
     margin-left: 16rpx;
-    color: rgba(153, 153, 153, 1);
   }
-}
 
-.nav-bar {
-  :deep(.uni-nav-bar-text) {
-    font-size: 36rpx;
-    font-weight: 500;
+  image {
+    width: 32rpx;
+    height: 32rpx;
   }
-}
-
-.right-btn {
-  width: 48rpx;
-  height: 48rpx;
 }
 </style>
