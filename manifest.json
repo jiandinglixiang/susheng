@@ -103,7 +103,7 @@
                 }
             },
             "splashscreen" : {
-                "useOriginalMsgbox" : true,
+                "useOriginalMsgbox" : false,
                 "androidStyle" : "common",
                 "iosStyle" : "common"
             }
