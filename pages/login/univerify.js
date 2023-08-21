@@ -28,7 +28,8 @@ export default async function openUniverify(successDeal, otherLogin) {
         authButton: {
           normalColor: "#5C22E3", // 授权按钮正常状态背景颜色 默认值：#3479f5
           highlightColor: "#5C22E3", // 授权按钮按下状态背景颜色 默认值：#2861c5（仅ios支持）
-          textColor: "#ffffff" // 授权按钮文字颜色 默认值：#ffffff
+          textColor: "#ffffff", // 授权按钮文字颜色 默认值：#ffffff
+          borderRadius: "0px" // 其他登录按钮圆角 默认值："24px" （按钮高度的一半）
         },
         otherLoginButton: {
           visible: true, // 是否显示其他登录按钮，默认值：true
