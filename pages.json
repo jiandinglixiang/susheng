@@ -19,7 +19,7 @@
       "path": "pages/home/index",
       "style": {
         "navigationStyle": "custom",
-        "navigationBarTitleText": "注册会计师",
+        "navigationBarTitleText": "注册会计师习题宝",
         "app-plus": {
           "bounce": "none"
         }
@@ -276,7 +276,7 @@
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "注册会计师",
+    "navigationBarTitleText": "注册会计师习题宝",
     "navigationBarBackgroundColor": "#FFFFFF",
     "backgroundColor": "#FFFFFF"
   },
